@@ -219,8 +219,6 @@ def actualiza_centroides(categoria, actions, limites, n_acc, n_lim, n_cri):
             for h in range(0, n_cri):
                 limites[j][h] = 1.0 * suma[j][h] / freq_categoria[j]
 
-
-
     return limites
 
 
@@ -231,9 +229,6 @@ def main():
     n_acc = np.size(actions,0)  # number of acciones
     n_cri = np.size(actions,1)  # number if criteria
     n_lim = np.size(limites,0)  # number of limits
-    print("Number of accions:\t", n_acc)
-    print("Number of criteria:\t", n_cri)
-    print("number of limites:\t", n_lim)
     lam = 0.8
     it  = 10
 
@@ -253,7 +248,7 @@ def main():
         # determina categoria de cada accion, usando regla descendente
         categoria = regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam)
 
-        print('---------------ITERACION: ' + str(k) + ' -------------')
+        print('--------------- ITERACION: {} -------------'.format(k+1))
         #print('<CATEGORIAS>')
         #print(categoria)
         #print()
@@ -261,7 +256,6 @@ def main():
         limites = actualiza_centroides(categoria, actions, limites, n_acc, n_lim, n_cri)
         print('<CENTROIDES>')
         print(limites)
-        print()
 
 
 if __name__ == '__main__':
