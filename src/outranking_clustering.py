@@ -5,6 +5,7 @@ import numpy as np
 from plot_clusters import *
 from cluster import *
 
+
 def init_data(excel_file):
     """
     initialises data
@@ -224,7 +225,7 @@ def perform_outranking(actions, centroids, limites, lam, iter):
         print('<CENTROIDES>')
         print(limites[:])
        #############################################
-        plot_centroids(actions, limites, k)
+        # plot_centroids(actions, limites, k) # experiments with plotting centroids
         # print('<ACTION>')
         # print(actions[:,0])
         # print(limites[:,2:3])
@@ -235,7 +236,7 @@ def main():
     actions, centroids, limites = init_data('matriz-valores.xlsx')
     lam  = 0.8
     iter = 10
-    perform_outranking(actions, centroids, limites)
+    perform_outranking(actions, centroids, limites,lam, iter)
 
 
 if __name__ == '__main__':
