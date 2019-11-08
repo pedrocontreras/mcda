@@ -195,18 +195,19 @@ def regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam):
 
 
 def perform_outranking(actions, limites, lam, iter):
+    w = get_weights()
     p_dir, q_dir, p_inv, q_inv = get_umbrales()
     n_acc = np.size(actions, 0)  # number of acciones
     n_cri = np.size(actions, 1)  # number if criteria
     n_lim = np.size(limites, 0)  # number of limits
 
     for k in range(0, iter):
+        # inicializa la matriz de pertenencia de clases, en cada round de simulacion
+        categoria = np.zeros((n_acc, n_lim))
+
         # calcula concordancia parcial directa e inversa (formulas (1) y (2)
         cpd = conc_p_directa(actions, limites, p_dir, q_dir)
         cpi = conc_p_inversa(actions, limites, p_inv, q_inv)
-        w   = get_weights()
-        # inicializa la matriz de pertenencia de clases, en cada round de simulacion
-        categoria = np.zeros((n_acc, n_lim))
 
         # calcula concordancia global directa e inversa (formulas (3) y (4)
         sigma_D = concordancia_D(cpd, n_acc, n_lim, n_cri, w)
