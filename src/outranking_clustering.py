@@ -2,6 +2,8 @@ import pandas as pd
 from pandas import DataFrame as df
 import openpyxl as px
 import numpy as np
+from plot_clusters import *
+from cluster import *
 
 def init_data(excel_file):
     """
@@ -114,7 +116,6 @@ def conc_p_inversa(actions, limites, p_inv, q_inv):
                         cpi[i][j][h] = 1
                     else:
                         cpi[i][j][h] = 1.0 * (actions[i][h] - limites[j][h] + p_inv[h]) / (p_inv[h] - q_inv[h])
-
     return cpi
 
 
@@ -189,54 +190,19 @@ def regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam):
                                 categoria[i][j + 1] = 1
                     break
             j = j-1
-
     return categoria
 
 
-def actualiza_centroides(categoria, actions, limites, n_acc, n_lim, n_cri):
-    """
-    actualiza los dentroides
-    :param categoria: array that contains categoria
-    :param actions: array with the acciones
-    :param limites: array with the limits
-    :param n_acc: number of acciones
-    :param n_lim: number of limits
-    :param n_cri: number of criteria
-    :return: limites
-    """
-    suma = np.zeros((n_lim, n_cri))
-    freq_categoria = np.zeros(n_lim)
-
-    for i in range(0, n_acc):
-        for j in range(1, n_lim - 1):
-            if categoria[i][j] == 1:
-                freq_categoria[j] = freq_categoria[j] + 1
-                for h in range(0, n_cri):
-                    suma[j][h] = suma[j][h] + actions[i][h]
-
-    for j in range(1, n_lim - 1):
-        if freq_categoria[j] > 0:
-            for h in range(0, n_cri):
-                limites[j][h] = 1.0 * suma[j][h] / freq_categoria[j]
-
-    return limites
-
-
-#########  MAIN ###############
-def main():
-    actions, centroids, limites = init_data('matriz-valores.xlsx')
+def perform_outranking(actions, centroids, limites, lam, iter):
     p_dir, q_dir, p_inv, q_inv = get_umbrales()
-    n_acc = np.size(actions,0)  # number of acciones
-    n_cri = np.size(actions,1)  # number if criteria
-    n_lim = np.size(limites,0)  # number of limits
-    lam = 0.8
-    it  = 10
+    n_acc = np.size(actions, 0)  # number of acciones
+    n_cri = np.size(actions, 1)  # number if criteria
+    n_lim = np.size(limites, 0)  # number of limits
 
-    for k in range(0, it):
+    for k in range(0, iter):
         # calcula concordancia parcial directa e inversa (formulas (1) y (2)
         cpd = conc_p_directa(actions, limites, p_dir, q_dir)
         cpi = conc_p_inversa(actions, limites, p_inv, q_inv)
-
         w   = get_weights()
         # inicializa la matriz de pertenencia de clases, en cada round de simulacion
         categoria = np.zeros((n_acc, n_lim))
@@ -249,13 +215,27 @@ def main():
         categoria = regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam)
 
         print('--------------- ITERACION: {} -------------'.format(k+1))
-        #print('<CATEGORIAS>')
-        #print(categoria)
-        #print()
+        # print('<CATEGORIAS>')
+        # print(categoria)
         # actualiza centroides
-        limites = actualiza_centroides(categoria, actions, limites, n_acc, n_lim, n_cri)
+        limites = get_preference_centroids(categoria, actions, limites, n_acc, n_lim, n_cri)
+
+        # CALL PLOTTING HERE
         print('<CENTROIDES>')
-        print(limites)
+        print(limites[:])
+       #############################################
+        plot_centroids(actions, limites, k)
+        # print('<ACTION>')
+        # print(actions[:,0])
+        # print(limites[:,2:3])
+    return 0
+
+#########  MAIN ###############
+def main():
+    actions, centroids, limites = init_data('matriz-valores.xlsx')
+    lam  = 0.8
+    iter = 10
+    perform_outranking(actions, centroids, limites)
 
 
 if __name__ == '__main__':
