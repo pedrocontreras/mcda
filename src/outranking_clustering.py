@@ -194,7 +194,7 @@ def regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam):
     return categoria
 
 
-def perform_outranking(actions, centroids, limites, lam, iter):
+def perform_outranking(actions, limites, lam, iter):
     p_dir, q_dir, p_inv, q_inv = get_umbrales()
     n_acc = np.size(actions, 0)  # number of acciones
     n_cri = np.size(actions, 1)  # number if criteria
@@ -236,7 +236,7 @@ def main():
     actions, centroids, limites = init_data('matriz-valores.xlsx')
     lam  = 0.8
     iter = 10
-    perform_outranking(actions, centroids, limites,lam, iter)
+    perform_outranking(actions, limites,lam, iter)
 
 
 if __name__ == '__main__':
