@@ -8,9 +8,8 @@ def k_means(categoria, actions, limites):
     return 0
 
 
-def get_preference_centroids(categoria, actions, limites, n_acc, n_lim, n_cri):
+def get_ordered_centroids(categoria, actions, limites, n_acc, n_lim, n_cri):
     """
-    actualiza los dentroides
     :param categoria: array that contains categoria
     :param actions: array with the acciones
     :param limites: array with the limits

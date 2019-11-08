@@ -219,7 +219,7 @@ def perform_outranking(actions, limites, lam, iter):
         # print('<CATEGORIAS>')
         # print(categoria)
         # actualiza centroides
-        limites = get_preference_centroids(categoria, actions, limites, n_acc, n_lim, n_cri)
+        limites = get_ordered_centroids(categoria, actions, limites, n_acc, n_lim, n_cri)
 
         # CALL PLOTTING HERE
         print('<CENTROIDES>')
