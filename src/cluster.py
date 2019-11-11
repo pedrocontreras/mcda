@@ -1,6 +1,6 @@
 import numpy as np
 
-#hola gilberto
+#hola gilberto....ves el comentario?
 
 
 def k_means(categoria, actions, limites):
