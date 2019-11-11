@@ -1,5 +1,7 @@
 import numpy as np
 
+#blablabla
+
 def k_means(categoria, actions, limites):
     n_acc = np.size(actions, 0)  # number of acciones
     n_cri = np.size(actions, 1)  # number if criteria
