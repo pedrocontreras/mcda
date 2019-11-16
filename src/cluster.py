@@ -7,6 +7,12 @@ def k_means(categoria, actions, limites):
 
     return 0
 
+def k_means2(categoria, actions, limites):
+    n_acc = np.size(actions, 0)  # number of acciones
+    n_cri = np.size(actions, 1)  # number if criteria
+    n_lim = np.size(limites, 0)  # number of limits
+
+    return 0
 
 def get_ordered_centroids(categoria, actions, limites, n_acc, n_lim, n_cri):
     """
