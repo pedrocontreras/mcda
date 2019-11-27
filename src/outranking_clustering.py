@@ -167,6 +167,43 @@ def conc_p_inversa(actions, limites, p_inv, q_inv):
                         cpi[i][j][h] = 1.0 * (actions[i][h] - limites[j][h] + p_inv[h]) / (p_inv[h] - q_inv[h])
     return cpi
 
+def concordancia_I_actions(cpia, n_acc, n_cri, w):
+    """
+    calcula la concordancia inversa
+    :param cpi:
+    :param n_acc:
+    :param n_cri:
+    :param w:
+    :return: sigma_I
+    """
+    sigma_I = np.zeros((n_acc, n_acc))
+    for i in range(0, n_acc):
+        for j in range(0, n_acc):
+            x = 0.0
+            for h in range(0, n_cri):
+                x = x + w[h] * cpia[i][j][h]
+            sigma_I[i][j] = x
+    return sigma_I
+
+
+def concordancia_D_actions(cpda, n_acc,  n_cri, w):
+    """
+    calcula la concordancia directa
+    :param cpd:
+    :param n_acc:
+    :param n_cri:
+    :param w:
+    :return: sigma_D
+    """
+    sigma_D = np.zeros((n_acc, n_acc))
+    for i in range(0, n_acc):
+        for j in range(0, n_acc):
+            x = 0.0
+            for h in range(0, n_cri ):
+                x = x + w[h] * cpda[i][j][h]
+            sigma_D[i][j] = x
+    return sigma_D
+
 
 def concordancia_I(cpi, n_acc, n_lim, n_cri, w):
     """
