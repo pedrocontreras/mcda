@@ -2,7 +2,7 @@ import pandas as pd
 from pandas import DataFrame as df
 import openpyxl as px
 import numpy as np
-from plot_clusters import *
+# from plot_clusters import *
 from cluster import *
 
 
