@@ -298,6 +298,13 @@ def perform_outranking(actions, limites, lam, iter):
         sigma_D = concordancia_D(cpd, n_acc, n_lim, n_cri, w)
         sigma_I = concordancia_I(cpi, n_acc, n_lim, n_cri, w)
 
+        #-------------------------------------------------------
+        # -------------------------------------------------------
+        cpda = conc_p_directa(actions, p_dir, q_dir)
+        cpia = conc_p_inversa(actions, p_inv, q_inv)
+        sigma_D_a = concordancia_D_actions(cpda, n_acc, n_cri, w)
+        sigma_I_a = concordancia_I_actions(cpia, n_acc, n_cri, w)
+
         # determina categoria de cada accion, usando regla descendente
         categoria = regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam)
 
