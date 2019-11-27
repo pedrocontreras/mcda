@@ -2,7 +2,7 @@ import pandas as pd
 from pandas import DataFrame as df
 import openpyxl as px
 import numpy as np
-#from plot_clusters import *
+from plot_clusters import *
 from cluster import *
 
 
@@ -58,7 +58,7 @@ def get_metrics(actions, limites):
     n_lim = np.size(limites, 0)  # number of limits
     return n_acc, n_cri, n_lim
 
-def conc_p_directa_actions(actions, p_dir, q_dir):
+def conc_p_dircta_actions(actions, p_dir, q_dir):
     n_acc = np.size(actions, 0)  # number of acciones
     n_cri = np.size(actions, 1)  # number if criteria
     cpda  = np.zeros((n_acc, n_acc, n_cri))
@@ -79,33 +79,6 @@ def conc_p_directa_actions(actions, p_dir, q_dir):
     return cpda
 
 
-def conc_p_inversa_actions(actions, p_inv, q_inv):
-    """
-    calcula la concordancia parcial inversa
-    :param actions:
-    :param p_inv:
-    :param q_inv:
-    :return:
-    """
-    n_acc = np.size(actions, 0)  # number of acciones
-    n_cri = np.size(actions, 1)  # number if criteria
-
-    cpia  = np.zeros((n_acc, n_acc, n_cri))  # cpi array to store values
-
-    for h in range(0, n_cri):
-        # calcula indice de concordancia parcial inverso
-        #mueve i en las filas del arreglo de acciones
-        for i in range(0, n_acc):
-            #mueve j en las filas del arreglo de perfiles de categorias
-            for j in range(0, n_acc):
-                if actions[j][h] - actions[i][h] > p_inv[h]:
-                    cpia[i][j][h] = 0
-                else:
-                    if actions[j][h] - actions[i][h] <= q_inv[h]:
-                        cpia[i][j][h] = 1
-                    else:
-                        cpia[i][j][h] = 1.0 * (actions[i][h] - actions[j][h] + p_inv[h]) / (p_inv[h] - q_inv[h])
-    return cpia
 
 def conc_p_directa(actions, limites, p_dir, q_dir):
     """
@@ -135,6 +108,7 @@ def conc_p_directa(actions, limites, p_dir, q_dir):
                     else:
                         cpd[j][i][h] = 1.0 * (limites[j][h] - actions[i][h] + p_dir[h]) / (p_dir[h] - q_dir[h])
     return cpd
+
 
 def conc_p_inversa(actions, limites, p_inv, q_inv):
     """
