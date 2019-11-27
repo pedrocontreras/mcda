@@ -58,6 +58,27 @@ def get_metrics(actions, limites):
     n_lim = np.size(limites, 0)  # number of limits
     return n_acc, n_cri, n_lim
 
+def conc_p_dircta_actions(actions, p_dir, q_dir):
+    n_acc = np.size(actions, 0)  # number of acciones
+    n_cri = np.size(actions, 1)  # number if criteria
+    cpda  = np.zeros((n_acc, n_acc, n_cri))
+
+    # calcula indice de concordancia parcial directo
+    for h in range(0, n_cri):
+        # mueve j en las filas del arreglo de perfiles de categorias
+        for j in range(0, n_acc):
+            # mueve i en las filas del arreglo de acciones
+            for i in range(0, n_acc):
+                if actions[i][h] - actions[j][h] > p_dir[h]:
+                    cpda[j][i][h] = 0
+                else:
+                    if actions[i][h] - actions[j][h] <= q_dir[h]:
+                        cpda[j][i][h] = 1
+                    else:
+                        cpda[j][i][h] = 1.0 * (actions[j][h] - actions[i][h] + p_dir[h]) / (p_dir[h] - q_dir[h])
+    return cpda
+
+
 
 def conc_p_directa(actions, limites, p_dir, q_dir):
     """
