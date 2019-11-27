@@ -7,7 +7,6 @@ def k_means(categoria, actions, limites):
 
     return 0
 
-
 def get_ordered_centroids(categoria, actions, limites, n_acc, n_lim, n_cri):
     """
     :param categoria: array that contains categoria
