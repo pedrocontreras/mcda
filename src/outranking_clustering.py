@@ -5,6 +5,8 @@ import numpy as np
 #from plot_clusters import *
 from cluster import *
 
+from src.cluster import get_ordered_centroids
+
 
 def init_data(excel_file):
     """
@@ -279,6 +281,17 @@ def regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam):
     return categoria
 
 
+def minimo_p_accion(categoria,n_lim,cati,n_acc,i,sigma_D_a,sigma_I_a):
+    minimo=1
+    jmin=0
+    for j in range(0,n_acc):
+        if categoria[j][cati]==1:
+            if minimo>min(sigma_D_a[i][j],sigma_I_a[j][i]):
+                minimo=min(sigma_D_a[i][j],sigma_I_a[j][i])
+                jmin=j
+    return jmin
+
+
 def perform_outranking(actions, limites, lam, iter):
     w = get_weights()
     p_dir, q_dir, p_inv, q_inv = get_umbrales()
@@ -286,9 +299,14 @@ def perform_outranking(actions, limites, lam, iter):
     n_cri = np.size(actions, 1)  # number if criteria
     n_lim = np.size(limites, 0)  # number of limits
 
+    beta=0.4
+
     for k in range(0, iter):
         # inicializa la matriz de pertenencia de clases, en cada round de simulacion
         categoria = np.zeros((n_acc, n_lim))
+        yleast = np.zeros((n_acc))  # yleast alternative for each alternative in a category
+        izero = np.zeros((n_acc))  # minimum indifference for a given alternative belonging to a category
+        maximo=np.zeros((n_lim))
 
         # calcula concordancia parcial directa e inversa (formulas (1) y (2)
         cpd = conc_p_directa(actions, limites, p_dir, q_dir)
@@ -307,6 +325,17 @@ def perform_outranking(actions, limites, lam, iter):
 
         # determina categoria de cada accion, usando regla descendente
         categoria = regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam)
+
+        for h in range (0,n_lim):
+            for i in range(0,n_acc):
+                if categoria[i][h]==1:
+                    yleast[i]=minimo_p_accion(categoria, n_lim, n_acc, i, sigma_D_a, sigma_I_a)
+                    izero[i]=min(sigma_D_a[i][yleast[i]],sigma_I_a[yleast[i]][i])
+
+            for i in range(0,n_acc):
+                if izero[i]<=beta:
+                    if izero[i]>izero[maximo[h]]:
+                        maximo[h]=i
 
         print('--------------- ITERACION: {} -------------'.format(k+1))
         # print('<CATEGORIAS>')
