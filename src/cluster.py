@@ -48,7 +48,7 @@ def minimo_p_accion(categoria,n_lim,cati,n_acc,i,sigma_D_a,sigma_I_a):
 
 
 def get_new_centroids(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,yleast,izero,beta,maximo,n_cri,limites,actions):
-    for j in range(0, n_lim):
+    for j in range(1, n_lim-1):
         for i in range(0, n_acc):
             if categoria[i][j] == 1:
                 yleast[i] = minimo_p_accion(categoria, n_lim, n_acc, i, sigma_D_a, sigma_I_a)
