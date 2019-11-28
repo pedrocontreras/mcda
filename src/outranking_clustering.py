@@ -5,7 +5,7 @@ import numpy as np
 #from plot_clusters import *
 from cluster import *
 
-from src.cluster import get_ordered_centroids
+from src.cluster import get_ordered_centroids, get_new_centroids
 
 
 def init_data(excel_file):
@@ -280,18 +280,6 @@ def regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam):
             j = j-1
     return categoria
 
-
-def minimo_p_accion(categoria,n_lim,cati,n_acc,i,sigma_D_a,sigma_I_a):
-    minimo=1
-    jmin=0
-    for j in range(0,n_acc):
-        if categoria[j][cati]==1:
-            if minimo>min(sigma_D_a[i][j],sigma_I_a[j][i]):
-                minimo=min(sigma_D_a[i][j],sigma_I_a[j][i])
-                jmin=j
-    return jmin
-
-
 def perform_outranking(actions, limites, lam, iter):
     w = get_weights()
     p_dir, q_dir, p_inv, q_inv = get_umbrales()
@@ -326,16 +314,8 @@ def perform_outranking(actions, limites, lam, iter):
         # determina categoria de cada accion, usando regla descendente
         categoria = regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam)
 
-        for h in range (0,n_lim):
-            for i in range(0,n_acc):
-                if categoria[i][h]==1:
-                    yleast[i]=minimo_p_accion(categoria, n_lim, n_acc, i, sigma_D_a, sigma_I_a)
-                    izero[i]=min(sigma_D_a[i][yleast[i]],sigma_I_a[yleast[i]][i])
-
-            for i in range(0,n_acc):
-                if izero[i]<=beta:
-                    if izero[i]>izero[maximo[h]]:
-                        maximo[h]=i
+        #determina los nuevos centroides de categoria, técnica de Fernandez et al. (2010)
+        limites=get_new_centroids(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,yleast,izero,beta,maximo,n_cri,limites,actions)
 
         print('--------------- ITERACION: {} -------------'.format(k+1))
         # print('<CATEGORIAS>')
