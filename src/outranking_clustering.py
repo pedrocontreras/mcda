@@ -292,9 +292,10 @@ def perform_outranking(actions, limites, lam, iter):
     for k in range(0, iter):
         # inicializa la matriz de pertenencia de clases, en cada round de simulacion
         categoria = np.zeros((n_acc, n_lim))
-        yleast = np.zeros((n_acc))  # yleast alternative for each alternative in a category
+        yleast = np.zeros((n_acc,),dtype=int)                  # yleast alternative for each alternative in a category
+
         izero = np.zeros((n_acc))  # minimum indifference for a given alternative belonging to a category
-        maximo=np.zeros((n_lim))
+        maximo=np.zeros((n_lim,),dtype=int)
 
         # calcula concordancia parcial directa e inversa (formulas (1) y (2)
         cpd = conc_p_directa(actions, limites, p_dir, q_dir)
@@ -306,14 +307,18 @@ def perform_outranking(actions, limites, lam, iter):
 
         #-------------------------------------------------------
         # -------------------------------------------------------
-        cpda = conc_p_directa(actions, p_dir, q_dir)
-        cpia = conc_p_inversa(actions, p_inv, q_inv)
+        cpda = conc_p_directa_actions(actions, p_dir, q_dir)
+        cpia = conc_p_inversa_actions(actions, p_inv, q_inv)
         sigma_D_a = concordancia_D_actions(cpda, n_acc, n_cri, w)
         sigma_I_a = concordancia_I_actions(cpia, n_acc, n_cri, w)
 
         # determina categoria de cada accion, usando regla descendente
         categoria = regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam)
 
+        for i in range(0,n_acc):
+            for j in range(0,n_lim):
+                print ("categoria[",i,"][",j,"]: ", str(categoria[i][j]))
+                print ("")
         #determina los nuevos centroides de categoria, técnica de Fernandez et al. (2010)
         limites=get_new_centroids(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,yleast,izero,beta,maximo,n_cri,limites,actions)
 
@@ -321,7 +326,7 @@ def perform_outranking(actions, limites, lam, iter):
         # print('<CATEGORIAS>')
         # print(categoria)
         # actualiza centroides
-        limites = get_ordered_centroids(categoria, actions, limites, n_acc, n_lim, n_cri)
+        #limites = get_ordered_centroids(categoria, actions, limites, n_acc, n_lim, n_cri)
 
         # CALL PLOTTING HERE
         print('<CENTROIDES>')
