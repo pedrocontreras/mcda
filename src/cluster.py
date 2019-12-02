@@ -50,9 +50,10 @@ def minimo_p_accion(categoria,cati,n_acc,i,sigma_D_a,sigma_I_a):
 
 
 def get_new_centroids(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,yleast,izero,beta,maximo,n_cri,limites,actions):
-    print ("centroids")
+    print ("new centroids")
     for j in range(1, n_lim-1):
         for i in range(0, n_acc):
+            print("categoria, alternativa mas lejana para accion i en categoria j: ")
             if categoria[i][j] == 1:
                 yleast[i] = minimo_p_accion(categoria, j, n_acc, i, sigma_D_a, sigma_I_a)
                 izero[i] = min(sigma_D_a[i][yleast[i]], sigma_I_a[yleast[i]][i])
@@ -64,7 +65,7 @@ def get_new_centroids(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,yleast,izero,bet
                 print ("izero: ",izero[i],izero[maximo[j]])
                 if izero[i] > izero[maximo[j]]:
                     maximo[j] = i
-        print (j,maximo[j])
+        print ("el mejor izero en categoria j: ",j,maximo[j])
         for h in range(0, n_cri):
             limites[j][h] = actions[maximo[j]][h]
 
