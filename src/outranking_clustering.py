@@ -40,10 +40,10 @@ def get_umbrales():
     umbrales de preferencia directos e inversos de cada criterio
     :return: p_dir, q_dir, p_inv, q_inv
     """
-    p_dir = [20,20,20,20,20]
-    q_dir = [10,10,10,10,10]
-    p_inv = [20,20,20,20,20]
-    q_inv = [10,10,10,10,10]
+    p_dir = [10,10,10,10,10]
+    q_dir = [5,5,5,5,5]
+    p_inv = [10,10,10,10,10]
+    q_inv = [5,5,5,5,5]
 
     return p_dir, q_dir, p_inv, q_inv
 
@@ -247,7 +247,7 @@ def concordancia_D(cpd, n_acc, n_lim, n_cri, w):
     return sigma_D
 
 
-def regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam):
+def regla_desc(categoria,n_acc, n_lim, sigma_I, sigma_D, lam):
     """
     implemena la regla descendente
     :param n_acc:  number of acciones
@@ -257,7 +257,6 @@ def regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam):
     :param lam:
     :return: categoria
     """
-    categoria = np.zeros((n_acc, n_lim))
     for i in range(0, n_acc):
         j = n_lim - 1
         while True:
@@ -278,22 +277,26 @@ def regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam):
                                 categoria[i][j + 1] = 1
                     break
             j = j-1
+
     return categoria
 
-def perform_outranking(actions, limites, lam, iter):
+def perform_outranking(actions, limites, lam, beta, iter):
     w = get_weights()
     p_dir, q_dir, p_inv, q_inv = get_umbrales()
     n_acc = np.size(actions, 0)  # number of acciones
     n_cri = np.size(actions, 1)  # number if criteria
     n_lim = np.size(limites, 0)  # number of limits
+    # -------------------------------------------------------
+    # Calcula concordancia global directa e inversa entre cada par de acciones
+    cpda = conc_p_directa_actions(actions, p_dir, q_dir)
+    cpia = conc_p_inversa_actions(actions, p_inv, q_inv)
+    sigma_D_a = concordancia_D_actions(cpda, n_acc, n_cri, w)
+    sigma_I_a = concordancia_I_actions(cpia, n_acc, n_cri, w)
 
-    beta=0.4
 
     for k in range(0, iter):
         # inicializa la matriz de pertenencia de clases, en cada round de simulacion
-        categoria = np.zeros((n_acc, n_lim))
         yleast = np.zeros((n_acc,),dtype=int)                  # yleast alternative for each alternative in a category
-
         izero = np.zeros((n_acc))  # minimum indifference for a given alternative belonging to a category
         maximo=np.zeros((n_lim,),dtype=int)
 
@@ -305,26 +308,17 @@ def perform_outranking(actions, limites, lam, iter):
         sigma_D = concordancia_D(cpd, n_acc, n_lim, n_cri, w)
         sigma_I = concordancia_I(cpi, n_acc, n_lim, n_cri, w)
 
-        #-------------------------------------------------------
-        # -------------------------------------------------------
-        cpda = conc_p_directa_actions(actions, p_dir, q_dir)
-        cpia = conc_p_inversa_actions(actions, p_inv, q_inv)
-        sigma_D_a = concordancia_D_actions(cpda, n_acc, n_cri, w)
-        sigma_I_a = concordancia_I_actions(cpia, n_acc, n_cri, w)
 
         # determina categoria de cada accion, usando regla descendente
-        categoria = regla_desc(n_acc, n_lim, sigma_I, sigma_D, lam)
+        categoria = np.zeros((n_acc, n_lim))
+        categoria = regla_desc(categoria,n_acc, n_lim, sigma_I, sigma_D, lam)
 
-        for i in range(0,n_acc):
-            for j in range(0,n_lim):
-                print ("categoria[",i,"][",j,"]: ", str(categoria[i][j]))
-                print ("")
         #determina los nuevos centroides de categoria, técnica de Fernandez et al. (2010)
         limites=get_new_centroids(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,yleast,izero,beta,maximo,n_cri,limites,actions)
 
         print('--------------- ITERACION: {} -------------'.format(k+1))
-        # print('<CATEGORIAS>')
-        # print(categoria)
+        print('<CATEGORIAS>')
+        print(categoria)
         # actualiza centroides
         #limites = get_ordered_centroids(categoria, actions, limites, n_acc, n_lim, n_cri)
 
@@ -342,8 +336,10 @@ def perform_outranking(actions, limites, lam, iter):
 def main():
     actions, centroids, limites = init_data('matriz-valores.xlsx')
     lam  = 0.8
-    iter = 10
-    perform_outranking(actions, limites,lam, iter)
+    beta=0.4
+    iter = 1
+
+    perform_outranking(actions, limites,lam,beta, iter)
 
 
 if __name__ == '__main__':
