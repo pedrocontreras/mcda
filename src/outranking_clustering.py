@@ -306,7 +306,7 @@ def perform_outranking(actions, limites, lam, beta, iter):
 
 
         # determina categoria de cada accion, usando regla descendente
-        categoria = np.zeros((n_acc, n_lim))
+        categoria = np.zeros((n_acc, n_lim), dtype=int)
         categoria = regla_desc(categoria,n_acc, n_lim, sigma_I, sigma_D, lam)
 
         #determina los nuevos centroides de categoria, técnica de Fernandez et al. (2010)
@@ -314,7 +314,11 @@ def perform_outranking(actions, limites, lam, beta, iter):
 
         print('--------------- ITERACION: {} -------------'.format(k+1))
         print('<CATEGORIAS>')
-        print(categoria)
+        #print(categoria)
+        for j in range (1,n_lim-1):
+            for i in range (0,n_acc):
+                if categoria[i][j]==1:
+                    print (j, i)
         # actualiza centroides
         #limites = get_ordered_centroids(categoria, actions, limites, n_acc, n_lim, n_cri)
 
