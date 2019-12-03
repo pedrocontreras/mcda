@@ -67,7 +67,7 @@ def get_new_centroids(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,beta,n_cri,limit
                     maximo[j]=yleast[i]
                     hay = 'true'
                     #print (j, i, yleast[i], izero[i],maximo[j])
-        print (hay)
+        #print (hay)
         for i in range(0, n_acc):
             if categoria[i][j] == 1 and izero[i] <= beta:
                 #print ("izero: ",izero[i],izero[maximo[j]])
