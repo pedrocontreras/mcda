@@ -295,10 +295,6 @@ def perform_outranking(actions, limites, lam, beta, iter):
 
 
     for k in range(0, iter):
-        # inicializa la matriz de pertenencia de clases, en cada round de simulacion
-        yleast = np.zeros((n_acc,),dtype=int)                  # yleast alternative for each alternative in a category
-        izero = np.zeros((n_acc))  # minimum indifference for a given alternative belonging to a category
-        maximo=np.zeros((n_lim,),dtype=int)
 
         # calcula concordancia parcial directa e inversa (formulas (1) y (2)
         cpd = conc_p_directa(actions, limites, p_dir, q_dir)
@@ -314,7 +310,7 @@ def perform_outranking(actions, limites, lam, beta, iter):
         categoria = regla_desc(categoria,n_acc, n_lim, sigma_I, sigma_D, lam)
 
         #determina los nuevos centroides de categoria, técnica de Fernandez et al. (2010)
-        limites=get_new_centroids(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,yleast,izero,beta,maximo,n_cri,limites,actions)
+        limites=get_new_centroids(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,beta,n_cri,limites,actions)
 
         print('--------------- ITERACION: {} -------------'.format(k+1))
         print('<CATEGORIAS>')
@@ -337,7 +333,7 @@ def main():
     actions, centroids, limites = init_data('matriz-valores.xlsx')
     lam  = 0.8
     beta=0.4
-    iter = 1
+    iter = 10
 
     perform_outranking(actions, limites,lam,beta, iter)
 
