@@ -318,7 +318,7 @@ def perform_outranking(actions, limites, lam, beta, iter):
         for j in range (1,n_lim-1):
             for i in range (0,n_acc):
                 if categoria[i][j]==1:
-                    print (j, i)
+                    print (j, i,actions[i][0],actions[i][1],actions[i][2],actions[i][3],actions[i][4])
         # actualiza centroides
         #limites = get_ordered_centroids(categoria, actions, limites, n_acc, n_lim, n_cri)
 
