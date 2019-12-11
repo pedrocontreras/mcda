@@ -7,7 +7,6 @@ def k_means(categoria, actions, limites):
 
     return 0
 
-
 def get_ordered_centroids(categoria, actions, limites, n_acc, n_lim, n_cri):
     """
     :param categoria: array that contains categoria
@@ -36,6 +35,41 @@ def get_ordered_centroids(categoria, actions, limites, n_acc, n_lim, n_cri):
     return limites
 
 
+def get_ordered_centroids_2(categoria, actions, limites, p_dir,p_inv,n_acc, n_lim, n_cri):
+    """
+    :param categoria: array that contains categoria
+    :param actions: array with the acciones
+    :param limites: array with the limits
+    :param n_acc: number of acciones
+    :param n_lim: number of limits
+    :param n_cri: number of criteria
+    :return: limites
+    """
+    suma = np.zeros((n_lim, n_cri))
+    freq_categoria = np.zeros(n_lim)
+
+    for i in range(0, n_acc):
+        for j in range(1, n_lim - 1):
+            if categoria[i][j] == 1:
+                freq_categoria[j] = freq_categoria[j] + 1
+                concordante = 'true'
+                for h in range(n_cri-1, 0,-1):
+                    if (actions[i][h]-limites[j][h]<=p_dir[h]) and (limites[j][h]-actions[i][h]<=p_inv[h]):
+                        concordante='false'
+                if concordante == 'true':
+                    for h in range(0, n_cri):
+                        suma[j][h] = suma[j][h] + actions[i][h]
+                else:
+                    freq_categoria[j]=freq_categoria[j]-1
+
+    for j in range(1, n_lim - 1):
+        if freq_categoria[j] > 0:
+            for h in range(0, n_cri):
+                limites[j][h] = 1.0 * suma[j][h] / freq_categoria[j]
+
+    return limites
+
+
 def minimo_p_accion(n_acc,categoria,cati,i,sigma_D_a,sigma_I_a):
     minimo=1
     jmin=0
@@ -49,7 +83,7 @@ def minimo_p_accion(n_acc,categoria,cati,i,sigma_D_a,sigma_I_a):
     return jmin
 
 
-def get_new_centroids(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,beta,n_cri,limites,actions):
+def get_ordered_centroids_3(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,beta,n_cri,limites,actions):
     #print ("new centroids")
     maximo = np.zeros((n_lim,), dtype=int)
     yleast = np.zeros((n_acc,), dtype=int)  # yleast alternative for each alternative in a category
@@ -82,3 +116,23 @@ def get_new_centroids(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,beta,n_cri,limit
         hay = 'false'
 
     return limites
+
+def get_inner_actions(belonging,limites,j,h,p_dir,p_inv,actions):
+    c=np.where(belonging==j)
+    a=[]
+    for i in range(0,np.size(c)):
+        if actions[c[0][i]][h] >= limites[j][h]-p_inv[h] and actions[c[0][i]][h] <= limites[j][h]+p_dir[h]:
+            a.append(actions[c[0][i]][h])
+    a.sort()
+    return a
+
+def get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir,p_inv,actions):
+    for j in range(0,n_lim):
+        for h in range(0,n_cri):
+            a=get_inner_actions(belonging, limites, j, h, p_dir, p_inv, actions)
+            if not a:
+                limites[j][h]=limites[j][h]
+            else:
+                limites[j][h]=np.mean(a)
+    return limites
+

@@ -5,7 +5,8 @@ import numpy as np
 #from plot_clusters import *
 from cluster import *
 
-from src.cluster import get_ordered_centroids, get_new_centroids
+from src.cluster import get_ordered_centroids, get_ordered_centroids_2, get_ordered_centroids_3, \
+    get_inner_actions, get_ordered_centroids_4
 
 
 def init_data(excel_file):
@@ -40,10 +41,13 @@ def get_umbrales():
     umbrales de preferencia directos e inversos de cada criterio
     :return: p_dir, q_dir, p_inv, q_inv
     """
-    p_dir = [10,10,10,10,10]
-    q_dir = [5,5,5,5,5]
-    p_inv = [10,10,10,10,10]
-    q_inv = [5,5,5,5,5]
+    p=8
+    q=4
+
+    p_dir = [p,p,p,p,p]
+    q_dir = [q,q,q,q,q]
+    p_inv = [p,p,p,p,p]
+    q_inv = [q,q,q,q,q]
 
     return p_dir, q_dir, p_inv, q_inv
 
@@ -247,7 +251,7 @@ def concordancia_D(cpd, n_acc, n_lim, n_cri, w):
     return sigma_D
 
 
-def regla_desc(categoria,n_acc, n_lim, sigma_I, sigma_D, lam):
+def regla_desc(categoria, belonging, n_acc, n_lim, sigma_I, sigma_D, lam):
     """
     implemena la regla descendente
     :param n_acc:  number of acciones
@@ -262,19 +266,24 @@ def regla_desc(categoria,n_acc, n_lim, sigma_I, sigma_D, lam):
         while True:
             if j == 0 :
                 categoria[i][1] = 1
+                belonging[i]=1
                 break
             else:
                 if sigma_I[i][j] >= lam:
                     if j == n_lim-1 :
                         categoria[i][n_lim - 2]=1
+                        belonging[i]=n_lim - 2
                     else:
                         if min(sigma_I[i][j], sigma_D[j][i]) > min(sigma_I[i][j + 1], sigma_D[j + 1][i]):
                             categoria[i][j] = 1
+                            belonging[i]=j
                         else:
                             if j == (n_lim - 2):
                                 categoria[i][n_lim - 2] = 1
+                                belonging[i]=n_lim - 2
                             else:
                                 categoria[i][j + 1] = 1
+                                belonging[i]=j+1
                     break
             j = j-1
 
@@ -307,20 +316,33 @@ def perform_outranking(actions, limites, lam, beta, iter):
 
         # determina categoria de cada accion, usando regla descendente
         categoria = np.zeros((n_acc, n_lim), dtype=int)
-        categoria = regla_desc(categoria,n_acc, n_lim, sigma_I, sigma_D, lam)
+        belonging = np.zeros((n_acc), dtype=int)
 
-        #determina los nuevos centroides de categoria, técnica de Fernandez et al. (2010)
-        limites=get_new_centroids(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,beta,n_cri,limites,actions)
+        categoria = regla_desc(categoria,belonging, n_acc, n_lim, sigma_I, sigma_D, lam)
+
+        # actualiza centroides por el metodo de los promedios
+        #limites = get_ordered_centroids(categoria, actions, limites, p_dir,p_inv,n_acc, n_lim, n_cri)
+
+        # actualiza centroides por el metodo de los promedios limitados a acciones dentro de trapezoides
+        #limites = get_ordered_centroids_2(categoria, actions, limites, p_dir,p_inv,n_acc, n_lim, n_cri)
+
+        #determina los nuevos centroides de categoria, usando técnica de Fernandez et al. (2010)
+        #limites=get_ordered_centroids_3(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,beta,n_cri,limites,actions)
+
+        #determina los nuevos centroides de categoria, usando técnica cuchufletina
+
+        #limitesold=limites
+        limites=get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir,p_inv,actions)
+
+
 
         print('--------------- ITERACION: {} -------------'.format(k+1))
         print('<CATEGORIAS>')
         #print(categoria)
-        for j in range (1,n_lim-1):
-            for i in range (0,n_acc):
-                if categoria[i][j]==1:
-                    print (j,"-", i,":",actions[i][0],actions[i][1],actions[i][2],actions[i][3],actions[i][4])
-        # actualiza centroides
-        #limites = get_ordered_centroids(categoria, actions, limites, n_acc, n_lim, n_cri)
+        # for j in range (1,n_lim-1):
+        #     for i in range (0,n_acc):
+        #         if categoria[i][j]==1:
+        #             print (j,"-", i,":",actions[i][0],actions[i][1],actions[i][2],actions[i][3],actions[i][4])
 
         # CALL PLOTTING HERE
         print('<CENTROIDES>')
@@ -337,7 +359,7 @@ def main():
     actions, centroids, limites = init_data('matriz-valores.xlsx')
     lam  = 0.8
     beta=0.4
-    iter = 10
+    iter = 30
 
     perform_outranking(actions, limites,lam,beta, iter)
 
