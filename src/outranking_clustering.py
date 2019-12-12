@@ -16,13 +16,13 @@ def init_data(excel_file):
     :return: actions, centroids, limites
     """
     work_book  = px.load_workbook(excel_file)
-    work_sheet = work_book['matriz']
+    work_sheet = work_book['data']
     df_data    = pd.DataFrame(work_sheet.values)
 
     # slice data to get data frames for actions, centroids, min and max
-    actions    = df.to_numpy(df_data.iloc[0:49])
-    centroids  = df.to_numpy(df_data.iloc[50:54])
-    limites    = df.to_numpy(df_data.iloc[49:55])
+    actions    = df.to_numpy(df_data.iloc[0:189])
+    centroids  = df.to_numpy(df_data.iloc[190:193])
+    limites    = df.to_numpy(df_data.iloc[189:194])
 
     return actions, centroids, limites
 
@@ -32,7 +32,7 @@ def get_weights():
     get criteria weights
     :return: w
     """
-    w = [0.20, 0.20, 0.20, 0.30, 0.10]  # pesos de los criterios
+    w = [0.30, 0.40, 0.30]  # pesos de los criterios
     return w
 
 
@@ -41,13 +41,13 @@ def get_umbrales():
     umbrales de preferencia directos e inversos de cada criterio
     :return: p_dir, q_dir, p_inv, q_inv
     """
-    p=8
+    p=7
     q=4
 
-    p_dir = [p,p,p,p,p]
-    q_dir = [q,q,q,q,q]
-    p_inv = [p,p,p,p,p]
-    q_inv = [q,q,q,q,q]
+    p_dir = [p,p,p,]
+    q_dir = [q,q,q,]
+    p_inv = [p,p,p,]
+    q_inv = [q,q,q,]
 
     return p_dir, q_dir, p_inv, q_inv
 
@@ -356,7 +356,7 @@ def perform_outranking(actions, limites, lam, beta, iter):
 
 #########  MAIN ###############
 def main():
-    actions, centroids, limites = init_data('matriz-valores.xlsx')
+    actions, centroids, limites = init_data('HDI.xlsx')
     lam  = 0.8
     beta=0.4
     iter = 30
