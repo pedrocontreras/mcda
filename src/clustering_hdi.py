@@ -73,6 +73,7 @@ def plot_scatter3D(file_path):
     df = load_data(file_path)
     y_km = get_kmeans(df)
     cnt = y_km.cluster_centers_
+    print(cnt)
     clusters = y_km.labels_
     fig = plt.figure(figsize=(7, 7))
     ax = fig.add_subplot(projection='3d')
