@@ -22,18 +22,17 @@ print (df_data)
 df_data = StandardScaler().fit_transform(df_data)
 
 
-#neigh = NearestNeighbors(n_neighbors=2)
-#nbrs = neigh.fit(df_data)
-#distances, indices = nbrs.kneighbors(df_data)
-#distances = np.sort(distances, axis=0)
-#distances = distances[:,1]
-#plt.plot(distances)
-#plt.show()
+# neigh = NearestNeighbors(n_neighbors=2)
+# nbrs = neigh.fit(df_data)
+# distances, indices = nbrs.kneighbors(df_data)
+# distances = np.sort(distances, axis=0)
+# distances = distances[:,1]
+# plt.plot(distances)
+# plt.show()
 
 # #############################################################################
 # Compute DBSCAN
-
-dbscan = DBSCAN(eps=0.5, min_samples = 10)
+dbscan = DBSCAN(eps=0.4, min_samples = 10)
 dbscan.fit(df_data)
 clusters=dbscan.labels_
 colors = ['royalblue', 'maroon', 'forestgreen', 'mediumorchid', 'tan', 'deeppink', 'olive', 'goldenrod', 'lightcyan', 'navy']
