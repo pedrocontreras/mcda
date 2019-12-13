@@ -5,9 +5,6 @@ import numpy as np
 #from plot_clusters import *
 from cluster import *
 
-from src.cluster import get_ordered_centroids, get_ordered_centroids_2, get_ordered_centroids_3, \
-    get_inner_actions, get_ordered_centroids_4
-
 
 def init_data(excel_file):
     """
