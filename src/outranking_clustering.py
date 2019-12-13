@@ -24,6 +24,10 @@ def init_data(excel_file):
     centroids  = df.to_numpy(df_data.iloc[190:193])
     limites    = df.to_numpy(df_data.iloc[189:194])
 
+    print (actions)
+    print (centroids)
+    print (limites)
+
     return actions, centroids, limites
 
 
@@ -41,13 +45,11 @@ def get_umbrales():
     umbrales de preferencia directos e inversos de cada criterio
     :return: p_dir, q_dir, p_inv, q_inv
     """
-    p=7
-    q=4
 
-    p_dir = [p,p,p,]
-    q_dir = [q,q,q,]
-    p_inv = [p,p,p,]
-    q_inv = [q,q,q,]
+    p_dir = [3.2,1.7,1.3]
+    q_dir = [1.6,0.9,0.6]
+    p_inv = [3.2,1.7,1.3]
+    q_inv = [1.6,0.9,0.6]
 
     return p_dir, q_dir, p_inv, q_inv
 
@@ -346,8 +348,9 @@ def perform_outranking(actions, limites, lam, beta, iter):
 
         # CALL PLOTTING HERE
         print('<CENTROIDES>')
-        print(limites[:])
-       #############################################
+        np.set_printoptions(precision=1)
+        print (limites)
+       ############################################
         # plot_centroids(actions, limites, k) # experiments with plotting centroids
         # print('<ACTION>')
         # print(actions[:,0])
