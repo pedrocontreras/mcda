@@ -21,7 +21,7 @@ def load_data(file_path):
 
 def get_kmeans(df_data):
     from sklearn.cluster import KMeans
-    km = KMeans(n_clusters=3, init='random'  )
+    km = KMeans(n_clusters=4, init='random'  )
     y_km = km.fit(df_data)
     return y_km
 

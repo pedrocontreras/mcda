@@ -20,8 +20,8 @@ def init_data(excel_file):
 
     # slice data to get data frames for actions, centroids, min and max
     actions    = df.to_numpy(df_data.iloc[0:189])
-    centroids  = df.to_numpy(df_data.iloc[190:193])
-    limites    = df.to_numpy(df_data.iloc[189:194])
+    centroids  = df.to_numpy(df_data.iloc[190:194])
+    limites    = df.to_numpy(df_data.iloc[189:195])
 
     return actions, centroids, limites
 
@@ -31,7 +31,7 @@ def get_weights():
     get criteria weights
     :return: w
     """
-    w = [0.30, 0.40, 0.30]  # pesos de los criterios
+    w = [0.333, 0.333, 0.334]  # pesos de los criterios
     return w
 
 
@@ -42,10 +42,10 @@ def get_umbrales():
     """
 
 
-    p_dir = [3.2,1.7,1.3]
-    q_dir = [1.6,0.9,0.6]
-    p_inv = [3.2, 1.7, 1.3]
-    q_inv = [1.6, 0.9, 0.6]
+    p_dir = [3.4,0.6,0.75]
+    q_dir = [1.7,0.3,0.375]
+    p_inv = [3.4,0.6,0.75]
+    q_inv = [1.7,0.3,0.375]
 
     return p_dir, q_dir, p_inv, q_inv
 
@@ -287,12 +287,27 @@ def regla_desc(categoria, belonging, n_acc, n_lim, sigma_I, sigma_D, lam):
 
     return categoria
 
+def sumAscendente(freq_acceptability,categoria,n_lim,n_acc):
+    for i in range(1,n_acc):
+        for j in range(1,n_lim):
+            freq_acceptability[i][j]=freq_acceptability[i][j]+categoria[i][j]
+    return freq_acceptability
+
+def aceptabilidadDescendente(iter,freq_acceptability,n_lim,n_acc):
+    for i in range(1,n_lim):
+        for j in range(1,n_acc):
+            freq_acceptability[i][j]=freq_acceptability[i][j]/float(iter)
+            print (str("%.2f" %  round(freq_acceptability[i][j],2))+"\t")
+        print (" ")
+    print ("")
+
 def perform_outranking(actions, limites, lam, beta, iter):
     w = get_weights()
     p_dir, q_dir, p_inv, q_inv = get_umbrales()
     n_acc = np.size(actions, 0)  # number of acciones
     n_cri = np.size(actions, 1)  # number if criteria
     n_lim = np.size(limites, 0)  # number of limits
+    freq_acceptability = np.zeros((n_acc, n_lim))
     # -------------------------------------------------------
     # Calcula concordancia global directa e inversa entre cada par de acciones
     cpda = conc_p_directa_actions(actions, p_dir, q_dir)
@@ -346,12 +361,16 @@ def perform_outranking(actions, limites, lam, beta, iter):
         print('<CENTROIDES>')
         np.set_printoptions(precision=2)
         print(limites[:])
+        for i in range(0,n_acc):
+                print (categoria[i][0],categoria[i][1],categoria[i][2],categoria[i][3],categoria[i][4],categoria[i][5])
        #############################################
         # plot_centroids(actions, limites, k) # experiments with plotting centroids
         # print('<ACTION>')
         # print(actions[:,0])
         # print(limites[:,2:3])
+    aceptabilidadDescendente(iter-1,freq_acceptability,n_lim,n_acc)
     return 0
+
 
 #########  MAIN ###############
 def main():
