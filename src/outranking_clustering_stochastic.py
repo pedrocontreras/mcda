@@ -25,6 +25,30 @@ def init_data(excel_file):
 
     return actions, centroids, limites
 
+def random_thresholds(excel_file):
+    """
+     read random thresholds
+     :param excel_file:
+     :return: pdir,qdir,opinv,qinv
+     """
+    work_book = px.load_workbook(excel_file)
+    work_sheet_p_dir = work_book['p_dir']
+    work_sheet_q_dir = work_book['q_dir']
+    work_sheet_p_inv = work_book['p_inv']
+    work_sheet_q_inv = work_book['q_inv']
+    df_data_p_dir = pd.DataFrame(work_sheet_p_dir.values)
+    df_data_q_dir = pd.DataFrame(work_sheet_q_dir.values)
+    df_data_p_inv = pd.DataFrame(work_sheet_p_inv.values)
+    df_data_q_inv = pd.DataFrame(work_sheet_q_inv.values)
+
+    # slice data to get data frames for actions, centroids, min and max
+    pdir = df.to_numpy(df_data_p_dir.iloc[0:1000])
+    qdir = df.to_numpy(df_data_q_dir.iloc[0:1000])
+    pinv = df.to_numpy(df_data_p_inv.iloc[0:1000])
+    qinv = df.to_numpy(df_data_q_inv.iloc[0:1000])
+
+    return pdir,qdir,pinv,qinv
+
 
 def get_weights():
     """
@@ -287,82 +311,104 @@ def regla_desc(categoria, belonging, n_acc, n_lim, sigma_I, sigma_D, lam):
 
     return categoria
 
+def sumAscendente(freq_acceptability,categoria,n_lim,n_acc):
+    for i in range(1,n_acc):
+        for j in range(1,n_lim):
+            freq_acceptability[i][j]=freq_acceptability[i][j]+categoria[i][j]
+    return freq_acceptability
 
-def perform_outranking(actions, limites, lam, beta, iter):
+def aceptabilidadDescendente(iter_stochastic,freq_acceptability,n_lim,n_acc):
+    for i in range(1,n_acc):
+        for j in range(1,n_lim):
+            freq_acceptability[i][j]=freq_acceptability[i][j]/float(iter_stochastic)
+            print (str("%.2f" %  round(freq_acceptability[i][j],2))+"\t")
+        print (" ")
+    print ("")
+
+def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_inv,iter_stochastic):
     w = get_weights()
-    p_dir, q_dir, p_inv, q_inv = get_umbrales()
+    #p_dir, q_dir, p_inv, q_inv = get_umbrales()
     n_acc = np.size(actions, 0)  # number of acciones
     n_cri = np.size(actions, 1)  # number if criteria
     n_lim = np.size(limites, 0)  # number of limits
+    freq_acceptability = np.zeros((n_acc, n_lim))
     # -------------------------------------------------------
     # Calcula concordancia global directa e inversa entre cada par de acciones
-    # cpda = conc_p_directa_actions(actions, p_dir, q_dir)
-    # cpia = conc_p_inversa_actions(actions, p_inv, q_inv)
+    # cpda = conc_p_directa_actions(actions, p_dir[iter_stochastic], q_dir[iter_stochastic])
+    # cpia = conc_p_inversa_actions(actions, p_inv[iter_stochastic], q_inv[iter_stochastic])
     # sigma_D_a = concordancia_D_actions(cpda, n_acc, n_cri, w)
     # sigma_I_a = concordancia_I_actions(cpia, n_acc, n_cri, w)
 
-    for k in range(0, iter):
-        # calcula concordancia parcial directa e inversa (formulas (1) y (2)
-        cpd = conc_p_directa(actions, limites, p_dir, q_dir)
-        cpi = conc_p_inversa(actions, limites, p_inv, q_inv)
+    for l in range (0,iter_stochastic):
+        print (l)
+        for k in range(0, iter):
+            # calcula concordancia parcial directa e inversa (formulas (1) y (2)
+            cpd = conc_p_directa(actions, limites, p_dir[l], q_dir[l])
+            cpi = conc_p_inversa(actions, limites, p_inv[l], q_inv[l])
 
-        # calcula concordancia global directa e inversa (formulas (3) y (4)
-        sigma_D = concordancia_D(cpd, n_acc, n_lim, n_cri, w)
-        sigma_I = concordancia_I(cpi, n_acc, n_lim, n_cri, w)
-
-
-        # determina categoria de cada accion, usando regla descendente
-        categoria = np.zeros((n_acc, n_lim), dtype=int)
-        belonging = np.zeros((n_acc), dtype=int)
-
-        categoria = regla_desc(categoria,belonging, n_acc, n_lim, sigma_I, sigma_D, lam)
-
-        # actualiza centroides por el metodo de los promedios
-        #limites = get_ordered_centroids(categoria, actions, limites, p_dir,p_inv,n_acc, n_lim, n_cri)
-
-        # actualiza centroides por el metodo de los promedios limitados a acciones dentro de trapezoides
-        #limites = get_ordered_centroids_2(categoria, actions, limites, p_dir,p_inv,n_acc, n_lim, n_cri)
-
-        #determina los nuevos centroides de categoria, usando técnica de Fernandez et al. (2010)
-        #limites=get_ordered_centroids_3(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,beta,n_cri,limites,actions)
-
-        #determina los nuevos centroides de categoria, usando técnica cuchufletina
-
-        #limitesold=limites
-        limites=get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir,p_inv,actions)
+            # calcula concordancia global directa e inversa (formulas (3) y (4)
+            sigma_D = concordancia_D(cpd, n_acc, n_lim, n_cri, w)
+            sigma_I = concordancia_I(cpi, n_acc, n_lim, n_cri, w)
 
 
-        print('--------------- ITERACION: {} -------------'.format(k+1))
-        print('<CATEGORIAS>')
-        #print(categoria)
-        # for j in range (1,n_lim-1):
-        #     for i in range (0,n_acc):
-        #         if categoria[i][j]==1:
-        #             print (j,"-", i,":",actions[i][0],actions[i][1],actions[i][2],actions[i][3],actions[i][4])
+            # determina categoria de cada accion, usando regla descendente
+            categoria = np.zeros((n_acc, n_lim), dtype=int)
+            belonging = np.zeros((n_acc), dtype=int)
 
-        # CALL PLOTTING HERE
-        print('<CENTROIDES>')
-        np.set_printoptions(precision=2)
-        print(limites[:])
-        for i in range(0,n_acc):
-            print (categoria[i][0],categoria[i][1],categoria[i][2],categoria[i][3],categoria[i][4],categoria[i][5])
+            categoria = regla_desc(categoria,belonging, n_acc, n_lim, sigma_I, sigma_D, lam)
+
+            # actualiza centroides por el metodo de los promedios
+            #limites = get_ordered_centroids(categoria, actions, limites, p_dir,p_inv,n_acc, n_lim, n_cri)
+
+            # actualiza centroides por el metodo de los promedios limitados a acciones dentro de trapezoides
+            #limites = get_ordered_centroids_2(categoria, actions, limites, p_dir,p_inv,n_acc, n_lim, n_cri)
+
+            #determina los nuevos centroides de categoria, usando técnica de Fernandez et al. (2010)
+            #limites=get_ordered_centroids_3(categoria,n_lim,n_acc,sigma_D_a,sigma_I_a,beta,n_cri,limites,actions)
+
+            #determina los nuevos centroides de categoria, usando técnica cuchufletina
+
+            #limitesold=limites
+            limites=get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir[l],p_inv[l],actions)
+
+        freq_acceptability=sumAscendente(freq_acceptability, categoria, n_lim, n_acc)
+
+        # print ("aqui")
+        # print (freq_acceptability)
+
+            # print('--------------- ITERACION: {} -------------'.format(k+1))
+            # print('<CATEGORIAS>')
+            #print(categoria)
+            # for j in range (1,n_lim-1):
+            #     for i in range (0,n_acc):
+            #         if categoria[i][j]==1:
+            #             print (j,"-", i,":",actions[i][0],actions[i][1],actions[i][2],actions[i][3],actions[i][4])
+
+            # CALL PLOTTING HERE
+            # print('<CENTROIDES>')
+            # np.set_printoptions(precision=2)
+            # print(limites[:])
+            # for i in range(0,n_acc):
+            #     print (categoria[i][0],categoria[i][1],categoria[i][2],categoria[i][3],categoria[i][4],categoria[i][5])
     #############################################
     # plot_centroids(actions, limites, k) # experiments with plotting centroids
     # print('<ACTION>')
     # print(actions[:,0])
     # print(limites[:,2:3])
+    aceptabilidadDescendente(iter_stochastic,freq_acceptability,n_lim,n_acc)
     return 0
 
 
 #########  MAIN ###############
 def main():
     actions, centroids, limites = init_data('HDI.xlsx')
+    p_dir, q_dir, p_inv, q_inv=random_thresholds('random_umbrales.xlsx')
     lam  = 0.8
     beta=0.4
-    iter_stochastic=1
+    iter_stochastic=1000
     iter = 30
 
-    perform_outranking(actions, limites,lam,beta, iter)
+    perform_outranking(actions, limites,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic)
 
 
 if __name__ == '__main__':
