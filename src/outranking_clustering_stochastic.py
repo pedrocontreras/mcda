@@ -27,9 +27,9 @@ def init_data(excel_file):
 
 def random_thresholds(excel_file):
     """
-     read random thresholds
+     read random thresholds (externally generated)
      :param excel_file:
-     :return: pdir,qdir,opinv,qinv
+     :return: p_dir,q_dir,p_inv,q_inv
      """
     work_book = px.load_workbook(excel_file)
     work_sheet_p_dir = work_book['p_dir']
@@ -41,7 +41,7 @@ def random_thresholds(excel_file):
     df_data_p_inv = pd.DataFrame(work_sheet_p_inv.values)
     df_data_q_inv = pd.DataFrame(work_sheet_q_inv.values)
 
-    # slice data to get data frames for actions, centroids, min and max
+    # slice data to get data frames for thresholds
     pdir = df.to_numpy(df_data_p_dir.iloc[0:1000])
     qdir = df.to_numpy(df_data_q_dir.iloc[0:1000])
     pinv = df.to_numpy(df_data_p_inv.iloc[0:1000])
@@ -395,6 +395,7 @@ def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_
     # print('<ACTION>')
     # print(actions[:,0])
     # print(limites[:,2:3])
+
     aceptabilidadDescendente(iter_stochastic,freq_acceptability,n_lim,n_acc)
     return 0
 
@@ -405,7 +406,7 @@ def main():
     p_dir, q_dir, p_inv, q_inv=random_thresholds('random_umbrales.xlsx')
     lam  = 0.8
     beta=0.4
-    iter_stochastic=1000
+    iter_stochastic=10
     iter = 30
 
     perform_outranking(actions, limites,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic)
