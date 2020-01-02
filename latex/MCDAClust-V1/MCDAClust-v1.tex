@@ -52,7 +52,7 @@
 \hyphenpenalty=10000
 \hbadness=10000
 
-\newtheorem{prop}{Proposition}
+\newtheorem{prop}{Theorem}
 
 
 \newcolumntype{d}[1]{D{.}{.}{#1}}
@@ -97,18 +97,18 @@
 \cortext[cor1]{Corresponding author at: xjavierpereira7@gmail.com (J.Pereira)}
 
 \address[utc]{Universidad Tecnol\'ogica de Chile Inacap, Santiago, Chile (xjavierpereira7@gmail.com); \\}
-\address[ap]{WMC, The University of Warwick (pedro.contreras@acm.org);}
+\address[ap]{Berlin, Germany (pedro.contreras@gmail.com);}
 \address[ufpe]{Universidade Federal de Pernambuco, CDSID (dcmorais@cdsid.org.br);}
 \address[itesm]{Tecnologico de Monterrey, Campus Toluca, M\'exico (pilar.arroyo@itesm.mx);}
 
 
 
 \begin{abstract}
-The human development index (HDI) has been proposed as a mean to foster nations to put focus on people capabilities to develop a country.  HDI calculation bases on three criteria: the life expectancy, the years of education and the gross national income. Several studies criticize the highly compensatory nature and apparently precision of the computation method. Thus, clustering approaches that consider imprecise information  have been proposed as an alternative to the ranking process underlying the HDI computation. However, most of these methods are based on some kind of compensatory global aggregation process, and the assumption that precise information regarding the evaluation criteria is available.    In this paper, a non-compensatory ordered clustering process integrating  the $K$-means algorithm is presented. Differently from other approaches, parameters that help to model imprecision are considered un certain and robustness analysis is performed.  An indifference preference relation is used to group projects and to build a set of $K$ ordered clusters, satisfying a separability condition between pairs of centroids. Results are compared with outcomes obtained with PROMETHEE-based and other outranking-based approaches.
+The human development index (HDI) has been proposed as a mean to foster nations to put focus on people capabilities to develop a country.  HDI calculation bases on three criteria: the life expectancy, the years of education and the Gross National Income. Several studies criticize the highly compensatory nature and apparently precision of the computation method. Last past decade, non-compensatory clustering approaches that consider imprecise information and integrate the $K$-means algorithm  have been proposed as an alternative to the ranking process underlying the HDI computation. However, in these methods two main drawbacks can be mentioned. Firstly, uncertainty regarding parameters used to model imprecision is not considered. Secondly, separability of cluster centers is not guaranteed and complementary procedures are needed to find an ordered clustering. In this paper, a process integrating  the $K$-means algorithm is presented in which uncertain parameters are considered, also satisfying a separability condition between pairs of centroids. Thus,  a robust ordered clustering  is obtained.   Results are compared with outcomes obtained with PROMETHEE-based and other outranking-based approaches.
 \end{abstract}
 
 \begin{keyword}
-HDI index \sep clustering \sep outranking relation \sep $K$-means
+HDI index \sep clustering \sep $K$-means \sep robustness \sep outranking relation 
 \end{keyword}
 
 \end{frontmatter}
@@ -118,34 +118,32 @@ HDI index \sep clustering \sep outranking relation \sep $K$-means
 
 The human development index (HDI) was created by the United Nations Development Programme (UNDP) to emphasize that people and their capabilities should be the ultimate criteria for assessing the development of a country, not only economic growth. The United Nations Development Program (UNDP) has proposed the HDI ranking which is used to evaluate  179 United Nations countries on the basis of three criteria: the life expectancy, the years of education and the Gross National Income (GNI). For each country, a ranking can be obtained by aggregating these three criteria.  HDI is computed as the geometric mean of normalized indices for each one of these criteria.  In 2018, the Human Development Report Office, responsible for the HDI, identified four ordered groups of countries, based on quartiles: very high human development, high human development, medium human development, and low human development.   
 
-HDI has been object of criticism because of the highly compensatory computation model and the lack of consideration in which regards the precision of information available to evaluate the countries and the information available to model preferences \citep{Noorbakhsh1998, Berenger2007, Klugman2011, Martinez2013}.  Thus, several scholars have proposed  ordered clustering strategies to find a partition of countries, based on non-compensatory multi-criteria approaches \citep{DeSmet2014,Boujelben2016}.  A method is compensatory whether bad performance on some criteria can be offset by good performance on others.  Instead, non-compensatory methods use parameters and implement aggregation rules that allow to eliminate alternatives that perform very bad in one or several criteria \citep{figueira2010}.  
+HDI has been object of criticism because of the highly compensatory computation model and the lack of consideration in which regards the precision of information available to evaluate the countries and the information available to model preferences \citep{Noorbakhsh1998, Berenger2007, Klugman2011, Martinez2013}.  Thus, several scholars have proposed  ordered clustering strategies to find a partition of countries, which we call the \emph{HDI problem}, based on non-compensatory multi-criteria approaches \citep{DeSmet2014,Boujelben2016}.  Most of non-compensatory approaches for computing the HDI clustering use the global outranking relation to model imprecise information regarding the evaluation of alternatives. Outranking was early proposed in Elimination Et Choix Traidusant la Realite (ELECTRE) methods \citep{figueira2010} and further became an essential feature in  Preference Ranking Organization METHod for Enrichment of Evaluations (PROMETHEE) methods \cite{brans85}. The outranking relation helps to model global  assertions from kind ``the alternative $b$ is at least as good as the alternative $a$'', based on information collected at the level of each criteria. 
 
-Most of non-compensatory approaches for analyzing HDI countries use the global outranking relation to model imprecise information regarding the evaluation of alternatives. Outranking was early proposed in Elimination Et Choix Traidusant la Realite (ELECTRE) methods \citep{figueira2010} and further became an essential feature in  Preference Ranking Organization METHod for Enrichment of Evaluations (PROMETHEE) methods \cite{brans85}. The outranking relation helps to model global  assertions from kind ``the alternative $b$ is at least as good as the alternative $a$'', based on information collected at the level of each criteria. 
+Some of the new MCDA clustering approaches to HDI integrate the $K$-means rationale \citep{DeSmet2009,Lolli2014,Panapakidis2018, Chen2018}, a popular greedy algorithm for partitioning a set of elements into a pre-defined number of clusters so as to minimize the distances to the cluster centroids (the cluster centers). Essentially, these clustering processes lie in two features of $K$-means. First, the definition of  an indifference-based metric measures how indifferent is an alternative to a centroid. Thus, an alternative is assigned to the cluster where the most indifferent centroid is found. Second, once all the alternatives have been assigned, the centroids are updated, using the information regarding the alternatives in their respective groups.  The process continues until a stop condition is satisfied. 
 
-HDI analysis has been proposed by integrating clustering techniques with PROMETHEE \citep{Chen2018} and classification with ELECTRE \citep{doCarvalhalMonteiro2018} approaches. Some of the new clustering approaches in MCDA integrate the $K$-means rationale \citep{DeSmet2009,Lolli2014,Panapakidis2018}, a popular greedy algorithm for partitioning a set of elements into a pre-defined number of clusters so as to minimize the distances to the cluster centroids (the cluster centers). Essentially, these clustering processes lie in two features of $K$-means. First, the definition of a distance metric to evaluate how similar are an alternative and a centroid.  In MCDA approaches,  instead, an indifference-based metric measures how indifferent is an alternative to a centroid. Thus, an alternative is assigned to the cluster where the most indifferent centroid is found. Second, once all the alternatives have been assigned, the centroids are updated, using the information regarding the alternatives in their respective groups.  The process continues until a stop condition is satisfied. 
+Although the the $K$-means and outranking-based methods can be used to find the same number of country clusters proposed by the ranking-based HDI methodology, these use compensatory net flow aggregation processes to obtain global preference relations. Thus, the methods do not necessarily guarantee the separability between any pair of central actions representing two different categories, a desired property of preference-based classification processes \citep{roy2012}. This means that a strict preference relation between any pair of centroids at each criterion level is not necessarily satisfied. As a consequence, supplementary procedures must be defined to order the clusters.  In these methods,  an alternative must be compared to each other, at least once. This information is stored in the form of a $n \times n$ matrix which must be traversed through on each iteration of the clustering algorithm. These are $O(IKn^2) \sim O(n^2)$ processes, where $I, K$ are the number of iterations of the algorithm (before finding a solution) and the number of clusters, respectively. We argue that a $O(Kn)$ method may be implemented for the assignment process by simply comparing each country at most to the $K$ centroids in the model.  
 
-Although the the $K$-means and outranking-based methods can be used to found the same number of country clusters proposed by the HDI methodology, these use compensatory net flow aggregation processes to obtain global preference relations. Thus, the methods do not necessarily guarantee the separability between any pair of central actions representing two different categories, a desired property of preference-based classification processes \citep{roy2012}. This means that a strict preference relation between any pair of centroids at each criterion level is not necessarily satisfied. As a consequence, supplementary procedures must be defined to order the clusters.  Another characteristic of these methods is that an alternative must be compared to each other, at least once. This information is stored in the form of a $n \times n$ matrix which must be traversed through on each iteration of the clustering algorithm. These are $O(IKn^2) \sim O(n^2)$ processes, where $I, K$ are the number of iterations of the algorithm (before finding a solution) and the number of clusters, respectively. We argue that a $O(Kn)$ method may be implemented for the assignment process by simply comparing each country at most to the $K$ centroids in the model.  
+Methods based in the outranking relation need to model imprecise information by using two kind of parameters, defined for each criterion \citep{figueira2010}: the indifference and the preference thresholds. Most of time, these parameters are defined  with the decision-maker (DM) or expert judgement assistance. However, in the case of information regarding the HDI analysis, there is not an identified DM or even expert judgement can be variable because sources of information to evaluate countries in the three criteria is uncertain.  Thus, in this problem, considering single values does not seem appropriate.   
 
-In this article, we take into account these two difficulties and propose a new approach for ordered clustering of HDI countries which integrates an outranking-based classification process with $K$-means, that does not use any net flow aggregation process, and such that:  (1) building ordered clusters is an integral part of the procedure without need for supplementary processes; (2)  an assignment rule proposed in the ELECTRE TRI-C sorting method \citep{almeida2008,Almeida2012} is used in the process, extending rules proposed in sorting methods to clustering; (3) the centroids are updated by a subset of the elements in the respective cluster, such that the new centroids preserve the separability condition.  
-
-Although the method is sensitive to the initial number of clusters, the analysis of the HDI set of countries, by using the Nearest Neighbors algorithm, reveals that three or four categories is adequate, which has been already found in recent studies \citep{doCarvalhalMonteiro2018}.  Running the classical $K$-means algorithm, the four initial centroids are defined.  This information and parameter values needed by the outranking relation are used as input to our algorithm.  Results show that for some of the elements proposed in a group by the HDI segmentation, our algorithm suggests these need to be placed in other categories.  Robustness analysis regarding the parameter values is performed to confirm that outcome and to draw up a conclusion.  We compare results with those obtained by other proposals in the literature.
+In this article, we take into account these two difficulties and propose a new approach for ordered clustering in the HDI problem which integrates an outranking-based classification process with $K$-means such that:  (1) building ordered clusters is an integral part of the procedure without need for supplementary processes; an assignment rule proposed in the ELECTRE TRI-C sorting method \citep{almeida2008,Almeida2012} is used in the process, extending rules proposed in sorting methods to clustering; (2) uncertain thresholds are considered such that robustness analysis is performed. To the best of our knowledge, this is the first approach that deals with these two problems.  The main contribution of this paper consists of an stochastic approach to HDI ordered clustering.
 
 The article is organized as follows......
 
-\section{Clustering in MCDA}
-
-Most problems in data analysis regard the partition of a set of elements, often described by multiple dimensions, into a set of homogeneous groups. There are two elementary ways to group elements: supervised and unsupervised methods.  The first concerns methods in which the elements are assigned into pre-defined categories. In such cases, the problem consists of identifying the ``right'' category for each element. The unsupervised methods are used in cases in which  a best partitioning of the set of elements must be discovered, such that the some distance metric is minimized between a pair of elements in a group and maximized between a pair of elements in different groups.  Clustering has become an important issue in Multi-Criteria Decision Analysis (MCDA).  Most decision-making problems require the assignment of alternatives into groups such that differentiated treatments and strategies can be defined, which implementation depends on the characteristics exhibited by alternatives belonging to each group. 
-
-Last past decades,  several authors have proposed new MCDA methods that  integrate  $K$-means. However, two main issues must be considered. First, in data analysis,  a distance metric is defined to compare any pair of elements. In MCDA, instead, preference relations must be used to compare pairs of alternatives, which is often modeled by using value functions or outranking relations \citep{roy96, figueira2010}. Thus, the main difference between the classification strategies in data analysis  and the MCDA classification processes lies in the way that dimensions used to represent the elements are conceived.  In data analysis,  dimensions are conceptualized as attributes that help to characterize the elements in order to explore or recognize data patterns. Thus, two elements belonging to the same group are said \emph{mutually similar}.  In MCDA,  dimensions are used to evaluate elements and any pair of elements can be compared in terms of preference relations by using these evaluations. Although some authors have proposed similarity measures to determine whether an alternative belong to a group or not, it has been proposed that is better to use indifference measures  \citep{Olteanu2013}. Thus, two elements belonging to the same group are said \emph{mutually indifferent}. Nevertheless, below we propose that reviewing the indifference relation between the alternatives and the centroids also allows to discover ordered groups.
-
-Secondly, in MCDA two unsupervised strategies are recognized, the first one called the \emph{ordered clustering}, in which clusters are completely ordered, and  \emph{relational clustering} which purpose is finding more complex order relations between clusters \citep{zopounidis2002, DeSmet2009}. $K$-means implements an unsupervised strategy to discover un-ordered clusters. Thus, integrating this algorithm into an MCDA method supposes the definition of a strategy to order the clusters built by the algorithm process.  Compensatory methods have incorporated these conditions.  \cite{Lolli2014} integrate $K$-means with the AHP method and apply it to a multi-criteria inventory classification problem. \cite{Panapakidis2018} integrate TOPSIS and $K$-means to cluster user load profiles based on consumption data (for instance, in energy related fields), weather data, consumer preferences, occupancy behavior and others. This is also a compensatory strategy.
-
-For which concerns non-compensatory approaches, \cite{Chen2018} propose a PROMETHEE II and $K$-means algorithm which considers the preference degree between any two alternatives. A relative net flow metric, based on the outranking relation of PROMETHEE, is proposed to measure the closeness of alternatives and centroids. An ordered clustering is found by defining a \emph{preference distance} metric based on the global net flow of any alternative in a cluster.  \cite{Fernandez2010} also propose a model based on the outranking relation to cluster alternatives, using a $K$-means strategy. They define an indifference outranking relation to evaluate closeness of alternatives and centroids. Given that this clustering process does not necessarily produces an ordered set of clusters, the authors propose a specific method to build that clustering structure.  \cite{DeSmet2012} address the problem of regrouping alternatives into completely ordered categories based on valued preference degrees. An exact algorithm is proposed to find the ordered partition. They propose a model that takes as input both the number of clusters, fixed \emph{a priori}, and a valued preference matrix which stores the global strict preference value between any pair of alternatives. To compute the strict preference value, an outranking-based function is formulated. The purpose in that article is to find an ordered partition so as to minimize the inconsistencies with the information contained in this matrix. The inconsistencies regard the wrong assignment of pairs of alternatives into clusters  such that this does not satisfy the alternatives preference structure stored in the matrix. 
-
-
-First, it can be verified that, given two centroids from successive ordered clusters, these methods do not necessarily satisfy  a consistency property which requires a strict preference relation be satisfied between any pair of centroids at each criterion level.  This is a structural feature in the ELECTRE TRI sorting methods \citep{roy2012}, which guarantees the separability between any pair of central actions representing two different categories. We argue that paying attention to this property, a clustering process can be defined, by integrating a $K$-means-like mechanism to update the CRA as if these were centroids, but in a way that the clusters order is preserved through the clustering process. 
-
-Second, the assignment based in the indifference relation considers that any  alternative in a cluster should not be preferable to another inside the same group.   However, by construction, the alternatives in the cluster should be indifferent to the current centroid and not necessarily indifferent each other.  In which follows, we propose an algorithm based on this idea.  We show that this is an efficient way to obtain ordered clusters.
+%\section{Clustering in MCDA}
+%
+%Most problems in data analysis regard the partition of a set of elements, often described by multiple dimensions, into a set of homogeneous groups. There are two elementary ways to group elements: supervised and unsupervised methods.  The first concerns methods in which the elements are assigned into pre-defined categories. In such cases, the problem consists of identifying the ``right'' category for each element. The unsupervised methods are used in cases in which  a best partitioning of the set of elements must be discovered, such that the some distance metric is minimized between a pair of elements in a group and maximized between a pair of elements in different groups.  Clustering has become an important issue in Multi-Criteria Decision Analysis (MCDA).  Most decision-making problems require the assignment of alternatives into groups such that differentiated treatments and strategies can be defined, which implementation depends on the characteristics exhibited by alternatives belonging to each group. 
+%
+%Last past decades,  several authors have proposed new MCDA methods that  integrate  $K$-means. However, two main issues must be considered. First, in data analysis,  a distance metric is defined to compare any pair of elements. In MCDA, instead, preference relations must be used to compare pairs of alternatives, which is often modeled by using value functions or outranking relations \citep{roy96, figueira2010}. Thus, the main difference between the classification strategies in data analysis  and the MCDA classification processes lies in the way that dimensions used to represent the elements are conceived.  In data analysis,  dimensions are conceptualized as attributes that help to characterize the elements in order to explore or recognize data patterns. Thus, two elements belonging to the same group are said \emph{mutually similar}.  In MCDA,  dimensions are used to evaluate elements and any pair of elements can be compared in terms of preference relations by using these evaluations. Although some authors have proposed similarity measures to determine whether an alternative belong to a group or not, it has been proposed that is better to use indifference measures  \citep{Olteanu2013}. Thus, two elements belonging to the same group are said \emph{mutually indifferent}. Nevertheless, below we propose that reviewing the indifference relation between the alternatives and the centroids also allows to discover ordered groups.
+%
+%Secondly, in MCDA two unsupervised strategies are recognized, the first one called the \emph{ordered clustering}, in which clusters are completely ordered, and  \emph{relational clustering} which purpose is finding more complex order relations between clusters \citep{zopounidis2002, DeSmet2009}. $K$-means implements an unsupervised strategy to discover un-ordered clusters. Thus, integrating this algorithm into an MCDA method supposes the definition of a strategy to order the clusters built by the algorithm process.  Compensatory methods have incorporated these conditions.  A method is compensatory whether bad performance on some criteria can be offset by good performance on others.  Instead, non-compensatory methods use parameters and implement aggregation rules that allow to eliminate alternatives that perform very bad in one or several criteria \citep{figueira2010}.   \cite{Lolli2014} integrate $K$-means with the AHP method and apply it to a multi-criteria inventory classification problem. \cite{Panapakidis2018} integrate TOPSIS and $K$-means to cluster user load profiles based on consumption data (for instance, in energy related fields), weather data, consumer preferences, occupancy behavior and others. This is also a compensatory strategy.
+%
+%For which concerns non-compensatory approaches, \cite{Chen2018} propose a PROMETHEE II and $K$-means algorithm which considers the preference degree between any two alternatives. A relative net flow metric, based on the outranking relation of PROMETHEE, is proposed to measure the closeness of alternatives and centroids. An ordered clustering is found by defining a \emph{preference distance} metric based on the global net flow of any alternative in a cluster.  \cite{Fernandez2010} also propose a model based on the outranking relation to cluster alternatives, using a $K$-means strategy. They define an indifference outranking relation to evaluate closeness of alternatives and centroids. Given that this clustering process does not necessarily produces an ordered set of clusters, the authors propose a specific method to build that clustering structure.  \cite{DeSmet2012} address the problem of regrouping alternatives into completely ordered categories based on valued preference degrees. An exact algorithm is proposed to find the ordered partition. They propose a model that takes as input both the number of clusters, fixed \emph{a priori}, and a valued preference matrix which stores the global strict preference value between any pair of alternatives. To compute the strict preference value, an outranking-based function is formulated. The purpose in that article is to find an ordered partition so as to minimize the inconsistencies with the information contained in this matrix. The inconsistencies regard the wrong assignment of pairs of alternatives into clusters  such that this does not satisfy the alternatives preference structure stored in the matrix. 
+%
+%
+%First, it can be verified that, given two centroids from successive ordered clusters, these methods do not necessarily satisfy  a consistency property which requires a strict preference relation be satisfied between any pair of centroids at each criterion level.  This is a structural feature in the ELECTRE TRI sorting methods \citep{roy2012}, which guarantees the separability between any pair of central actions representing two different categories. We argue that paying attention to this property, a clustering process can be defined, by integrating a $K$-means-like mechanism to update the CRA as if these were centroids, but in a way that the clusters order is preserved through the clustering process. 
+%
+%Second, the assignment based in the indifference relation considers that any  alternative in a cluster should not be preferable to another inside the same group.   However, by construction, the alternatives in the cluster should be indifferent to the current centroid and not necessarily indifferent each other.  In which follows, we propose an algorithm based on this idea.  We show that this is an efficient way to obtain ordered clusters.
 
 
 \section{Notation}\label{notation}
@@ -304,20 +302,60 @@ Essentially, the descending and the ascending rules evaluate how indifferent an 
 
 \subsection{$K$-means algorithm}
 
-Here a brief description of $K$-means.
+$K$-means is a classical unsupervised method to partitioning a set of elements into a set of disjoint homogeneous groups, by minimizing the following objective function 
+
+\begin{equation}
+\min \sum_{h=1}^{K} \sum_{i=1}^{n} I_{ih} \left\| a_i-b_h \right\|,
+\end{equation}
+
+
+\noindent
+where  $I_{ih}=1$ if $a_i \in C_h$, $0$ otherwise; and $ \left\| a_i-b_h \right\|$ is the Euclidean distance between $a_i$ and $b_h$.  Classical $K$-means algorithm consists of three steps: (1) define $A, K, b_h$ as inputs; (2) assign elements of $A$ into clusters; (3) update the cluster centers and return to step (2), until a stop condition is satisfied.   
+
+Step (2) assigns an element $a_i$ to the group where the Euclidean distance between the element and the respective cluster center is minimized.  Step (3) updates the cluster centroids as follows
+
+
+\begin{equation}
+g_j(b_h) = \frac{1}{\mid C_h \mid} \sum_{a_i \in C_h} g_j(a_i) \quad j=1,\ldots,m. \label{newcentroid}
+\end{equation}
+
+\noindent
+Thus, the algorithm is iterated a number of times, or until the  change of centroids is less or equal than a given tolerance.
 
 
 \section{Clustering approach}\label{methodology}
 
-The approach proposed here assumes that $K\geq 2$ ordered clusters must be found: $C_K \succ \ldots \succ C_1$. Similarly to the original $K$-means algorithm, iterations are performed until a stop condition is satisfied, as described  in Figure \ref{clustering}.  Initially, the set of alternatives and the family of criteria are identified.  Next, the preference and imprecision parameters are elicited.  The clustering algorithm is initialized in step 3, defining the number of clusters and  the initial centroids. Step 4 consists of computing the credibility indices, using the expressions \eqref{generalsigmaDG} and  \eqref{generalsigmaIG}. In step 5, the alternatives are assigned to the classes, using the descending (or the ascending) rule proposed in Section \ref{outrankingclass}.
+The approach proposed here assumes that $K\geq 2$ ordered clusters must be found: $C_K \succ \ldots \succ C_1$. Similarly to the original $K$-means algorithm, iterations are performed until a stop condition is satisfied, as described  in Figure \ref{clustering}.  
 
-{\bf In Step 6, the new centroids are computed}.   In this step, the evaluation profile of each new centroid in class $C_h$ is computed as follows:
+Initially, the set of alternatives, the family of criteria, the criteria weights, and the number of clusters are identified.  Next, the imprecision parameters are set. In this step, stochastic parameter values are generated.  The clustering algorithm is initialized in step 3, defining the initial centroids which must satisfy the strict separability condition \citep{roy2012}:  for any pair $b_h^{(0)}, b_k^{(0)}$ such that $h>k$, it follows 
 
 \begin{equation}
-g_j(b_h^{(t)}) = \frac{1}{\mid C_h \mid} \sum_{a_i \in C_h} g_j(a_i) \quad j=1,\ldots,m \label{newcentroid}
+b_h^{(0)} \,P\, b_k^{(0)} \Leftrightarrow g_j(b_h^{(0)})-p'_j \geq g_j(b_k^{(0)})+p_j, \forall j.
 \end{equation}
 
-One of two possible stop conditions must be selected: 1) the change of evaluation profiles is  lower than a pre-defined $\epsilon$ value, or 2) $n$ iterations have been performed.  In step 7, a final recommendation is drawn up, proposing the $K$ ordered clusters.
+\noindent
+where $P$ is a binary relation representing a strong preference.  This condition makes that fuzzy sets representing the membership functions of every category do not overlap. 
+
+
+Step 4 consists of computing the credibility indices, using the expressions \eqref{generalsigmaDG} and  \eqref{generalsigmaIG}. In step 5, the alternatives are assigned into the classes, using the descending (or the ascending) rule proposed in Section \ref{outrankingclass}.
+
+In Step 6, the evaluation profile of each new centroid in the iteration $t$ and class $C_h$ is computed as follows:
+
+\begin{equation}
+g_j(b_h^{(t)}) = \frac{1}{\mid C_h^{int,j} \mid} \sum_{a_i \in C_h^{int,j}} g_j(a_i) \quad j=1,\ldots,m,\label{newcentroid}
+\end{equation}
+
+\noindent
+where $C_h^{int,j}=\{a_i \in C_h \mid g_j(b_h^{(t)})-p'_j\leq g_j(a_i) \leq g_j(b_h^{(t)})+p_j\}$.  Whenever $C_h^{int,j}=\emptyset$, then $g_j(b_h^{(t)})=g_j(b_h^{(t-1)})$.   This condition holds the separability condition, as shown in the following theorem.
+
+\begin{prop}
+If  $g_j(b_h^{(t)})$ is defined by using \eqref{newcentroid}, then $b_h^{(t)} \,P\, b_k^{(t)}, h>k$.
+\end{prop}
+
+\noindent
+The proof of this theorem is provided in the \ref{sepcondition}.
+
+The algorithm iterates up to one out of two stop conditions applies: 1) the change of evaluation profiles is  lower than a pre-defined $\epsilon$ value, or 2) the maximum number of iterations, $Maxit$,  is reached.  The algorithm is repeated $Maxst$ times, once for each set of stochastic parameter values. In step 7, the final frequency indices are computed, proposing the $K$ ordered clusters.
 
 
 
@@ -334,17 +372,17 @@ One of two possible stop conditions must be selected: 1) the change of evaluatio
   		text width=2cm,
   		font={\sffamily\color{black}}}
 		]
-    \node (defaf)[bigbox]
+    \node (defafw)[bigbox]
         {
-            	1. Define $A, F$
+            	1. Define $A, F, W, K$
         };
-    \node (defparameters)[bigbox,below= of defaf]
+    \node (defpq)[bigbox,below= of defafw]
         {
-            	2. Elicit $W, p_j, q_j, p'_j, q'_j$
+            	2. Define $p_j,p'_j,q_j,q'_j$
         };
-    \node (initcentroids)[bigbox,below= of defparameters]
+    \node (initcentroids)[bigbox,below= of defpq]
         {
-            	3. Define $K$, $t=0$, $b_h^{(0)} (h=1,\ldots,K)$
+            	3. Define $t=0, b_h^{(0)}$
         };
     \node (indices) [bigbox,   below=  of initcentroids]
         {
@@ -356,33 +394,39 @@ One of two possible stop conditions must be selected: 1) the change of evaluatio
 	};
     \node (centroid) [bigbox,   below= of assign]
         {
-            	6. Calculate $t=t+1$ and \\
-	 centroids $b_h^{(t)}$
+            	6. Compute new \\
+	 centroids $b_h^{(t)}$ and $t=t+1$ 
 	};
-   \node (decision) [draw, diamond, align=center, minimum height=2.5cm, aspect=2, inner sep=-3pt, below=.4cm of centroid] 
+   \node (decision) [draw, diamond, align=center, minimum width=2.5cm, minimum height=2.5cm, aspect=2, inner sep=-3pt, below=.4cm of centroid] 
         {
         $\mid b_h^{(t)} -b_h^{(t-1)} \mid < \epsilon$,\\
         or\\
-	$it=n$
+	$t=Maxit$
         };
    
-    \node (final) [bigbox,   below=of decision]
+   \node (stochastic) [draw, diamond, align=center,  minimum width=3.0cm, minimum height=2.5cm, aspect=2, inner sep=-3pt, below=.4cm of decision] 
         {
-            	7. Elaborate final recommendation
+	$s=Maxst$
+        };
+
+    \node (final) [bigbox,   below=of stochastic]
+        {7. Compute frequency indices
 	};
        
-   \draw[myarrow] (defaf.south) -> (defparameters.north);
-   \draw[myarrow] (defparameters.south) -> (initcentroids.north);
+   \draw[myarrow] (defafw.south) -> (defpq.north);
+   \draw[myarrow] (defpq.south) -> (initcentroids.north);
    \draw[myarrow] (initcentroids.south) -> (indices.north);
    \draw[myarrow] (indices.south) -> (assign.north);
    \draw[myarrow] (assign.south) -> (centroid.north);
   \draw[myarrow] (centroid.south) -> (decision.north);
-  \draw[myarrow] (decision.south) node[left] {yes} -> (final.north);
+  \draw[myarrow] (decision.south) node[left] {yes} -> (stochastic.north);
   \draw[myarrow] (decision.west) |- node[above] {no} ++(-17mm,0) --  ($(indices.west) + (-15mm,0)$) -> (indices.west);
+  \draw[myarrow] (stochastic.south) node[left] {yes} -> (final.north);
+  \draw[myarrow] (stochastic.west) |- node[above] {no} ++(-30mm,0) --  ($(defpq.west) + (-27mm,0)$) -> (defpq.west);
 
 \end{tikzpicture}
 }
-\caption{A $K$-means and outranking-based approach to clustering}
+\caption{Outranking-based approach to ordered clustering}
 \label{clustering}   
 \end{center}
 \end{figure}
@@ -586,6 +630,11 @@ In the following section, this approach is applied to a real problem.
 %\end{tabular}
 %\end{table}
 %
+
+
+\appendix
+\section{Separability condition}\label{sepcondition}
+
 
 \end{document}
 
