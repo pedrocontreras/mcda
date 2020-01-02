@@ -329,7 +329,7 @@ def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_
     w = get_weights()
     #p_dir, q_dir, p_inv, q_inv = get_umbrales()
     n_acc = np.size(actions, 0)  # number of acciones
-    n_cri = np.size(actions, 1)  # number if criteria
+    n_cri = np.size(actions, 1)  # number of criteria
     n_lim = np.size(limites, 0)  # number of limits
     freq_acceptability = np.zeros((n_acc, n_lim))
     # -------------------------------------------------------
