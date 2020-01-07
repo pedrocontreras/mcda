@@ -66,7 +66,7 @@
 \begin{frontmatter}                           % The preamble begins here.
 
 
-\title{Clustering in the Human Development Index problem based on the outranking preference relation and $K$-means}
+\title{Stochastic clustering in the Human Development Index problem based on the outranking preference relation and $K$-means}
 
 %\runningtitle{Hesitant Fuzzy Sets and ELECTRE TRI-C}
 %\subtitle{Subtitle}
@@ -104,11 +104,11 @@
 
 
 \begin{abstract}
-The human development index (HDI) has been proposed as a mean to foster nations to put focus on people capabilities to develop a country.  HDI calculation bases on three criteria: the life expectancy, the years of education and the Gross National Income. Several studies criticize the highly compensatory nature and apparently precision of the computation method. Last past decade, non-compensatory clustering approaches that consider imprecise information and integrate the $K$-means algorithm  have been proposed as an alternative to the ranking process underlying the HDI computation. However, in these methods two main drawbacks can be mentioned. Firstly, uncertainty regarding parameters used to model imprecision is not considered. Secondly, separability of cluster centers is not guaranteed and complementary procedures are needed to find an ordered clustering. In this paper, a process integrating  the $K$-means algorithm is presented in which uncertain parameters are considered, also satisfying a separability condition between pairs of centroids. Thus,  a robust ordered clustering  is obtained.   Results are compared with outcomes obtained with PROMETHEE-based and other outranking-based approaches.
+The Human Development Index (HDI) has been proposed as a mean to encourage nations to focus on people capabilities to develop a country.  HDI calculation is based on three indices: the life expectancy, the years of education and the Gross National Income. Several studies criticize the highly compensatory nature of the computation method and seeming precision of the information sources. Last decade, non-compensatory clustering approaches that consider imprecise information, integrating the $K$-means algorithm,  have been proposed as an alternative to the ranking process underlying the HDI calculation. However, in these methods two main drawbacks can be highlighted. Firstly, uncertainty regarding parameters used to model imprecision is not considered. Secondly,  as a consequence, robust ordered clusters have not been considered yet. In this paper, a process integrating  the $K$-means algorithm is presented in which uncertain parameters are considered, also finding  a robust ordered clustering.  This approach is applied and results are discussed and compared with the 2018 HDI ranking.
 \end{abstract}
 
 \begin{keyword}
-HDI index \sep clustering \sep $K$-means \sep robustness \sep outranking relation 
+HDI \sep clustering \sep $K$-means \sep robustness \sep outranking relation 
 \end{keyword}
 
 \end{frontmatter}
@@ -116,39 +116,100 @@ HDI index \sep clustering \sep $K$-means \sep robustness \sep outranking relatio
 
 \section{Introduction}
 
-The human development index (HDI) was created by the United Nations Development Programme (UNDP) to emphasize that people and their capabilities should be the ultimate criteria for assessing the development of a country, not only economic growth. The United Nations Development Program (UNDP) has proposed the HDI ranking which is used to evaluate  179 United Nations countries on the basis of three criteria: the life expectancy, the years of education and the Gross National Income (GNI). For each country, a ranking can be obtained by aggregating these three criteria.  HDI is computed as the geometric mean of normalized indices for each one of these criteria.  In 2018, the Human Development Report Office, responsible for the HDI, identified four ordered groups of countries, based on quartiles: very high human development, high human development, medium human development, and low human development.   
+since 1990, the United Nations Development Programme (UNDP) releases the Human Development Index (HDI) to emphasize that people and their capabilities should be the ultimate criteria for assessing the development of a country, not only economic growth. The HDI ranking process evaluates  179 United Nations countries on the basis of three criteria: the life expectancy, the years of education and the Gross National Income (GNI). In addition, based on the HDI quartiles, four ordered groups of countries can be identified: very high human development, high human development, medium human development, and low human development.  
 
-HDI has been object of criticism because of the highly compensatory computation model and the lack of consideration in which regards the precision of information available to evaluate the countries and the information available to model preferences \citep{Noorbakhsh1998, Berenger2007, Klugman2011, Martinez2013}.  Thus, several scholars have proposed  ordered clustering strategies to find a partition of countries, which we call the \emph{HDI problem}, based on non-compensatory multi-criteria approaches \citep{DeSmet2014,Boujelben2016}.  Most of non-compensatory approaches for computing the HDI clustering use the global outranking relation to model imprecise information regarding the evaluation of alternatives. Outranking was early proposed in Elimination Et Choix Traidusant la Realite (ELECTRE) methods \citep{figueira2010} and further became an essential feature in  Preference Ranking Organization METHod for Enrichment of Evaluations (PROMETHEE) methods \cite{brans85}. The outranking relation helps to model global  assertions from kind ``the alternative $b$ is at least as good as the alternative $a$'', based on information collected at the level of each criteria. 
+Despite the broad use of HDI  in business, policy-making, research, development-political debates, allocation of development aid, international climate accord designs, and economics \citep{Wolff2011}, it has been object of three main criticisms \citep{Noorbakhsh1998, Berenger2007, Klugman2011, Martinez2013}: (1) the compensatory effect; (2) the underlying concepts to define the dimensions; (3) the categorization process that uses the COP quartiles.  Regarding the compensatory effect, it is easy to see that a country exhibiting a bad performance in one index, can compensate it with a good performance in another. However, this is not desirable since, for instance, bad health indices can be hidden by good GNI, which can exacerbes inequality in access to health systems.   
 
-Some of the new MCDA clustering approaches to HDI integrate the $K$-means rationale \citep{DeSmet2009,Lolli2014,Panapakidis2018, Chen2018}, a popular greedy algorithm for partitioning a set of elements into a pre-defined number of clusters so as to minimize the distances to the cluster centroids (the cluster centers). Essentially, these clustering processes lie in two features of $K$-means. First, the definition of  an indifference-based metric measures how indifferent is an alternative to a centroid. Thus, an alternative is assigned to the cluster where the most indifferent centroid is found. Second, once all the alternatives have been assigned, the centroids are updated, using the information regarding the alternatives in their respective groups.  The process continues until a stop condition is satisfied. 
+Non-compensatory  methods have been proposed as an alternative to the HDI calculation method. For instance, \cite{Natoli2011} analyze three aggregation techniques designed for benchmarking and ranking of countries according to aggregated dimensions: additive methods, geometric aggregations, and non-compensatory methods.  They focus on the Condorcet approach as a non-compensatory aggregation technique for progress measures.  \cite{Lozano2009} propose to use the minimum of the component indexes in HDI instead of the arithmetic average. \cite{Mazziotta2015} compare two non-compensatory composite indices for measuring multidimensional phenomena and monitoring their changes over time: a non-linear composite index and a two-parameter function, which is an intermediate case between a compensatory and a full non-compensatory index. The authors found that the non-linear composite seems to be less compensatory that the second one.
 
-Although the the $K$-means and outranking-based methods can be used to find the same number of country clusters proposed by the ranking-based HDI methodology, these use compensatory net flow aggregation processes to obtain global preference relations. Thus, the methods do not necessarily guarantee the separability between any pair of central actions representing two different categories, a desired property of preference-based classification processes \citep{roy2012}. This means that a strict preference relation between any pair of centroids at each criterion level is not necessarily satisfied. As a consequence, supplementary procedures must be defined to order the clusters.  In these methods,  an alternative must be compared to each other, at least once. This information is stored in the form of a $n \times n$ matrix which must be traversed through on each iteration of the clustering algorithm. These are $O(IKn^2) \sim O(n^2)$ processes, where $I, K$ are the number of iterations of the algorithm (before finding a solution) and the number of clusters, respectively. We argue that a $O(Kn)$ method may be implemented for the assignment process by simply comparing each country at most to the $K$ centroids in the model.  
+Several scholars have proposed  ordered clustering strategies to partition the set of countries included in the HDI ranking,  based on non-compensatory multi-criteria approaches \citep{DeSmet2014}.   \cite{Boujelben2016} propose an approach that integrates PROMETHEE and $K$-means, a popular greedy algorithm for partitioning a set of elements into a pre-defined number of clusters so as to minimize the distances to the cluster centroids (the cluster centers). The underlying idea of their approach is based on the notion of belief distance between the alternatives and the centroids. \cite{Chen2018} propose a PROMETHEE-based algorithm, which also integrates the $K$-means rationale, to cluster countries in the HDI Report. They found that the ordered clustering is highly consistent with the HDI ranks. \cite{DeSmet2012} propose an exact multi-criteria algorithm to find HDI ordered categories, based on valued preference degrees.  They show the consistency between the obtained ordered partition and the HDI ranking.  \cite{Monteiro2018} propose a supervised classification approach based on the ELECTRE TRI method in which the HDI categories are defined \emph{a priori} by using fixed category boundaries. Different from other proposals using the outranking-based models, these authors consider that there is no imprecise data in HDI information sources. 
 
-Methods based in the outranking relation need to model imprecise information by using two kind of parameters, defined for each criterion \citep{figueira2010}: the indifference and the preference thresholds. Most of time, these parameters are defined  with the decision-maker (DM) or expert judgement assistance. However, in the case of information regarding the HDI analysis, there is not an identified DM or even expert judgement can be variable because sources of information to evaluate countries in the three criteria is uncertain.  Thus, in this problem, considering single values does not seem appropriate.   
+However, two types of imprecision have been highlighted by authors analyzing the quality of information used in the HDI calculation.  Firstly, the weighting process assigning equal importance levels to dimensions in HDI has been criticized and methods to deal with have been proposed \citep{Zheng2015}. In this article, we are not considering this kind of imprecision.  Secondly, the importance of considering imprecise data in constructing composite indicators has been remarked \citep{Cherchye2011}.  There are multiple indicators used for different kind of indexes, for instance, the Environmental Performance Index, the Internal Market Index, the Human Development Index, or the Technology Achievement Index. However, for some indicators only interval information is available, within what a true value is believed to lie.   \cite{Wolff2011} analyzed three sources of data error in HDI calculation and classification: measurement error due to data revisions, data error due to formula updating and misclassification due to inconsistent categories cut-off values. Actually,  measurement error from data updating impacts the rough data, the indices normalization and the HDI calculation. They found that from 11\% up to 34\% of all countries could be interpreted as misclassified in the development categories. These authors also found that on average the expected absolute deviation is nine rank positions. These results mean that interpretation of HDI ranks must be very careful.  Moreover, methods applied to HDI, which are based on the outranking relation, as for instance those using the PROMETHEE or the ELECTRE TRI methods, consider stable parameters.  However, this choice seems to be inadequate since the imprecision introduced by data updating and   inconsistent categories cut-off values.  Thus, parameter values could be supposed to be uncertain, something that has not been yet considered in the HDI clustering literature.
 
-In this article, we take into account these two difficulties and propose a new approach for ordered clustering in the HDI problem which integrates an outranking-based classification process with $K$-means such that:  (1) building ordered clusters is an integral part of the procedure without need for supplementary processes; an assignment rule proposed in the ELECTRE TRI-C sorting method \citep{almeida2008,Almeida2012} is used in the process, extending rules proposed in sorting methods to clustering; (2) uncertain thresholds are considered such that robustness analysis is performed. To the best of our knowledge, this is the first approach that deals with these two problems.  The main contribution of this paper consists of an stochastic approach to HDI ordered clustering.
+Essentially, clustering processes integrating $K$-means lie in two features \citep{DeSmet2009,Lolli2014,Panapakidis2018, Chen2018}. First, the definition of  an indifference-based metric that measures how indifferent is an alternative to a central alternative, or centroid, representing a category. Thus, an alternative is assigned to the cluster where the most indifferent centroid is found. Second, once all the alternatives have been assigned, the centroids are updated, using the information regarding the alternatives in their respective groups.  The process continues until a stop condition is satisfied. 
+
+Although the $K$-means and the outranking-based methods can be used to find the same number of country clusters proposed by the ranking-based HDI methodology, these use compensatory net flow aggregation processes to obtain global preference relations. Thus, the methods do not necessarily guarantee the separability between any pair of central actions representing two different categories, a desired property of preference-based classification processes \citep{roy2012}. This means that a strict preference relation between any pair of centroids at each criterion level is not necessarily satisfied. As a consequence, supplementary procedures must be defined to order the clusters.  In these methods,  an alternative must be compared to each other, at least once. This information is stored in the form of a $n \times n$ matrix which must be traversed through on each iteration of the clustering algorithm. These are $O(IKn^2) \sim O(n^2)$ processes, where $I, K$ are the number of iterations of the algorithm (before finding a solution) and the number of clusters, respectively. We argue that a $O(Kn)$ method may be implemented for the assignment process by simply comparing each country at most to the $K$ centroids in the model.  Actually, we propose the usage of the ELECTRE TRI-C sorting method rationale to assign alternatives, in which central reference alternatives are used to define the categories, but updating these centroids by applying the $K$-means approach.
+
+In this article, a stochastic approach for ordered clustering in the HDI problem is proposed, which integrates an outranking-based classification process with $K$-means, such that:  (1) building ordered clusters is an integral part of the procedure, without need for supplementary processes; an assignment rule proposed in the ELECTRE TRI-C sorting method \citep{almeida2008,Almeida2012} is used in the process, extending rules proposed in sorting methods to clustering; (2) uncertain thresholds are considered such that robustness analysis is performed. Thus, the proposed approach is integrated  to a Monte Carlo Simulation process in which sets of  parameter values are passed as input to the ordered clustering algorithm. To the best of our knowledge, this is the first approach that deals with these two problems.
 
 The article is organized as follows......
 
-%\section{Clustering in MCDA}
+%\section{Human Development Index}
 %
-%Most problems in data analysis regard the partition of a set of elements, often described by multiple dimensions, into a set of homogeneous groups. There are two elementary ways to group elements: supervised and unsupervised methods.  The first concerns methods in which the elements are assigned into pre-defined categories. In such cases, the problem consists of identifying the ``right'' category for each element. The unsupervised methods are used in cases in which  a best partitioning of the set of elements must be discovered, such that the some distance metric is minimized between a pair of elements in a group and maximized between a pair of elements in different groups.  Clustering has become an important issue in Multi-Criteria Decision Analysis (MCDA).  Most decision-making problems require the assignment of alternatives into groups such that differentiated treatments and strategies can be defined, which implementation depends on the characteristics exhibited by alternatives belonging to each group. 
+%Since the first publication in 1990, the Human Development Index has been used as a benchmark to encourage development of nations and to foster policy makers to focus on three dimensions:  long and healthy life, access to knowledge and a decent standard of living.  The HDI is the geometric mean of normalized indices for each of the three dimensions, constructed from four indicators \citep{UNDP2019}: Life expectancy at birth (LE); Expected years of schooling (EYS); Mean years of schooling (MYS); and Gross National Income per capita (GNIpc) .  
 %
-%Last past decades,  several authors have proposed new MCDA methods that  integrate  $K$-means. However, two main issues must be considered. First, in data analysis,  a distance metric is defined to compare any pair of elements. In MCDA, instead, preference relations must be used to compare pairs of alternatives, which is often modeled by using value functions or outranking relations \citep{roy96, figueira2010}. Thus, the main difference between the classification strategies in data analysis  and the MCDA classification processes lies in the way that dimensions used to represent the elements are conceived.  In data analysis,  dimensions are conceptualized as attributes that help to characterize the elements in order to explore or recognize data patterns. Thus, two elements belonging to the same group are said \emph{mutually similar}.  In MCDA,  dimensions are used to evaluate elements and any pair of elements can be compared in terms of preference relations by using these evaluations. Although some authors have proposed similarity measures to determine whether an alternative belong to a group or not, it has been proposed that is better to use indifference measures  \citep{Olteanu2013}. Thus, two elements belonging to the same group are said \emph{mutually indifferent}. Nevertheless, below we propose that reviewing the indifference relation between the alternatives and the centroids also allows to discover ordered groups.
+%In order to calculate the HDI, two steps are applied: (1) Creating the dimension indices; (2) Aggregating the dimension indices into the HDI.  Step (1) consists of normalizing the four mentioned indicators according to the following formula:
 %
-%Secondly, in MCDA two unsupervised strategies are recognized, the first one called the \emph{ordered clustering}, in which clusters are completely ordered, and  \emph{relational clustering} which purpose is finding more complex order relations between clusters \citep{zopounidis2002, DeSmet2009}. $K$-means implements an unsupervised strategy to discover un-ordered clusters. Thus, integrating this algorithm into an MCDA method supposes the definition of a strategy to order the clusters built by the algorithm process.  Compensatory methods have incorporated these conditions.  A method is compensatory whether bad performance on some criteria can be offset by good performance on others.  Instead, non-compensatory methods use parameters and implement aggregation rules that allow to eliminate alternatives that perform very bad in one or several criteria \citep{figueira2010}.   \cite{Lolli2014} integrate $K$-means with the AHP method and apply it to a multi-criteria inventory classification problem. \cite{Panapakidis2018} integrate TOPSIS and $K$-means to cluster user load profiles based on consumption data (for instance, in energy related fields), weather data, consumer preferences, occupancy behavior and others. This is also a compensatory strategy.
+%\begin{equation}
+%\mbox{Dimension index}=\frac{\mbox{indicator value - minimum value}}{\mbox{maximum value - minimum value}}. \label{index}
+%\end{equation}
 %
-%For which concerns non-compensatory approaches, \cite{Chen2018} propose a PROMETHEE II and $K$-means algorithm which considers the preference degree between any two alternatives. A relative net flow metric, based on the outranking relation of PROMETHEE, is proposed to measure the closeness of alternatives and centroids. An ordered clustering is found by defining a \emph{preference distance} metric based on the global net flow of any alternative in a cluster.  \cite{Fernandez2010} also propose a model based on the outranking relation to cluster alternatives, using a $K$-means strategy. They define an indifference outranking relation to evaluate closeness of alternatives and centroids. Given that this clustering process does not necessarily produces an ordered set of clusters, the authors propose a specific method to build that clustering structure.  \cite{DeSmet2012} address the problem of regrouping alternatives into completely ordered categories based on valued preference degrees. An exact algorithm is proposed to find the ordered partition. They propose a model that takes as input both the number of clusters, fixed \emph{a priori}, and a valued preference matrix which stores the global strict preference value between any pair of alternatives. To compute the strict preference value, an outranking-based function is formulated. The purpose in that article is to find an ordered partition so as to minimize the inconsistencies with the information contained in this matrix. The inconsistencies regard the wrong assignment of pairs of alternatives into clusters  such that this does not satisfy the alternatives preference structure stored in the matrix. 
+%\noindent
+%In the case of the two normalized education indices, the arithmetic mean is taken.  For the GNI, the natural logarithm of the indicator, the minimum and the maximum values is taken. Next, in Step (2), the geometric mean of indices is taken, as follows:
+%
+%\begin{equation}
+%HDI= (I_{Health} \cdot I_{Education} \cdot I_{Income})^{1/3}. \label{HDI}
+%\end{equation}
+%
+%\noindent
+%It is worth to note that in this formula the same weights for all dimensions are given.   Based on the 2014 HDI, four categories of human development achievements are defined, using fixed cutoff points (COP) calculated using the quartiles ($q$) from the distributions of the component indicators averaged over 2004–2013:
+%
+%\begin{equation}
+%COP_q= HDI(LE_q,EYS_q,MYS_q,GNIpc_q), \, q=1,2,3. \label{COP}
+%\end{equation}
+%
+%\noindent
+%These quartiles are used in the 2019's Report, as follows:
 %
 %
-%First, it can be verified that, given two centroids from successive ordered clusters, these methods do not necessarily satisfy  a consistency property which requires a strict preference relation be satisfied between any pair of centroids at each criterion level.  This is a structural feature in the ELECTRE TRI sorting methods \citep{roy2012}, which guarantees the separability between any pair of central actions representing two different categories. We argue that paying attention to this property, a clustering process can be defined, by integrating a $K$-means-like mechanism to update the CRA as if these were centroids, but in a way that the clusters order is preserved through the clustering process. 
+%\begin{table}[hbtp]
+%\centering
+%\begin{tabular}{ll}
+%Category						&Limits \\
+%\hline
+%Very high human development 		& 0.800 and above \\
+%\hline
+%High human development			& 0.700-0.799		\\
+%\hline
+%Medium human development		& 0.550-0.699		\\
+%\hline
+%Low human development			& Below 0.550\\
+%\hline
+%\end{tabular}
+%\end{table}
 %
-%Second, the assignment based in the indifference relation considers that any  alternative in a cluster should not be preferable to another inside the same group.   However, by construction, the alternatives in the cluster should be indifferent to the current centroid and not necessarily indifferent each other.  In which follows, we propose an algorithm based on this idea.  We show that this is an efficient way to obtain ordered clusters.
+%
+%%\subsection{HDI clustering problem}
+%
+%Three main criticisms to HDI have been reported by different authors \citep{Noorbakhsh1998, Berenger2007, Klugman2011, Martinez2013}: (1) the compensatory effect; (2) the underlying concepts to define the dimensions; (3) the categorization process that uses the COP quartiles.  Regarding the compensatory effect, it is easy to see that a country exhibiting a bad performance in one index, can compensate it with a good performance in another. However, this is not desirable since, for instance, bad health indices can be hidden by good GNI, which can exacerbes inequality in access to health systems.   
+%
+%Non-compensatory  methods have been proposed as an alternative to the HDI calculation method. For instance, \cite{Natoli2011} analyze three aggregation techniques designed for benchmarking and ranking of countries according to aggregated dimensions: additive methods, geometric aggregations, and non-compensatory methods.  They focus on the Condorcet approach as a non-compensatory aggregation technique for progress measures.  \cite{Lozano2009} propose to use the minimum of the component indexes in HDI instead of the arithmetic average. \cite{Mazziotta2015} compare two non-compensatory composite indices for measuring multidimensional phenomena and monitoring their changes over time: a non-linear composite index and a two-parameter function, which is an intermediate case between a compensatory and a full non-compensatory index. The authors found that the non-linear composite seems to be less compensatory that the second one.
+%
+%
+%Non-compensatory  methods have been proposed to classify countries in the HDI Report.   \cite{Boujelben2016} propose an approach that integrates PROMETHEE and $K$-means. The underlying idea of their approach is based on the notion of belief distance between the alternatives and the centroids. \cite{Chen2018} propose a PROMETHEE-based algorithm, which integrates the $K$-means rationale, to cluster countries in the HDI Report. They found that the ordered clustering is highly consistent with the HDI ranks. \cite{DeSmet2012} propose an exact multi-criteria algorithm to find HDI ordered categories, based on valued preference degrees.  They show the consistency between the obtained ordered partition and the HDI ranking.  \cite{Monteiro2018} propose a supervised classification approach based on the ELECTRE TRI method in which the HDI categories are defined \emph{a priori} by using fixed category boundaries. Different from other proposals using the outranking-based models, these authors consider that $p=q=0$, that is, there is no imprecision. 
+%
+%Two types of imprecision have been highlighted by authors analyzing the quality of information used in the HDI calculation.  Firstly, the weighting process assigning equal importance levels to dimensions in HDI has been criticized and methods to deal with have been proposed \citep{Zheng2015}. In this article, we are not considering this kind of imprecision.  Secondly, the importance of considering imprecise data in constructing composite indicators has been remarked \citep{Cherchye2011}.  There are multiple indicators used for different kind of indexes, for instance, the Environmental Performance Index, the Internal Market Index, the Human Development Index, or the Technology Achievement Index. However, for some indicators only interval information is available, within what a true value is believed to lie.   \cite{Wolff2011} analyzed three sources of data error in HDI calculation and classification: measurement error due to data revisions, data error due to formula updating and misclassification due to inconsistent categories cut-off values. Actually,  measurement error from data updating impacts the rough data, the indices normalization and the HDI calculation. They found that from 11\% up to 34\% of all countries could be interpreted as misclassified in the development categories. These authors also found that on average the expected absolute deviation is nine rank positions. These results mean that interpretation of HDI ranks must be very careful.   
+%
+%
+%
+%Thus, several scholars have proposed  ordered clustering strategies to find a partition of countries, which we call the \emph{HDI problem}, based on non-compensatory multi-criteria approaches \citep{DeSmet2014,Boujelben2016}.  Most of non-compensatory approaches for computing the HDI clustering use the global outranking relation to model imprecise information regarding the evaluation of alternatives. Outranking was early proposed in Elimination Et Choix Traidusant la Realite (ELECTRE) methods \citep{figueira2010} and further became an essential feature in  Preference Ranking Organization METHod for Enrichment of Evaluations (PROMETHEE) methods \cite{brans85}. The outranking relation helps to model global  assertions from kind ``the alternative $b$ is at least as good as the alternative $a$'', based on information collected at the level of each criteria. 
+%
+%Some of the new MCDA clustering approaches to HDI integrate the $K$-means rationale \citep{DeSmet2009,Lolli2014,Panapakidis2018, Chen2018}, a popular greedy algorithm for partitioning a set of elements into a pre-defined number of clusters so as to minimize the distances to the cluster centroids (the cluster centers). Essentially, these clustering processes lie in two features of $K$-means. First, the definition of  an indifference-based metric measures how indifferent is an alternative to a centroid. Thus, an alternative is assigned to the cluster where the most indifferent centroid is found. Second, once all the alternatives have been assigned, the centroids are updated, using the information regarding the alternatives in their respective groups.  The process continues until a stop condition is satisfied. 
+%
+%Although the the $K$-means and outranking-based methods can be used to find the same number of country clusters proposed by the ranking-based HDI methodology, these use compensatory net flow aggregation processes to obtain global preference relations. Thus, the methods do not necessarily guarantee the separability between any pair of central actions representing two different categories, a desired property of preference-based classification processes \citep{roy2012}. This means that a strict preference relation between any pair of centroids at each criterion level is not necessarily satisfied. As a consequence, supplementary procedures must be defined to order the clusters.  In these methods,  an alternative must be compared to each other, at least once. This information is stored in the form of a $n \times n$ matrix which must be traversed through on each iteration of the clustering algorithm. These are $O(IKn^2) \sim O(n^2)$ processes, where $I, K$ are the number of iterations of the algorithm (before finding a solution) and the number of clusters, respectively. We argue that a $O(Kn)$ method may be implemented for the assignment process by simply comparing each country at most to the $K$ centroids in the model.  
+%
+%Methods based in the outranking relation need to model imprecise information by using two kind of parameters, defined for each criterion \citep{figueira2010}: the indifference and the preference thresholds. Most of time, these parameters are defined  with the decision-maker (DM) or expert judgement assistance. However, in the case of information regarding the HDI analysis, there is not an identified DM or even expert judgement can be variable because sources of information to evaluate countries in the three criteria is uncertain.  Thus, in this problem, considering single values does not seem appropriate.   
+%
+%
+%In this article, we are going to model imprecision by the indifference and preference thresholds. However, differently from other outranking-based approaches, the parameter values are supposed to be realizations of  stochastic variables. Thus, the proposed approach is integrated  to a Monte Carlo Simulation process in which sets of  parameter values are passed as input to the ordered clustering algorithm.  In which follows, this procedure is explained in detail.
+
 
 
 \section{Notation}\label{notation}
 
 \subsection{Outranking relation}\label{classification}
+
+Most of non-compensatory approaches for computing the HDI clustering use the global outranking relation to model imprecise information regarding the evaluation of alternatives. Outranking was early proposed in Elimination Et Choix Traidusant la Realite (ELECTRE) methods \citep{figueira2010} and further became an essential feature in  Preference Ranking Organization METHod for Enrichment of Evaluations (PROMETHEE) methods \cite{brans85}. The outranking relation helps to model global  assertions from kind ``the alternative $b$ is at least as good as the alternative $a$'', based on information collected at the level of each criteria. 
 
 Non-compensatory methods based on the outranking relation could lead to higher computational complexity. However, problems exist in which compensation among criteria is not allowable. We place the present article in that kind of situations and propose a clustering model based on the outranking relation, as defined in the ELECTRE family of methods \citep{figueira2010}.
 
@@ -325,9 +386,9 @@ Thus, the algorithm is iterated a number of times, or until the  change of centr
 
 \section{Clustering approach}\label{methodology}
 
-The approach proposed here assumes that $K\geq 2$ ordered clusters must be found: $C_K \succ \ldots \succ C_1$. Similarly to the original $K$-means algorithm, iterations are performed until a stop condition is satisfied, as described  in Figure \ref{clustering}.  
+The approach proposed here assumes that $K\geq 2$ ordered clusters must be found: $C_K \succ \ldots \succ C_1$. Similarly to the original $K$-means algorithm, an iterative constructive clustering process is performed until a stop condition is satisfied, as described  in Figure \ref{clustering}.  
 
-Initially, the set of alternatives, the family of criteria, the criteria weights, and the number of clusters are identified.  Next, the imprecision parameters are set. In this step, stochastic parameter values are generated.  The clustering algorithm is initialized in step 3, defining the initial centroids which must satisfy the strict separability condition \citep{roy2012}:  for any pair $b_h^{(0)}, b_k^{(0)}$ such that $h>k$, it follows 
+Initially, the set of alternatives, the family of criteria, the criteria weights, and the number of clusters are identified.  Next, the imprecision parameters are set. Stochastic preference and indifference thresholds are considered in this approach. Thus, each time that the Step 2 is performed, a new set of values for $p_j,q_j,p'_j,q'_j \,(j=1,\ldots,m)$ are generated and used as input to the Step 3, where the new initial centroids are defined. Centroids  must satisfy the strict separability condition \citep{roy2012}:  for any pair $b_h^{(0)}, b_k^{(0)}$ such that $h>k$, it follows 
 
 \begin{equation}
 b_h^{(0)} \,P\, b_k^{(0)} \Leftrightarrow g_j(b_h^{(0)})-p'_j \geq g_j(b_k^{(0)})+p_j, \forall j.
@@ -337,25 +398,25 @@ b_h^{(0)} \,P\, b_k^{(0)} \Leftrightarrow g_j(b_h^{(0)})-p'_j \geq g_j(b_k^{(0)}
 where $P$ is a binary relation representing a strong preference.  This condition makes that fuzzy sets representing the membership functions of every category do not overlap. 
 
 
-Step 4 consists of computing the credibility indices, using the expressions \eqref{generalsigmaDG} and  \eqref{generalsigmaIG}. In step 5, the alternatives are assigned into the classes, using the descending (or the ascending) rule proposed in Section \ref{outrankingclass}.
+Step 4 consists of computing the credibility indices, using the expressions \eqref{generalsigmaDG} and  \eqref{generalsigmaIG}. In Step 5, the alternatives are assigned into the classes, using the descending (or the ascending) rule proposed in Section \ref{outrankingclass}.
 
 In Step 6, the evaluation profile of each new centroid in the iteration $t$ and class $C_h$ is computed as follows:
 
 \begin{equation}
-g_j(b_h^{(t)}) = \frac{1}{\mid C_h^{int,j} \mid} \sum_{a_i \in C_h^{int,j}} g_j(a_i) \quad j=1,\ldots,m,\label{newcentroid}
+g_j(b_h^{(t)}) = \frac{1}{\mid C_h^{t,j} \mid} \sum_{a_i \in C_h^{t,j}} g_j(a_i) \quad j=1,\ldots,m,\label{newcentroid}
 \end{equation}
 
 \noindent
-where $C_h^{int,j}=\{a_i \in C_h \mid g_j(b_h^{(t)})-p'_j\leq g_j(a_i) \leq g_j(b_h^{(t)})+p_j\}$.  Whenever $C_h^{int,j}=\emptyset$, then $g_j(b_h^{(t)})=g_j(b_h^{(t-1)})$.   This condition holds the separability condition, as shown in the following theorem.
+where $C_h^{t,j}=\{a_i \in C_h \mid g_j(b_h^{(t)})-p'_j\leq g_j(a_i) \leq g_j(b_h^{(t)})+p_j\}$.  Whenever $C_h^{t,j}=\emptyset$, then $g_j(b_h^{(t)})=g_j(b_h^{(t-1)})$.   This condition holds the separability condition, as shown in the following theorem.
 
 \begin{prop}
 If  $g_j(b_h^{(t)})$ is defined by using \eqref{newcentroid}, then $b_h^{(t)} \,P\, b_k^{(t)}, h>k$.
 \end{prop}
 
 \noindent
+
 The proof of this theorem is provided in the \ref{sepcondition}.
 
-The algorithm iterates up to one out of two stop conditions applies: 1) the change of evaluation profiles is  lower than a pre-defined $\epsilon$ value, or 2) the maximum number of iterations, $Maxit$,  is reached.  The algorithm is repeated $Maxst$ times, once for each set of stochastic parameter values. In step 7, the final frequency indices are computed, proposing the $K$ ordered clusters.
 
 
 
@@ -374,11 +435,11 @@ The algorithm iterates up to one out of two stop conditions applies: 1) the chan
 		]
     \node (defafw)[bigbox]
         {
-            	1. Define $A, F, W, K$
+            	1. Define $A, F, W, K, s=0$
         };
     \node (defpq)[bigbox,below= of defafw]
         {
-            	2. Define $p_j,p'_j,q_j,q'_j$
+            	2. Define $p_j,p'_j,q_j,q'_j,s=s+1$
         };
     \node (initcentroids)[bigbox,below= of defpq]
         {
@@ -386,7 +447,7 @@ The algorithm iterates up to one out of two stop conditions applies: 1) the chan
         };
     \node (indices) [bigbox,   below=  of initcentroids]
         {
-            	4. Compute credibility indices $\sigma_D, \sigma_I$
+            	4. Compute $\sigma_D, \sigma_I$
 	};
     \node (assign) [bigbox,   below=  of indices]
         {
@@ -394,8 +455,7 @@ The algorithm iterates up to one out of two stop conditions applies: 1) the chan
 	};
     \node (centroid) [bigbox,   below= of assign]
         {
-            	6. Compute new \\
-	 centroids $b_h^{(t)}$ and $t=t+1$ 
+            	6. Compute $t=t+1$ and  $b_h^{(t)}$ 
 	};
    \node (decision) [draw, diamond, align=center, minimum width=2.5cm, minimum height=2.5cm, aspect=2, inner sep=-3pt, below=.4cm of centroid] 
         {
@@ -431,72 +491,12 @@ The algorithm iterates up to one out of two stop conditions applies: 1) the chan
 \end{center}
 \end{figure}
 
+Given a set of parameter values, the inner loop in Figure \ref{clustering} iterates up to one out of two stop conditions applies: 1) the change of evaluation profiles is  lower than a pre-defined $\epsilon$ value, or 2) the maximum number of iterations, $Maxit$,  is reached.  The whole process is repeated $Maxst$ times, once for each set of stochastic parameter values. In Step 7, the final frequency indices are computed, proposing the $K$ ordered clusters.
 
 
+  
 
-%For a set $D=\{DM_1,DM_2,\ldots,DM_k\}$ of DMs, let $b \in B$ and $a \in A$ such that, for each $DM_k$ and $g_j$, the following fuzzy number is defined: 
-%
-%\begin{equation}
-%\mu_j^k(a,b)=\min\{c_j^k(b,a), c^{inv}_j^k(a,b)\}.
-%\label{trfnmu}
-%\end{equation}
-%
-%\noindent
-%that can be interpreted as a fuzzy indifference  relation, constructed from two outranking relations \citep{perny1992}. Thus, each $DM_k$ must provide information to elicit her/his own criteria weights $w_j^k (j=1,\ldots,m)$ (Step 2) and the hesitant outranking functions $\mu_j^k(a,b)$ (Step3). Next,  define the following HFEs 
-%
-%
-%{\footnotesize
-%\begin{eqnarray}
-%hdir_j(b_h,a) 	&=&\{c_j^k(b_h,a) \mid k=1,\ldots,K\}, \label{hj}\\
-%hinv_j(a,b_h)	&=&\{c^{inv}_j^k(a,b_h) \mid k=1,\ldots,K\}. \label{hinvj}
-%\end{eqnarray}
-%}
-%
-%\noindent
-%Then, two levels of sorting are developed in this approach:
-%
-%\begin{enumerate}
-%\item
-%When the group level (all DMs) is considered, an HFS operator is proposed to  compute the credibility indices which are used in ELECTRE TRI-C to sort projects.  Thus, the HFS functions $sdir_j(b_h,a)$ and $sinv_j(a,b_h)$ are computed by aggregating  $hdir_j(b_h,a)$ and $hinv_j(a,b_h)$, respectively (Step 4.1). Next, for each $(a,b_h)$, the credibility that $b_h$ outranks $a$ and  the credibility that $a$ outranks $b_h$ are computed as follows (Step 4.2):
-%
-%\begin{eqnarray}
-%\sigma_D(b_h,a) 	&=& \sum_{j=1}^{m} w_j sdir_j(b_h,a),\label{sigmaDG}\\
-%\sigma_I(a,b_h) 	&=& \sum_{j=1}^{m} w_j sinv_j(a,b_h), \label{sigmaIG}
-%\end{eqnarray} 
-%
-%
-%\noindent
-%where $w_j\geq0, \sum_{j=1}^{n} w_j=1$ is a set of weights that the set of DMs accept to correctly represent the importance of the criteria. \cite{peng2015} propose that a weight $w_j^k$  can be considered an HFE. Thus, a score function may be used to compute a criteria weight vector in the set $W_j=\{w_j^k \mid k=1,\ldots, K\}$, using the average score function proposed in \ref{hfsdef}.  Finally, the group credibility indices are used to apply the ELECTRE TRI-C assignment rules (Step 4.3). 
-%
-%\item
-%When the individual level (each DM) is considered, the  respective elicited outranking functions  are used to sort projects. For each DM $k$ considered alone, her/his elicited criteria weights and outranking functions $\mu_j^k(a,b_h)$ are used to compute the individual credibility indices  as follows (Step 5.1),
-%
-%\begin{eqnarray}
-%\sigma_D^k(b_h,a) 	&=& \sum_{j=1}^{m} w_j^k c_j^k(b_h,a),\label{sigmaDG}\\
-%\sigma_I^k(a,b_h) 	&=& \sum_{j=1}^{m} w_j^k c^{inv}_j^k(a,b_h). \label{sigmaIG}
-%\end{eqnarray} 
-%
-%\noindent
-%Next, the ELECTRE TRI-C assignment rules are applied (Step 5.2). 
-%
-%\end{enumerate}
-
-
-%Other approaches aggregating  \eqref{hj} and \eqref{hinvj}  have been used  to extend ELECTRE methods with HFS \citep{Jin2015,chen2015}.  
-%In our case,  we consider two procedures  to aggregate HFEs (\cite{Farhadinia2014} provides other kinds of aggregation): an \emph{average} score function:
-%
-%\begin{equation}
-%sdir_j(b_h,a) 	=\frac{1}{K}\sum_{k=1}^K c_j^k(b_h,a), \qquad sinv_j(a,b_h)=\frac{1}{K}\sum_{k=1}^K c^{inv}_j^k(b_h,a).\nonumber
-%\end{equation}
-% 
-%\noindent
-%and a \emph{max} score function:
-%
-%\begin{equation}
-%sdir_j(b_h,a) 	=\max_{K} \{c_j^k(b_h,a)\}, \qquad sinv_j(a,b_h)	=\max_{K} \{c^{inv}_j^k(b_h,a)\}.\nonumber
-%\end{equation}
-
-In the following section, this approach is applied to a real problem.
+In the following section, this approach is applied to the HDI problem.
 
 
 
@@ -504,7 +504,20 @@ In the following section, this approach is applied to a real problem.
 
 \section{Application}\label{application}
 
-\subsection{Problem}
+
+
+
+
+\subsection{Running the process}
+
+
+
+\subsection{Results}
+
+
+\subsection{Discussion}
+
+
 
 %A Brazilian electrical power company has 49 projects that need to be clustered such that scarce and specialized resources could be allocated in a right manner. In a recent work by \cite{Oliveira2016},  a family of criteria was defined for this problem. The following criteria are defined in this problem: ($g_1$) \emph{Project Complexity}, which increases according to the increasing of budget and number of departments involved in the project's development; ($g_2$) \emph{Resources}, measuring the number of man-hours required to complete the project; ($g_3$)  \emph{Expected rate of development}, evaluating the urgency in project development and implementation; ($g_4$) \emph{Contribution} to the achievement of the organizational strategy; ($g_5$)  \emph{Technological level} involved in the project development. In Table \ref{criteria}, scales and weights, defined by the three DMs in the process, are shown.  
 %
