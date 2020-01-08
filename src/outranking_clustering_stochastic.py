@@ -312,16 +312,16 @@ def regla_desc(categoria, belonging, n_acc, n_lim, sigma_I, sigma_D, lam):
     return categoria
 
 def sumAscendente(freq_acceptability,categoria,n_lim,n_acc):
-    for i in range(1,n_acc):
-        for j in range(1,n_lim):
+    for i in range(0,n_acc):
+        for j in range(0,n_lim):
             freq_acceptability[i][j]=freq_acceptability[i][j]+categoria[i][j]
     return freq_acceptability
 
 def aceptabilidadDescendente(iter_stochastic,freq_acceptability,n_lim,n_acc):
-    for i in range(1,n_acc):
-        for j in range(1,n_lim):
+    for i in range(0,n_acc):
+        for j in range(0,n_lim):
             freq_acceptability[i][j]=freq_acceptability[i][j]/float(iter_stochastic)
-            print (str("%.2f" %  round(freq_acceptability[i][j],2))+"\t")
+            print(str("%.2f" %  round(freq_acceptability[i][j],2)),"\t", end="")
         print (" ")
     print ("")
 
@@ -406,12 +406,12 @@ def main():
     p_dir, q_dir, p_inv, q_inv=random_thresholds('random_umbrales.xlsx')
     lam  = 0.8
     beta=0.4
-    iter_stochastic=10
+    iter_stochastic=1000
     iter = 30
 
     perform_outranking(actions, limites,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic)
 
-
+    print ("")
 if __name__ == '__main__':
     main()
 

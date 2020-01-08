@@ -42,10 +42,10 @@ def get_umbrales():
     """
 
 
-    p_dir = [3.4,0.6,0.75]
-    q_dir = [1.7,0.3,0.375]
-    p_inv = [3.4,0.6,0.75]
-    q_inv = [1.7,0.3,0.375]
+    p_dir = [0.21,0.07,0.1]
+    q_dir = [0.105,0.035,0.05]
+    p_inv = [0.21,0.07,0.1]
+    q_inv = [0.105,0.035,0.05]
 
     return p_dir, q_dir, p_inv, q_inv
 
@@ -346,7 +346,7 @@ def perform_outranking(actions, limites, lam, beta, iter):
         print(limites[:])
         for i in range(0,n_acc):
             print (categoria[i][0],categoria[i][1],categoria[i][2],categoria[i][3],categoria[i][4],categoria[i][5])
-    #############################################
+    ############################################
     # plot_centroids(actions, limites, k) # experiments with plotting centroids
     # print('<ACTION>')
     # print(actions[:,0])
@@ -360,7 +360,7 @@ def main():
     lam  = 0.8
     beta=0.4
     iter_stochastic=1
-    iter = 30
+    iter = 50
 
     perform_outranking(actions, limites,lam,beta, iter)
 
