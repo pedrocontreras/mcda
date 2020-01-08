@@ -425,16 +425,8 @@ g_j(b_h^{(t)}) = \frac{1}{\mid C_h^{t,j} \mid} \sum_{a_i \in C_h^{t,j}} g_j(a_i)
 \end{equation}
 
 \noindent
-where $C_h^{t,j}=\{a_i \in C_h \mid g_j(b_h^{(t)})-p'_j\leq g_j(a_i) \leq g_j(b_h^{(t)})+p_j\}$.  Whenever $C_h^{t,j}=\emptyset$, then $g_j(b_h^{(t)})=g_j(b_h^{(t-1)})$.   This condition holds the separability condition, as shown in the following theorem.
-
-\begin{prop}
-If  $g_j(b_h^{(t)})$ is defined by using \eqref{newcentroid}, then $b_h^{(t)} \,P\, b_k^{(t)}, h>k$.
-\end{prop}
-
-\noindent
-
-The proof of this theorem is provided in the \ref{sepcondition}.
-
+{\color{red}where $C_h^{t,j}=\{a_i \in C_h \mid g_j(b_h^{(t)})-p'_j\leq g_j(a_i) \leq g_j(b_h^{(t)})+p_j\}$.  Whenever $C_h^{t,j}=\emptyset$, then $g_j(b_h^{(t)})=g_j(b_h^{(t-1)})$.   This condition helps to hold a weak separability condition, as shown below in the application. The weak separability condition says that given $h > t$, then $g_j(b_h) \geq g_j(b_t), \forall j$ \citep{roy2012}. This is an interesting property because it guarantees that the resulting clusters are ordered, as an outcome of the clustering approach.
+}
 
 
 
@@ -535,13 +527,24 @@ q_2,q'_2 \in [0.020, 0.120], \nonumber\\
 q_3,q'_3 \in [0.000, 0.100]. \nonumber
 \end{eqnarray}
 
+
+
+
+
 \noindent
 Thus, for each $p_j, q_j, p'_j, q'_j$, Monte Carlo Simulation allows to generate a set of 1000 parameter values. Consequently, $Maxst=1000$.  
+
+\subsection{Results}
+
+The proposed approach was implemented in Python, in Mac OSX. Time to execution was XYZ sec.  In Table \ref{results}, four groups of alternatives  are presented, the same defined in the HDI ranking.  Thus, for instance,  countries ranging from  1 (Norway) up to 62 (Seychelles) belong to the group of very high developed countries. Clusters built by the proposed approach are coded as $C_1 \prec  C_2 \prec C_3 \prec C_4$.  Given a row in a tabular structure, values indicate how frequently an alternative (country) was assigned to a cluster in the set fo 1000 simulations.  For instance, the alternative 1 in the group VERY HIGH DEVELOPMENT, 95\% of times was assigned into $C_4$, whilst 4\%, 1\%, and 0\% of times it was assigned to $C_3, C_2, C_1$, respectively.  Colors help to recognize these frequencies: the more intense a color, the higher the frequency an alternative reaches in a cluster.  As observed,  results generated with the stochastic approach show that almost all the alternatives assigned into $C_4$ have a frequency greater or equal to 53\%, except the alternative 60 (Bahamas) which appears belonging into that category only 44\% of times.  
+
+
 
 \newcommand\items{4}   %Number of classes
 \arrayrulecolor{white} %Table line colors
 \begin{table}[hbtp]
-\caption{Ordered clustering  vs HDI grouping}
+\caption{Ordered clustering  vs HDI development groups}
+\label{results}
 \tiny
 \hskip-4.0cm
 \begin{tabular}{llll}
@@ -785,10 +788,25 @@ Thus, for each $p_j, q_j, p'_j, q'_j$, Monte Carlo Simulation allows to generate
 \end{table}
 
 
+The group named HIGH DEVELOPMENT has an important number of countries that could be assigned into $C_4$, because of their high frequencies in that category.  In addition, note that frequencies in $C_3$ are less or equal to 33\%, which are weak arguments to state that these alternatives effectively belong to this group. However, it is easy to verify that, for each alternative, the accumulated frequency in $C_3, C_4$ show that arguments to be assigned into one of these two clusters is  high enough. 
 
+The group named LOW DEVELOPMENT also reveals that most of the alternatives have accumulated frequencies in $C_1, C_2$ greater or equal to 50\%, which counts to assign them into one of these categories.  It is worth to note that the lower part of the tabular structure shows several countries which clearly belong to $C_1$.
 
+The group named MEDIUM DEVELOPMENT shows that most alternatives are ambiguous in terms of assignment in $C_3,C_4$ or $C_1,C_2$. Actually, the upper part of this table seems to give more arguments in favor of alternatives to be allocated into $C_3,C_4$ (e.g., 117, 118, 119, 121), while the lower part is favorable to alternatives to be allocated into $C_1,C_2$ (e.g.,144, 149, 150, 152).
 
-\subsection{Results}
+%Centroids found were as follows
+%
+%\begin{eqnarray}
+%b_1 = [0.3, 0.0, 0.5], \nonumber\\
+%b_2 = [0.5, 0.3, 0.7], \nonumber\\
+%b_3 = [0.6, 0.4, 0.8], \nonumber\\
+%b_4 = [0.8, 0.5,0.9]. \nonumber
+%\end{eqnarray}
+%
+% 
+%\noindent
+%Note that centroids satisfy the weak separability condition, i.e. given $h > t$, then $g_j(b_h) \geq g_j(b_t), \forall j$.  Thus, the final clustering is ordered in the sense 
+
 
 
 \subsection{Discussion}

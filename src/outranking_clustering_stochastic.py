@@ -411,7 +411,7 @@ def main():
 
     perform_outranking(actions, limites,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic)
 
-    print ("")
+    print (centroids)
 if __name__ == '__main__':
     main()
 
