@@ -3,8 +3,10 @@ from pandas import DataFrame as df
 import openpyxl as px
 import numpy as np
 #from plot_clusters import *
-from datetime import datetime
 from cluster import *
+
+from src.cluster import get_ordered_centroids_4
+
 
 def init_data(excel_file):
     """
@@ -400,19 +402,16 @@ def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_
 
 #########  MAIN ###############
 def main():
-
-    start_time = datetime.now()
     actions, centroids, limites = init_data('HDI.xlsx')
     p_dir, q_dir, p_inv, q_inv=random_thresholds('random_umbrales.xlsx')
     lam  = 0.8
     beta=0.4
-    iter_stochastic=10
+    iter_stochastic=1000
     iter = 30
 
     perform_outranking(actions, limites,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic)
 
-    time_elapsed = datetime.now() - start_time
-    print('Time elapsed (hh:mm:ss.ms) {}'.format(time_elapsed))
+    print ("")
 if __name__ == '__main__':
     main()
 
