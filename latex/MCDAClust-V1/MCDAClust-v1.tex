@@ -12,6 +12,8 @@
 \usepackage{mathrsfs}
 \usepackage{stfloats}
 \usepackage{tabularx}
+\usepackage{subfigure}
+
 \usepackage{xtab,booktabs}
 \usepackage{arydshln}
 \usepackage{multirow}
@@ -21,6 +23,22 @@
 \usepackage{tkz-fct}
 \usepackage{color,colortbl}
 \usepackage[labelfont=bf]{caption}
+
+\usepackage{collcell}
+\usepackage{hhline}
+\usepackage{pgf}
+
+\def\colorModel{hsb} %You can use rgb or hsb
+
+\newcommand\ColCell[1]{
+  \pgfmathparse{#1<1?1:0}  %Threshold for changing the font color into the cells
+    \ifnum\pgfmathresult=0\relax\color{white}\fi
+  \pgfmathsetmacro\compA{0}      %Component R or H
+  \pgfmathsetmacro\compB{#1} %Component G or S
+  \pgfmathsetmacro\compC{1}      %Component B or B
+  \edef\x{\noexpand\centering\noexpand\cellcolor[\colorModel]{\compA,\compB,\compC}}\x #1
+  } 
+\newcolumntype{E}{>{\collectcell\ColCell}m{0.4cm}<{\endcollectcell}}  %Cell width
 
 
 \usetikzlibrary{graphdrawing}
@@ -33,7 +51,7 @@
 
 \usepackage{enumitem}
 \usepackage{algorithmic}
-\usepackage{subcaption,graphicx}
+\usepackage{graphicx}
 %\usepackage{subfig,graphicx}
 \usepackage[titletoc,title]{appendix}
 
@@ -502,13 +520,271 @@ In the following section, this approach is applied to the HDI problem.
 
 
 
-\section{Application}\label{application}
+\section{Clustering HDI countries}\label{application}
+
+There are 189 countries to be clustered in the clustering process. The family of criteria to be considered consists of the three indices: life expectancy ($g_1$), years of schooling ($g_2$) and GNI  ($g_3$).  Data from the 2018's HDI Report is used to compute these indices, using the formulae defined in the HDI Technical Notes \citep{UNDP2019}. Four clusters, i.e. $K=4$, are defined, which parallels the number of groups defined in the Human Development Report.  As proposed by UNDP, weights are considered to be equal to $1/3$ for each criterion.
+
+We assume that stochastic variables $\xi_{p_j},\xi_{q_j},\xi_{p'_j},\xi_{q'_j}$ correctly model each parameter uncertainty. In addition, it is assumed that each stochastic variable is uniformly distributed in an interval  $\xi \in [\xi_m, \xi_M]$. Thus, it is expected that the ''true'' value for each parameter lies within an interval, as follows:
+
+\begin{eqnarray}
+p_1,p'_1 \in [0.090, 0.290], \nonumber\\
+p_2,p'_2 \in [0.040, 0.240], \nonumber\\
+p_3,p'_3 \in [0.000, 0.200], \nonumber\\
+q_1,q'_1 \in [0.045, 0.145], \nonumber\\
+q_2,q'_2 \in [0.020, 0.120], \nonumber\\
+q_3,q'_3 \in [0.000, 0.100]. \nonumber
+\end{eqnarray}
+
+\noindent
+Thus, for each $p_j, q_j, p'_j, q'_j$, Monte Carlo Simulation allows to generate a set of 1000 parameter values. Consequently, $Maxst=1000$.  
+
+\newcommand\items{4}   %Number of classes
+\arrayrulecolor{white} %Table line colors
+\begin{table}[hbtp]
+\caption{Ordered clustering  vs HDI grouping}
+\tiny
+\hskip-4.0cm
+\begin{tabular}{llll}
+\begin{tabular}[t]{l*{\items}{|E}l}
+\multicolumn{5}{c}{VERY HIGH DEVELOPMENT}\\\hline 
+\multicolumn{1}{c}{Count} & 
+\multicolumn{1}{c}{$C_1$} & 
+\multicolumn{1}{c}{$C_2$} & 
+\multicolumn{1}{c}{$C_3$} & 
+\multicolumn{1}{c}{$C_4$} 
+\\\hline
+1	&	0.00 	&	0.01 	&	0.04 	&	0.95 	\\\hline
+2	&	0.00 	&	0.00 	&	0.09 	&	0.91 	\\\hline
+3	&	0.00 	&	0.01 	&	0.01 	&	0.98 	\\\hline
+4	&	0.00 	&	0.00 	&	0.06 	&	0.94 	\\\hline
+5	&	0.01 	&	0.01 	&	0.08 	&	0.89 	\\\hline
+6	&	0.00 	&	0.01 	&	0.01 	&	0.98 	\\\hline
+7	&	0.00 	&	0.01 	&	0.01 	&	0.98 	\\\hline
+8	&	0.01 	&	0.01 	&	0.01 	&	0.98 	\\\hline
+9	&	0.02 	&	0.02 	&	0.10 	&	0.87 	\\\hline
+10	&	0.01 	&	0.01 	&	0.04 	&	0.95 	\\\hline
+11	&	0.00 	&	0.01 	&	0.01 	&	0.98 	\\\hline
+12	&	0.01 	&	0.01 	&	0.01 	&	0.98 	\\\hline
+13	&	0.00 	&	0.01 	&	0.09 	&	0.90 	\\\hline
+14	&	0.00 	&	0.01 	&	0.01 	&	0.98 	\\\hline
+15	&	0.00 	&	0.01 	&	0.06 	&	0.92 	\\\hline
+16	&	0.00 	&	0.01 	&	0.13 	&	0.86 	\\\hline
+17	&	0.01 	&	0.01 	&	0.02 	&	0.97 	\\\hline
+18	&	0.01 	&	0.04 	&	0.12 	&	0.82 	\\\hline
+19	&	0.01 	&	0.03 	&	0.08 	&	0.88 	\\\hline
+20	&	0.01 	&	0.01 	&	0.08 	&	0.90 	\\\hline
+21	&	0.02 	&	0.06 	&	0.12 	&	0.80 	\\\hline
+22	&	0.00 	&	0.02 	&	0.09 	&	0.90 	\\\hline
+23	&	0.01 	&	0.01 	&	0.09 	&	0.89 	\\\hline
+24	&	0.01 	&	0.01 	&	0.06 	&	0.92 	\\\hline
+25	&	0.04 	&	0.03 	&	0.08 	&	0.86 	\\\hline
+26	&	0.00 	&	0.02 	&	0.09 	&	0.88 	\\\hline
+27	&	0.02 	&	0.04 	&	0.11 	&	0.84 	\\\hline
+28	&	0.02 	&	0.02 	&	0.10 	&	0.85 	\\\hline
+29	&	0.03 	&	0.03 	&	0.10 	&	0.84 	\\\hline
+30	&	0.00 	&	0.02 	&	0.14 	&	0.84 	\\\hline
+31	&	0.02 	&	0.04 	&	0.12 	&	0.82 	\\\hline
+32	&	0.02 	&	0.03 	&	0.09 	&	0.86 	\\\hline
+33	&	0.01 	&	0.02 	&	0.14 	&	0.84 	\\\hline
+34	&	0.01 	&	0.03 	&	0.18 	&	0.78 	\\\hline
+35	&	0.05 	&	0.11 	&	0.22 	&	0.62 	\\\hline
+36	&	0.07 	&	0.12 	&	0.19 	&	0.62 	\\\hline
+37	&	0.05 	&	0.09 	&	0.23 	&	0.63 	\\\hline
+38	&	0.02 	&	0.06 	&	0.22 	&	0.69 	\\\hline
+39	&	0.01 	&	0.04 	&	0.20 	&	0.74 	\\\hline
+40	&	0.05 	&	0.04 	&	0.11 	&	0.80 	\\\hline
+41	&	0.09 	&	0.14 	&	0.23 	&	0.54 	\\\hline
+42	&	0.03 	&	0.03 	&	0.11 	&	0.83 	\\\hline
+43	&	0.07 	&	0.11 	&	0.23 	&	0.58 	\\\hline
+44	&	0.02 	&	0.06 	&	0.22 	&	0.70 	\\\hline
+45	&	0.06 	&	0.09 	&	0.22 	&	0.63 	\\\hline
+46	&	0.02 	&	0.06 	&	0.18 	&	0.74 	\\\hline
+47	&	0.06 	&	0.10 	&	0.21 	&	0.64 	\\\hline
+48	&	0.03 	&	0.06 	&	0.17 	&	0.74 	\\\hline
+49	&	0.03 	&	0.10 	&	0.23 	&	0.65 	\\\hline
+50	&	0.02 	&	0.06 	&	0.23 	&	0.68 	\\\hline
+51	&	0.03 	&	0.09 	&	0.24 	&	0.64 	\\\hline
+52	&	0.03 	&	0.08 	&	0.24 	&	0.66 	\\\hline
+53	&	0.03 	&	0.07 	&	0.21 	&	0.69 	\\\hline
+54	&	0.04 	&	0.09 	&	0.24 	&	0.63 	\\\hline
+55	&	0.02 	&	0.07 	&	0.23 	&	0.68 	\\\hline
+56	&	0.03 	&	0.07 	&	0.14 	&	0.75 	\\\hline
+57	&	0.12 	&	0.15 	&	0.20 	&	0.53 	\\\hline
+58	&	0.07 	&	0.08 	&	0.18 	&	0.67 	\\\hline
+59	&	0.08 	&	0.10 	&	0.18 	&	0.63 	\\\hline
+60	&	0.07 	&	0.15 	&	0.34 	&	0.44 	\\\hline
+61	&	0.07 	&	0.13 	&	0.24 	&	0.56 	\\\hline
+62	&	0.06 	&	0.11 	&	0.25 	&	0.57 	\\\hline
+\end{tabular}
+
+&
+
+\begin{tabular}[t]{l*{\items}{|E}|}
+\multicolumn{5}{c}{HIGH DEVELOPMENT}\\\hline 
+\multicolumn{1}{c}{Count} & 
+\multicolumn{1}{c}{$C_1$} & 
+\multicolumn{1}{c}{$C_2$} & 
+\multicolumn{1}{c}{$C_3$} & 
+\multicolumn{1}{c}{$C_4$} 
+\\\hline
+63	&	0.03 	&	0.08 	&	0.22 	&	0.66 	\\\hline
+64	&	0.07 	&	0.16 	&	0.33 	&	0.43 	\\\hline
+65	&	0.05 	&	0.09 	&	0.23 	&	0.62 	\\\hline
+66	&	0.06 	&	0.10 	&	0.24 	&	0.60 	\\\hline
+67	&	0.08 	&	0.13 	&	0.23 	&	0.56 	\\\hline
+68	&	0.06 	&	0.08 	&	0.14 	&	0.72 	\\\hline
+69	&	0.04 	&	0.08 	&	0.18 	&	0.70 	\\\hline
+70	&	0.02 	&	0.07 	&	0.24 	&	0.68 	\\\hline
+71	&	0.05 	&	0.11 	&	0.23 	&	0.62 	\\\hline
+72	&	0.03 	&	0.07 	&	0.17 	&	0.73 	\\\hline
+73	&	0.10 	&	0.14 	&	0.25 	&	0.51 	\\\hline
+74	&	0.09 	&	0.15 	&	0.24 	&	0.52 	\\\hline
+75	&	0.07 	&	0.12 	&	0.22 	&	0.58 	\\\hline
+76	&	0.09 	&	0.12 	&	0.23 	&	0.56 	\\\hline
+77	&	0.09 	&	0.12 	&	0.20 	&	0.59 	\\\hline
+78	&	0.08 	&	0.13 	&	0.24 	&	0.55 	\\\hline
+79	&	0.08 	&	0.12 	&	0.21 	&	0.58 	\\\hline
+80	&	0.08 	&	0.12 	&	0.20 	&	0.60 	\\\hline
+81	&	0.05 	&	0.12 	&	0.30 	&	0.52 	\\\hline
+82	&	0.09 	&	0.12 	&	0.20 	&	0.59 	\\\hline
+83	&	0.07 	&	0.13 	&	0.24 	&	0.55 	\\\hline
+84	&	0.08 	&	0.13 	&	0.22 	&	0.58 	\\\hline
+85	&	0.10 	&	0.14 	&	0.20 	&	0.56 	\\\hline
+86	&	0.06 	&	0.11 	&	0.22 	&	0.61 	\\\hline
+87	&	0.09 	&	0.18 	&	0.32 	&	0.41 	\\\hline
+88	&	0.05 	&	0.12 	&	0.24 	&	0.60 	\\\hline
+89	&	0.10 	&	0.14 	&	0.23 	&	0.53 	\\\hline
+90	&	0.09 	&	0.14 	&	0.21 	&	0.56 	\\\hline
+91	&	0.10 	&	0.12 	&	0.20 	&	0.58 	\\\hline
+92	&	0.10 	&	0.17 	&	0.24 	&	0.49 	\\\hline
+93	&	0.15 	&	0.14 	&	0.22 	&	0.49 	\\\hline
+94	&	0.14 	&	0.19 	&	0.31 	&	0.36 	\\\hline
+95	&	0.11 	&	0.18 	&	0.27 	&	0.45 	\\\hline
+96	&	0.08 	&	0.14 	&	0.30 	&	0.48 	\\\hline
+97	&	0.10 	&	0.18 	&	0.32 	&	0.40 	\\\hline
+98	&	0.12 	&	0.15 	&	0.20 	&	0.53 	\\\hline
+99	&	0.13 	&	0.19 	&	0.25 	&	0.44 	\\\hline
+100	&	0.12 	&	0.15 	&	0.29 	&	0.43 	\\\hline
+101	&	0.12 	&	0.18 	&	0.30 	&	0.39 	\\\hline
+102	&	0.10 	&	0.15 	&	0.30 	&	0.44 	\\\hline
+103	&	0.08 	&	0.14 	&	0.30 	&	0.48 	\\\hline
+104	&	0.20 	&	0.15 	&	0.18 	&	0.47 	\\\hline
+105	&	0.07 	&	0.16 	&	0.24 	&	0.53 	\\\hline
+106	&	0.12 	&	0.18 	&	0.31 	&	0.39 	\\\hline
+107	&	0.12 	&	0.19 	&	0.31 	&	0.38 	\\\hline
+108	&	0.24 	&	0.21 	&	0.32 	&	0.23 	\\\hline
+109	&	0.10 	&	0.20 	&	0.31 	&	0.38 	\\\hline
+110	&	0.15 	&	0.19 	&	0.28 	&	0.39 	\\\hline
+111	&	0.15 	&	0.19 	&	0.28 	&	0.38 	\\\hline
+112	&	0.08 	&	0.17 	&	0.33 	&	0.41 	\\\hline
+113	&	0.19 	&	0.21 	&	0.26 	&	0.35 	\\\hline
+114	&	0.10 	&	0.18 	&	0.23 	&	0.49 	\\\hline
+115	&	0.21 	&	0.21 	&	0.27 	&	0.31 	\\\hline
+116	&	0.16 	&	0.20 	&	0.25 	&	0.39 	\\\hline
+\end{tabular}
+
+&
+
+\begin{tabular}[t]{l*{\items}{|E}|}
+\multicolumn{5}{c}{MEDIUM DEVELOPMENT}\\\hline 
+\multicolumn{1}{c}{Count} & 
+\multicolumn{1}{c}{$C_1$} & 
+\multicolumn{1}{c}{$C_2$} & 
+\multicolumn{1}{c}{$C_3$} & 
+\multicolumn{1}{c}{$C_4$} 
+\\\hline
+117	&	0.08 	&	0.16 	&	0.33 	&	0.44 	\\\hline
+118	&	0.13 	&	0.15 	&	0.24 	&	0.49 	\\\hline
+119	&	0.10 	&	0.15 	&	0.32 	&	0.43 	\\\hline
+120	&	0.25 	&	0.19 	&	0.26 	&	0.30 	\\\hline
+121	&	0.20 	&	0.15 	&	0.18 	&	0.48 	\\\hline
+122	&	0.08 	&	0.18 	&	0.31 	&	0.43 	\\\hline
+123	&	0.22 	&	0.19 	&	0.28 	&	0.31 	\\\hline
+124	&	0.21 	&	0.18 	&	0.24 	&	0.36 	\\\hline
+125	&	0.15 	&	0.19 	&	0.32 	&	0.34 	\\\hline
+126	&	0.24 	&	0.19 	&	0.22 	&	0.35 	\\\hline
+127	&	0.28 	&	0.18 	&	0.19 	&	0.35 	\\\hline
+128	&	0.20 	&	0.17 	&	0.23 	&	0.40 	\\\hline
+129	&	0.24 	&	0.21 	&	0.23 	&	0.32 	\\\hline
+130	&	0.29 	&	0.21 	&	0.22 	&	0.27 	\\\hline
+131	&	0.30 	&	0.18 	&	0.22 	&	0.30 	\\\hline
+132	&	0.29 	&	0.19 	&	0.18 	&	0.35 	\\\hline
+133	&	0.25 	&	0.20 	&	0.30 	&	0.25 	\\\hline
+134	&	0.35 	&	0.15 	&	0.22 	&	0.28 	\\\hline
+135	&	0.26 	&	0.19 	&	0.22 	&	0.33 	\\\hline
+136	&	0.26 	&	0.20 	&	0.32 	&	0.22 	\\\hline
+137	&	0.22 	&	0.21 	&	0.23 	&	0.34 	\\\hline
+138	&	0.32 	&	0.20 	&	0.31 	&	0.16 	\\\hline
+139	&	0.40 	&	0.19 	&	0.28 	&	0.13 	\\\hline
+140	&	0.35 	&	0.18 	&	0.30 	&	0.18 	\\\hline
+141	&	0.26 	&	0.19 	&	0.26 	&	0.29 	\\\hline
+142	&	0.31 	&	0.21 	&	0.32 	&	0.16 	\\\hline
+143	&	0.30 	&	0.21 	&	0.27 	&	0.22 	\\\hline
+144	&	0.52 	&	0.20 	&	0.21 	&	0.07 	\\\hline
+145	&	0.41 	&	0.19 	&	0.27 	&	0.13 	\\\hline
+146	&	0.32 	&	0.18 	&	0.25 	&	0.25 	\\\hline
+147	&	0.31 	&	0.20 	&	0.32 	&	0.16 	\\\hline
+148	&	0.28 	&	0.19 	&	0.22 	&	0.31 	\\\hline
+149	&	0.41 	&	0.17 	&	0.26 	&	0.16 	\\\hline
+150	&	0.42 	&	0.17 	&	0.22 	&	0.19 	\\\hline
+151	&	0.37 	&	0.23 	&	0.28 	&	0.12 	\\\hline
+152	&	0.45 	&	0.18 	&	0.27 	&	0.10 	\\\hline
+153	&	0.33 	&	0.18 	&	0.19 	&	0.30 	\\\hline
+\end{tabular}
+
+&
+
+\begin{tabular}[t]{l*{\items}{|E}|}
+\multicolumn{5}{c}{LOW DEVELOPMENT}\\\hline 
+\multicolumn{1}{c}{Count} & 
+\multicolumn{1}{c}{$C_1$} & 
+\multicolumn{1}{c}{$C_2$} & 
+\multicolumn{1}{c}{$C_3$} & 
+\multicolumn{1}{c}{$C_4$} 
+\\\hline
+154	&	0.40 	&	0.16 	&	0.21 	&	0.23 	\\\hline
+155	&	0.45 	&	0.19 	&	0.26 	&	0.10 	\\\hline
+156	&	0.39 	&	0.18 	&	0.29 	&	0.14 	\\\hline
+157	&	0.35 	&	0.17 	&	0.27 	&	0.21 	\\\hline
+158	&	0.63 	&	0.16 	&	0.16 	&	0.05 	\\\hline
+159	&	0.47 	&	0.20 	&	0.25 	&	0.08 	\\\hline
+160	&	0.35 	&	0.19 	&	0.31 	&	0.15 	\\\hline
+161	&	0.48 	&	0.18 	&	0.26 	&	0.08 	\\\hline
+162	&	0.36 	&	0.21 	&	0.30 	&	0.13 	\\\hline
+163	&	0.47 	&	0.14 	&	0.19 	&	0.19 	\\\hline
+164	&	0.63 	&	0.15 	&	0.17 	&	0.05 	\\\hline
+165	&	0.53 	&	0.20 	&	0.20 	&	0.06 	\\\hline
+166	&	0.51 	&	0.17 	&	0.23 	&	0.09 	\\\hline
+167	&	0.41 	&	0.17 	&	0.20 	&	0.21 	\\\hline
+168	&	0.55 	&	0.17 	&	0.21 	&	0.07 	\\\hline
+169	&	0.44 	&	0.21 	&	0.26 	&	0.09 	\\\hline
+170	&	0.48 	&	0.18 	&	0.24 	&	0.10 	\\\hline
+171	&	0.61 	&	0.16 	&	0.17 	&	0.05 	\\\hline
+172	&	0.41 	&	0.17 	&	0.28 	&	0.14 	\\\hline
+173	&	0.53 	&	0.18 	&	0.22 	&	0.07 	\\\hline
+174	&	0.52 	&	0.19 	&	0.22 	&	0.08 	\\\hline
+175	&	0.55 	&	0.20 	&	0.19 	&	0.06 	\\\hline
+176	&	0.45 	&	0.19 	&	0.26 	&	0.09 	\\\hline
+177	&	0.52 	&	0.18 	&	0.22 	&	0.08 	\\\hline
+178	&	0.58 	&	0.16 	&	0.19 	&	0.07 	\\\hline
+179	&	0.44 	&	0.23 	&	0.25 	&	0.08 	\\\hline
+180	&	0.53 	&	0.20 	&	0.20 	&	0.07 	\\\hline
+181	&	0.68 	&	0.13 	&	0.15 	&	0.04 	\\\hline
+182	&	0.77 	&	0.10 	&	0.10 	&	0.03 	\\\hline
+183	&	0.74 	&	0.09 	&	0.13 	&	0.03 	\\\hline
+184	&	0.74 	&	0.17 	&	0.06 	&	0.03 	\\\hline
+185	&	0.51 	&	0.15 	&	0.23 	&	0.12 	\\\hline
+186	&	0.80 	&	0.14 	&	0.05 	&	0.01 	\\\hline
+187	&	0.80 	&	0.14 	&	0.04 	&	0.01 	\\\hline
+188	&	0.77 	&	0.17 	&	0.05 	&	0.02 	\\\hline
+189	&	0.77 	&	0.14 	&	0.06 	&	0.03 	\\\hline
+\end{tabular}
+
+\end{tabular}
+
+\end{table}
 
 
-
-
-
-\subsection{Running the process}
 
 
 
@@ -519,50 +795,6 @@ In the following section, this approach is applied to the HDI problem.
 
 
 
-%A Brazilian electrical power company has 49 projects that need to be clustered such that scarce and specialized resources could be allocated in a right manner. In a recent work by \cite{Oliveira2016},  a family of criteria was defined for this problem. The following criteria are defined in this problem: ($g_1$) \emph{Project Complexity}, which increases according to the increasing of budget and number of departments involved in the project's development; ($g_2$) \emph{Resources}, measuring the number of man-hours required to complete the project; ($g_3$)  \emph{Expected rate of development}, evaluating the urgency in project development and implementation; ($g_4$) \emph{Contribution} to the achievement of the organizational strategy; ($g_5$)  \emph{Technological level} involved in the project development. In Table \ref{criteria}, scales and weights, defined by the three DMs in the process, are shown.  
-%
-%
-%\begin{table}[hbtp]
-%\caption{Criteria, scales and weights}
-%\label{criteria}
-%\scriptsize
-%\begin{center}
-%\begin{tabular}{clllll}
-%\hline
-%						&\multicolumn{3}{c}{Weight}							&					&			\\\cline{2-4}
-%Criterion					&DM1			&DM2			&DM3			&{\bf Verbal scale} 		&{\bf Scale} 	\\\hline
-%\multirow{4}{*}{$g_1$}		& \multirow{4}{*}{0.20}& \multirow{4}{*}{0.15}& \multirow{4}{*}{0.30}&High				&4	 		\\
-%						& 				&				&				&Medium				&3	 		\\
-%						& 				&				&				&Low				&2	 		\\
-%						& 				&				&				&Very low				&1	 		\\
-%						& 				&				&				&					&	 		\\
-%$g_2$					&0.20 				&0.15			&0.25			&					&Man-hours	 \\
-%						& 				&				&				&					&	 		\\
-%\multirow{5}{*}{$g_3$}		& \multirow{5}{*}{0.20}	& \multirow{5}{*}{0.20}	& \multirow{5}{*}{0.15}&Urgent				&5	 		\\
-%						& 				&				&				&Critical				&4	 		\\
-%						&				&				&				&Competitive			&3	 		\\
-%						&				&				&				&Regular				&2	 		\\
-%						&				&				&				&Low				&1	 		\\
-%						&				&				&				&					&	 		\\
-%\multirow{4}{*}{$g_4$}		& \multirow{4}{*}{0.30}& \multirow{4}{*}{0.15}& \multirow{4}{*}{0.15}	&Very high			&4	 		\\
-%						& 				&				&				&High				&3	 		\\
-%						& 				&				&				&Medium				&2	 		\\
-%						& 				&				&				&Low				&1	 		\\
-%						& 				&				&				&					&	 		\\
-%\multirow{4}{*}{$g_5$}		& \multirow{4}{*}{0.10}& \multirow{4}{*}{0.35}& \multirow{4}{*}{0.15}	&High				&4	 		\\
-%						& 				&				&				&Medium				&3	 		\\
-%						& 				&				&				&Low				&2	 		\\
-%						& 				&				&				&Negligible			&1	 		\\
-%\hline
-%
-%\end{tabular}
-%\end{center}
-%\end{table}
-%
-%
-%
-%Evaluation of 49 projects are shown in Appendix  \ref{evaluations}. A senior manager helped to define reference alternatives, also shown in that table. According to  \cite{Oliveira2016}, three categories can be defined in this problem: $C_1$, the non-critical projects; $C_2$, the set of critical projects; $C_3$, the set of very critical projects.  
-
 
 \section{Conclusions}\label{conclusions}
   
@@ -571,7 +803,6 @@ In the following section, this approach is applied to the HDI problem.
      
 \section*{Acknowledgement}
 
-%The authors are grateful for the support from FACEPE (PRONEX) and for the partial support of CNPq, Brazil.
           
 \section*{References}
 \bibliographystyle{authoryear}
@@ -579,70 +810,6 @@ In the following section, this approach is applied to the HDI problem.
 
 
 
-%\newpage
-%\appendices
-%\section{Project evaluations}\label{evaluations}
-%
-%\begin{table}[hbtp]
-%	\centering
-%	\scriptsize
-%	\begin{tabular}{rllrrrrr}
-%Project	&	$g_1$	&	$g_2$	&	$g_3$	&	$g_4$	&	$g_5$	\\\hline
-%1	&	2	&	640	&	2	&	3	&	2	\\
-%2	&	3	&	480	&	2	&	2	&	1	\\
-%3	&	3	&	640	&	1	&	3	&	2	\\
-%4	&	1	&	720	&	2	&	2	&	2	\\
-%5	&	1	&	160	&	3	&	3	&	2	\\
-%6	&	2	&	160	&	2	&	3	&	2	\\
-%7	&	3	&	620	&	2	&	1	&	2	\\
-%8	&	2	&	640	&	1	&	2	&	1	\\
-%9	&	1	&	320	&	2	&	3	&	3	\\
-%10	&	2	&	320	&	2	&	3	&	2	\\
-%11	&	2	&	160	&	3	&	3	&	1	\\
-%12	&	1	&	160	&	1	&	1	&	2	\\
-%13	&	2	&	640	&	3	&	3	&	2	\\
-%14	&	2	&	240	&	3	&	3	&	2	\\
-%15	&	1	&	160	&	2	&	2	&	1	\\
-%16	&	1	&	160	&	2	&	3	&	1	\\
-%17	&	3	&	320	&	3	&	2	&	1	\\
-%18	&	3	&	640	&	2	&	3	&	1	\\
-%19	&	3	&	960	&	2	&	3	&	2	\\
-%20	&	1	&	160	&	2	&	2	&	2	\\
-%21	&	2	&	640	&	2	&	2	&	2	\\
-%22	&	1	&	160	&	2	&	2	&	3	\\
-%23	&	3	&	1280	&	1	&	2	&	2	\\
-%24	&	1	&	320	&	3	&	2	&	2	\\
-%25	&	2	&	160	&	1	&	2	&	2	\\
-%26	&	1	&	160	&	2	&	2	&	1	\\
-%27	&	2	&	1280	&	1	&	3	&	2	\\
-%28	&	3	&	640	&	2	&	2	&	2	\\
-%29	&	2	&	800	&	1	&	2	&	2	\\
-%30	&	2	&	160	&	3	&	2	&	2	\\
-%31	&	2	&	160	&	1	&	2	&	1	\\
-%32	&	3	&	320	&	1	&	2	&	2	\\
-%33	&	2	&	240	&	2	&	3	&	1	\\
-%34	&	2	&	320	&	2	&	2	&	1	\\
-%35	&	1	&	120	&	2	&	3	&	1	\\
-%36	&	2	&	160	&	1	&	3	&	1	\\
-%37	&	2	&	3200	&	1	&	2	&	1	\\
-%38	&	2	&	3200	&	1	&	2	&	1	\\
-%39	&	2	&	960	&	1	&	2	&	1	\\
-%40	&	2	&	3840	&	1	&	2	&	1	\\
-%41	&	2	&	2880	&	1	&	2	&	1	\\
-%42	&	1	&	1200	&	3	&	2	&	1	\\
-%43	&	1	&	1200	&	3	&	2	&	1	\\
-%44	&	3	&	7680	&	4	&	3	&	3	\\
-%45	&	1	&	2400	&	3	&	2	&	1	\\
-%46	&	3	&	5760	&	4	&	3	&	1	\\
-%47	&	3	&	2880	&	4	&	3	&	1	\\
-%48	&	2	&	7680	&	3	&	3	&	1	\\
-%49	&	1	&	7680	&	3	&	3	&	1	\\\hline
-%$b_1$	&	1	&	300	&	2	&	1	&	1	\\
-%$b_2$	&	2	&	2000	&	3	&	2	&	2	\\
-%$b_3$	&	3	&	5000	&	4	&	3	&	3	\\\hline
-%\end{tabular}
-%\end{table}
-%
 
 
 \appendix
