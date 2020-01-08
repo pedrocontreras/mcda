@@ -89,7 +89,7 @@ def plot_scatter3D(file_path):
 
 
 def main():
-    file_path = 'HDI.xlsx'
+    file_path = 'HDI_rough.xlsx'
     plot_scatter3D(file_path)
 
 if __name__ == '__main__':
