@@ -123,7 +123,7 @@
 
 
 \begin{abstract}
-The Human Development Index (HDI) has been proposed as a mean to encourage nations to focus on people capabilities to develop a country.  HDI calculation is based on three indices: the life expectancy, the years of education and the Gross National Income. Several studies criticize the highly compensatory nature of the computation method and seeming precision of the information sources. Last decade, non-compensatory clustering approaches that consider imprecise information, integrating the $K$-means algorithm,  have been proposed as an alternative to the ranking process underlying the HDI calculation. However, in these methods two main drawbacks can be highlighted. Firstly, uncertainty regarding parameters used to model imprecision is not considered. Secondly,  as a consequence, robust ordered clusters have not been considered yet. In this paper, a process integrating  the $K$-means algorithm is presented in which uncertain parameters are considered, also finding  a robust ordered clustering.  This approach is applied and results are discussed and compared with the 2018 HDI ranking.
+The Human Development Index (HDI) has been proposed as a mean to encourage nations to focus on people capabilities to develop a country.  HDI calculation is based on three indices: the life expectancy, the years of education and the Gross National Income. Several studies criticize the highly compensatory nature of the computation method and seeming precision of the information sources. Last decade, non-compensatory clustering approaches that consider imprecise information, integrating the $K$-means algorithm,  have been proposed as an alternative to the ranking process underlying the HDI calculation. However, in these methods two main drawbacks can be highlighted. Firstly, uncertainty regarding parameters used to model imprecision is not considered. Secondly,  the cluster centers do not often satisfy the separability condition, which means that additional procedures must be applied \emph{a posteriori} to produce an ordered clustering. In this paper, a process integrating  the $K$-means algorithm is presented in which uncertain parameters are considered, also finding  ordered cluster centers satisfying the separability condition.  When this approach is applied and results are compared to the 2018 HDI ranking, ambiguities are detected in assignment of countries to development groups. These results are discusses and further research is proposed.
 \end{abstract}
 
 \begin{keyword}
@@ -575,7 +575,8 @@ In order to generate a set of 1000 parameter values, the \texttt{limsolve  R} pa
 
 \subsection{Results}
 
-The proposed approach is implemented in Python.  In Table \ref{results}, four groups of alternatives  are presented, the same defined in the HDI ranking.  Thus, for instance,  countries ranging from  1 (Norway) up to 62 (Seychelles) belong to the group of very high developed countries. Clusters built by the proposed approach are coded as $C_1, C_2, C_3, C_4$ and satisfy $C_1 \prec  C_2 \prec C_3 \prec C_4$.  Given a row in a tabular structure, values indicate how frequently an alternative (country) is assigned to a cluster in the set fo 1000 simulations.  For instance, the alternative 1 in the group VERY HIGH DEVELOPMENT, 99\% of times is assigned into $C_4$, whilst 1\%, 0\%, and 0\% of times it is assigned into $C_3, C_2, C_1$, respectively.  Colors help to recognize these frequencies: the more intense a color, the higher the frequency an alternative reaches in a cluster.  
+The proposed approach is implemented in Python.  In Table \ref{results}, four groups of alternatives  are presented, the same defined in the HDI ranking.  Thus, for instance,  countries ranging from  1 (Norway) up to 62 (Seychelles) belong to the group of very high developed countries. Clusters built by the proposed approach are coded as $C_1, C_2, C_3, C_4$ and satisfy $C_1 \prec  C_2 \prec C_3 \prec C_4$.  
+
 
 
 
@@ -827,6 +828,8 @@ The proposed approach is implemented in Python.  In Table \ref{results}, four gr
 
 \end{table}
 
+
+Given a row in a tabular structure, values indicate how frequently an alternative (country) is assigned to a cluster in the set fo 1000 simulations.  For instance, the alternative 1 in the group VERY HIGH DEVELOPMENT, 99\% of times is assigned into $C_4$, whilst 1\%, 0\%, and 0\% of times it is assigned into $C_3, C_2, C_1$, respectively.  Colors help to recognize these frequencies: the more intense a color, the higher the frequency an alternative reaches in a cluster.  
 
 As observed in the VERY HIGH DEVELOPMENT group, the alternatives from 1 up to 34  are assigned into $C_4$ by the stochastic approach, except the country 25 which presents ambiguity to be allocated into $C_4$ or $C_3$.  The alternatives 35 up to 62 have some weak arguments to be allocated in $C_4$ or $C_3$ (except the country 39). Note that there are nine alternatives for which the arguments to be assigned into $C_4$ are strong, equalling 1.0 (i.e., 100\% of times these alternatives are assigned into this category). 
 
