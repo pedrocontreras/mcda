@@ -325,8 +325,19 @@ def aceptabilidadDescendente(iter_stochastic,freq_acceptability,n_lim,n_acc):
         print (" ")
     print ("")
 
+def check_separability(limites,n_lim,n_cri):
+    no_check='False'
+    for i in range(2,n_lim):
+        for j in range(0,n_cri):
+            if limites[i][j]<limites[i-1][j]:
+                no_check='True'
+    return no_check
+
+
+
 def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_inv,iter_stochastic):
     w = get_weights()
+    freq_no_check=0.0
     #p_dir, q_dir, p_inv, q_inv = get_umbrales()
     n_acc = np.size(actions, 0)  # number of acciones
     n_cri = np.size(actions, 1)  # number of criteria
@@ -371,7 +382,13 @@ def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_
             #limitesold=limites
             limites=get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir[l],p_inv[l],actions)
 
+
         freq_acceptability=sumAscendente(freq_acceptability, categoria, n_lim, n_acc)
+
+        #counts how many times the weak separability condition is not satisfied
+        #print(limites)
+        if check_separability(limites, n_lim, n_cri) == 'True':
+            freq_no_check = freq_no_check + 1
 
         # print ("aqui")
         # print (freq_acceptability)
@@ -397,6 +414,7 @@ def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_
     # print(limites[:,2:3])
 
     aceptabilidadDescendente(iter_stochastic,freq_acceptability,n_lim,n_acc)
+    print (freq_no_check/iter_stochastic)
     return 0
 
 

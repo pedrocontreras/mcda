@@ -72,6 +72,7 @@
 
 \newtheorem{prop}{Theorem}
 
+\newtheorem{cond}{Condition}
 
 \newcolumntype{d}[1]{D{.}{.}{#1}}
 
@@ -148,9 +149,9 @@ Essentially, clustering processes integrating $K$-means lie in two features \cit
 
 Although the $K$-means and the outranking-based methods can be used to find the same number of country clusters proposed by the ranking-based HDI methodology, these use compensatory net flow aggregation processes to obtain global preference relations. Thus, the methods do not necessarily guarantee the separability between any pair of central actions representing two different categories, a desired property of preference-based classification processes \citep{roy2012}. This means that a strict preference relation between any pair of centroids at each criterion level is not necessarily satisfied. As a consequence, supplementary procedures must be defined to order the clusters.  In these methods,  an alternative must be compared to each other, at least once. This information is stored in the form of a $n \times n$ matrix which must be traversed through on each iteration of the clustering algorithm. These are $O(IKn^2) \sim O(n^2)$ processes, where $I, K$ are the number of iterations of the algorithm (before finding a solution) and the number of clusters, respectively. We argue that a $O(Kn)$ method may be implemented for the assignment process by simply comparing each country at most to the $K$ centroids in the model.  Actually, we propose the usage of the ELECTRE TRI-C sorting method rationale to assign alternatives, in which central reference alternatives are used to define the categories, but updating these centroids by applying the $K$-means approach.
 
-In this article, a stochastic approach for ordered clustering in the HDI problem is proposed, which integrates an outranking-based classification process with $K$-means, such that:  (1) building ordered clusters is an integral part of the procedure, without need for supplementary processes; an assignment rule proposed in the ELECTRE TRI-C sorting method \citep{almeida2008,Almeida2012} is used in the process, extending rules proposed in sorting methods to clustering; (2) uncertain thresholds are considered such that robustness analysis is performed. Thus, the proposed approach is integrated  to a Monte Carlo Simulation process in which sets of  parameter values are passed as input to the ordered clustering algorithm. To the best of our knowledge, this is the first approach that deals with these two problems.
+In this article, a stochastic approach for ordered clustering in the HDI problem is proposed, which integrates an outranking-based classification process with $K$-means, such that:  (1) building ordered clusters is an integral part of the procedure, without need for supplementary processes; an assignment rule proposed in the ELECTRE TRI-C sorting method \citep{almeida2008,Almeida2012} is used in the process, extending rules proposed in sorting methods to clustering; (2) uncertain thresholds are considered such that robustness analysis is performed. Thus, the proposed approach integrates  a Monte Carlo Simulation process in which sets of  parameter values are passed as input to the clustering algorithm. To the best of our knowledge, this is the first approach that deals with these two problems.
 
-The article is organized as follows......
+The article is organized as follows. In Section \ref{notation} basics of the clustering approach are presented. Section \ref{approach} presents the clustering approach. In Section \ref{application}  countries included in the HDI 2018 report are clustered by following the proposed approach.  Results are presented and discussed.  Limitations of this approach and final conclusions are described in Section \ref{conclusions}.
 
 %\section{Human Development Index}
 %
@@ -402,31 +403,10 @@ g_j(b_h) = \frac{1}{\mid C_h \mid} \sum_{a_i \in C_h} g_j(a_i) \quad j=1,\ldots,
 Thus, the algorithm is iterated a number of times, or until the  change of centroids is less or equal than a given tolerance.
 
 
-\section{Clustering approach}\label{methodology}
+\section{Clustering approach}\label{approach}
 
 The approach proposed here assumes that $K\geq 2$ ordered clusters must be found: $C_K \succ \ldots \succ C_1$. Similarly to the original $K$-means algorithm, an iterative constructive clustering process is performed until a stop condition is satisfied, as described  in Figure \ref{clustering}.  
 
-Initially, the set of alternatives, the family of criteria, the criteria weights, and the number of clusters are identified.  Next, the imprecision parameters are set. Stochastic preference and indifference thresholds are considered in this approach. Thus, each time that the Step 2 is performed, a new set of values for $p_j,q_j,p'_j,q'_j \,(j=1,\ldots,m)$ are generated and used as input to the Step 3, where the new initial centroids are defined. Centroids  must satisfy the strict separability condition \citep{roy2012}:  for any pair $b_h^{(0)}, b_k^{(0)}$ such that $h>k$, it follows 
-
-\begin{equation}
-b_h^{(0)} \,P\, b_k^{(0)} \Leftrightarrow g_j(b_h^{(0)})-p'_j \geq g_j(b_k^{(0)})+p_j, \forall j.
-\end{equation}
-
-\noindent
-where $P$ is a binary relation representing a strong preference.  This condition makes that fuzzy sets representing the membership functions of every category do not overlap. 
-
-
-Step 4 consists of computing the credibility indices, using the expressions \eqref{generalsigmaDG} and  \eqref{generalsigmaIG}. In Step 5, the alternatives are assigned into the classes, using the descending (or the ascending) rule proposed in Section \ref{outrankingclass}.
-
-In Step 6, the evaluation profile of each new centroid in the iteration $t$ and class $C_h$ is computed as follows:
-
-\begin{equation}
-g_j(b_h^{(t)}) = \frac{1}{\mid C_h^{t,j} \mid} \sum_{a_i \in C_h^{t,j}} g_j(a_i) \quad j=1,\ldots,m,\label{newcentroid}
-\end{equation}
-
-\noindent
-{\color{red}where $C_h^{t,j}=\{a_i \in C_h \mid g_j(b_h^{(t)})-p'_j\leq g_j(a_i) \leq g_j(b_h^{(t)})+p_j\}$.  Whenever $C_h^{t,j}=\emptyset$, then $g_j(b_h^{(t)})=g_j(b_h^{(t-1)})$.   This condition helps to hold a weak separability condition, as shown below in the application. The weak separability condition says that given $h > t$, then $g_j(b_h) \geq g_j(b_t), \forall j$ \citep{roy2012}. This is an interesting property because it guarantees that the resulting clusters are ordered, as an outcome of the clustering approach.
-}
 
 
 
@@ -501,6 +481,43 @@ g_j(b_h^{(t)}) = \frac{1}{\mid C_h^{t,j} \mid} \sum_{a_i \in C_h^{t,j}} g_j(a_i)
 \end{center}
 \end{figure}
 
+Initially, the set of alternatives, the family of criteria, the criteria weights, and the number of clusters are identified.  Next, the imprecision parameters are set. Stochastic preference and indifference thresholds are considered in this approach. Thus, each time that the Step 2 is performed, a new set of values for $p_j,q_j,p'_j,q'_j \,(j=1,\ldots,m)$ are generated and used as input to the Step 3, where the new initial centroids are defined. Centroids  must satisfy the strict separability condition \citep{roy2012}:  for any pair $b_h^{(0)}, b_k^{(0)}$ such that $h>k$, it follows 
+
+\begin{equation}
+b_h^{(0)} \,P\, b_k^{(0)} \Leftrightarrow g_j(b_h^{(0)})-p'_j \geq g_j(b_k^{(0)})+p_j, \forall j.
+\end{equation}
+
+\noindent
+where $P$ is a binary relation representing a strong preference.  This condition makes that fuzzy sets representing the membership functions of every category do not overlap. 
+
+
+Step 4 consists of computing the credibility indices, using the expressions \eqref{generalsigmaDG} and  \eqref{generalsigmaIG}. In Step 5, the alternatives are assigned into the classes, using the descending (or the ascending) rule proposed in Section \ref{outrankingclass}.
+
+In Step 6, the evaluation profile of each new centroid in the iteration $t$ and class $C_h$ is computed as follows:
+
+\begin{equation}
+g_j(b_h^{(t)}) = \frac{1}{\mid C_h^{t,j} \mid} \sum_{a_i \in C_h^{t,j}} g_j(a_i) \quad j=1,\ldots,m,\label{newcentroid}
+\end{equation}
+
+\noindent
+where $C_h^{t,j}=\{a_i \in C_h \mid g_j(b_h^{(t)})-p'_j\leq g_j(a_i) \leq g_j(b_h^{(t)})+p_j\}$.  Whenever $C_h^{t,j}=\emptyset$, then $g_j(b_h^{(t)})=g_j(b_h^{(t-1)})$.   
+
+
+{\color{blue}\cite{roy2012} propose that in classification problems, using a set of central reference alternatives, a \emph{separability condition} must be satisfied: any two central reference alternatives must be separated enough such that the preference property holds, at the level of each criterion. We extend this property to the cases in which the direct and the inverse preference thresholds are used:
+
+\begin{cond}
+\emph{The set of reference alternatives $B$ fulfills the strict separability condition if and only if}
+
+\begin{equation}
+g_j(b_{h-1})+p_j \leq g_j(b_h)-p'_j \,,(h=2,\ldots,H; j=1,\ldots,n). \label{separability}
+\end{equation}
+
+\end{cond}
+
+\noindent
+If this condition is hold along the iterative process, the resulting cluster centers are ordered.  Therefore, the  process will induce an ordered clustering.
+}
+
 Given a set of parameter values, the inner loop in Figure \ref{clustering} iterates up to one out of two stop conditions applies: 1) the change of evaluation profiles is  lower than a pre-defined $\epsilon$ value, or 2) the maximum number of iterations, $Maxit$,  is reached.  The whole process is repeated $Maxst$ times, once for each set of stochastic parameter values. In Step 7, the final frequency indices are computed, proposing the $K$ ordered clusters.
 
 
@@ -516,27 +533,50 @@ In the following section, this approach is applied to the HDI problem.
 
 There are 189 countries to be clustered in the clustering process. The family of criteria to be considered consists of the three indices: life expectancy ($g_1$), years of schooling ($g_2$) and GNI  ($g_3$).  Data from the 2018's HDI Report is used to compute these indices, using the formulae defined in the HDI Technical Notes \citep{UNDP2019}. Four clusters, i.e. $K=4$, are defined, which parallels the number of groups defined in the Human Development Report.  As proposed by UNDP, weights are considered to be equal to $1/3$ for each criterion.
 
-We assume that stochastic variables $\xi_{p_j},\xi_{q_j},\xi_{p'_j},\xi_{q'_j}$ correctly model each parameter uncertainty. In addition, it is assumed that each stochastic variable is uniformly distributed in an interval  $\xi \in [\xi_m, \xi_M]$. Thus, it is expected that the ''true'' value for each parameter lies within an interval, as follows:
+\subsection{Initial settings}
+
+In order to have the first set of cluster centers, the classical $K$-means process is run. This gives the following centroids, which are used as input to our approach:
 
 \begin{eqnarray}
-p_1,p'_1 \in [0.090, 0.290], \nonumber\\
-p_2,p'_2 \in [0.040, 0.240], \nonumber\\
-p_3,p'_3 \in [0.000, 0.200], \nonumber\\
-q_1,q'_1 \in [0.045, 0.145], \nonumber\\
-q_2,q'_2 \in [0.020, 0.120], \nonumber\\
-q_3,q'_3 \in [0.000, 0.100]. \nonumber
+b_1=(0.27, 0.25, 0.43), \nonumber\\
+b_2=(0.51, 0.39, 0.64), \nonumber\\
+b_3=(0.70, 0.53, 0.83), \nonumber\\
+b_4=(0.90, 0.71, 0.93). \nonumber
+\end{eqnarray}
+
+\noindent
+For each criterion $j$, if the minimum distance between consecutive centroids is $m_j=\min_{h} g_j(b_h)-g_j(b_{h-1})$, then $m_1=0.19, m_2=0.14, m_3=0.10$. Note that holding the separability condition means  $g_j(b_{h-1})+p_j \leq g_j(b_h)-p'_j$, or equivalently $g_j(b_{h-1})+p_j+p'_j \leq g_j(b_h)$. Thus, to satisfy the strict separability condition, the following restriction must be defined
+
+\begin{equation}
+p'_j+p_j \leq m_j \, (j=1,2,3). \label{thresholds}
+\end{equation}
+
+%\noindent
+%We suppose that $p_j,q_j,p'_j,q'_j$ do not depend on the position where an alternative is evaluated on the criterion $j$. There are situations in which that assumption may not be valid and more complete constraints should be considered. However, in this article we assume that the restriction \eqref{thresholds} is adequate.
+
+
+Let us assume that  $p_j,q_j,p'_j,q'_j$ are uncertain.  We may assume that stochastic variables $\xi_{p_j},\xi_{q_j},\xi_{p'_j},\xi_{q'_j}$ correctly model each parameter. In addition, it can be assumed that each stochastic variable is uniformly distributed in an interval  $[\xi_m, \xi_M]$. Thus, if each stochastic interval is defined as $[m_j-0.1, m_j+0.1] \,(j=1,2,3)$, then the following linear equations system may be defined as follows:
+
+\begin{eqnarray}
+p_1,p'_1 &\in& [0.090, 0.290], \nonumber\\
+p_2,p'_2 &\in& [0.040, 0.240], \nonumber\\
+p_3,p'_3 &\in& [0.000, 0.200], \nonumber\\
+q_1,q'_1 &\in& [0.045, 0.145], \nonumber\\
+q_2,q'_2 &\in& [0.020, 0.120], \nonumber\\
+q_3,q'_3 &\in& [0.000, 0.100], \nonumber\\
+p_1+p'_1 &\leq& 0.19, \nonumber\\
+p_2+p'_2 &\leq& 0.14,  \nonumber\\
+p_3+p'_3 &\leq& 0.10. \nonumber
 \end{eqnarray}
 
 
-
-
-
 \noindent
-Thus, for each $p_j, q_j, p'_j, q'_j$, Monte Carlo Simulation allows to generate a set of 1000 parameter values. Consequently, $Maxst=1000$.  
+In order to generate a set of 1000 parameter values, the \texttt{limsolve  R} package can be used to solve the linear system above. Consequently, $Maxst=1000$.  In order to fix the number of iterations, we define $Maxit=30$.
 
 \subsection{Results}
 
-The proposed approach was implemented in Python, in Mac OSX. Time to execution was XYZ sec.  In Table \ref{results}, four groups of alternatives  are presented, the same defined in the HDI ranking.  Thus, for instance,  countries ranging from  1 (Norway) up to 62 (Seychelles) belong to the group of very high developed countries. Clusters built by the proposed approach are coded as $C_1 \prec  C_2 \prec C_3 \prec C_4$.  Given a row in a tabular structure, values indicate how frequently an alternative (country) was assigned to a cluster in the set fo 1000 simulations.  For instance, the alternative 1 in the group VERY HIGH DEVELOPMENT, 95\% of times was assigned into $C_4$, whilst 4\%, 1\%, and 0\% of times it was assigned to $C_3, C_2, C_1$, respectively.  Colors help to recognize these frequencies: the more intense a color, the higher the frequency an alternative reaches in a cluster.  As observed,  results generated with the stochastic approach show that almost all the alternatives assigned into $C_4$ have a frequency greater or equal to 53\%, except the alternative 60 (Bahamas) which appears belonging into that category only 44\% of times.  
+The proposed approach is implemented in Python.  In Table \ref{results}, four groups of alternatives  are presented, the same defined in the HDI ranking.  Thus, for instance,  countries ranging from  1 (Norway) up to 62 (Seychelles) belong to the group of very high developed countries. Clusters built by the proposed approach are coded as $C_1, C_2, C_3, C_4$ and satisfy $C_1 \prec  C_2 \prec C_3 \prec C_4$.  Given a row in a tabular structure, values indicate how frequently an alternative (country) is assigned to a cluster in the set fo 1000 simulations.  For instance, the alternative 1 in the group VERY HIGH DEVELOPMENT, 99\% of times is assigned into $C_4$, whilst 1\%, 0\%, and 0\% of times it is assigned into $C_3, C_2, C_1$, respectively.  Colors help to recognize these frequencies: the more intense a color, the higher the frequency an alternative reaches in a cluster.  
+
 
 
 
@@ -548,239 +588,239 @@ The proposed approach was implemented in Python, in Mac OSX. Time to execution w
 \tiny
 \hskip-4.0cm
 \begin{tabular}{llll}
-\begin{tabular}[t]{l*{\items}{|E}l}
+\begin{tabular}[t]{c*{\items}{|E}l}
 \multicolumn{5}{c}{VERY HIGH DEVELOPMENT}\\\hline 
-\multicolumn{1}{c}{Count} & 
+\multicolumn{1}{c}{Country} & 
 \multicolumn{1}{c}{$C_1$} & 
 \multicolumn{1}{c}{$C_2$} & 
 \multicolumn{1}{c}{$C_3$} & 
 \multicolumn{1}{c}{$C_4$} 
 \\\hline
-1	&	0.00 	&	0.01 	&	0.04 	&	0.95 	\\\hline
-2	&	0.00 	&	0.00 	&	0.09 	&	0.91 	\\\hline
-3	&	0.00 	&	0.01 	&	0.01 	&	0.98 	\\\hline
-4	&	0.00 	&	0.00 	&	0.06 	&	0.94 	\\\hline
-5	&	0.01 	&	0.01 	&	0.08 	&	0.89 	\\\hline
-6	&	0.00 	&	0.01 	&	0.01 	&	0.98 	\\\hline
-7	&	0.00 	&	0.01 	&	0.01 	&	0.98 	\\\hline
-8	&	0.01 	&	0.01 	&	0.01 	&	0.98 	\\\hline
-9	&	0.02 	&	0.02 	&	0.10 	&	0.87 	\\\hline
-10	&	0.01 	&	0.01 	&	0.04 	&	0.95 	\\\hline
-11	&	0.00 	&	0.01 	&	0.01 	&	0.98 	\\\hline
-12	&	0.01 	&	0.01 	&	0.01 	&	0.98 	\\\hline
-13	&	0.00 	&	0.01 	&	0.09 	&	0.90 	\\\hline
-14	&	0.00 	&	0.01 	&	0.01 	&	0.98 	\\\hline
-15	&	0.00 	&	0.01 	&	0.06 	&	0.92 	\\\hline
-16	&	0.00 	&	0.01 	&	0.13 	&	0.86 	\\\hline
-17	&	0.01 	&	0.01 	&	0.02 	&	0.97 	\\\hline
-18	&	0.01 	&	0.04 	&	0.12 	&	0.82 	\\\hline
-19	&	0.01 	&	0.03 	&	0.08 	&	0.88 	\\\hline
-20	&	0.01 	&	0.01 	&	0.08 	&	0.90 	\\\hline
-21	&	0.02 	&	0.06 	&	0.12 	&	0.80 	\\\hline
-22	&	0.00 	&	0.02 	&	0.09 	&	0.90 	\\\hline
-23	&	0.01 	&	0.01 	&	0.09 	&	0.89 	\\\hline
-24	&	0.01 	&	0.01 	&	0.06 	&	0.92 	\\\hline
-25	&	0.04 	&	0.03 	&	0.08 	&	0.86 	\\\hline
-26	&	0.00 	&	0.02 	&	0.09 	&	0.88 	\\\hline
-27	&	0.02 	&	0.04 	&	0.11 	&	0.84 	\\\hline
-28	&	0.02 	&	0.02 	&	0.10 	&	0.85 	\\\hline
-29	&	0.03 	&	0.03 	&	0.10 	&	0.84 	\\\hline
-30	&	0.00 	&	0.02 	&	0.14 	&	0.84 	\\\hline
-31	&	0.02 	&	0.04 	&	0.12 	&	0.82 	\\\hline
-32	&	0.02 	&	0.03 	&	0.09 	&	0.86 	\\\hline
-33	&	0.01 	&	0.02 	&	0.14 	&	0.84 	\\\hline
-34	&	0.01 	&	0.03 	&	0.18 	&	0.78 	\\\hline
-35	&	0.05 	&	0.11 	&	0.22 	&	0.62 	\\\hline
-36	&	0.07 	&	0.12 	&	0.19 	&	0.62 	\\\hline
-37	&	0.05 	&	0.09 	&	0.23 	&	0.63 	\\\hline
-38	&	0.02 	&	0.06 	&	0.22 	&	0.69 	\\\hline
-39	&	0.01 	&	0.04 	&	0.20 	&	0.74 	\\\hline
-40	&	0.05 	&	0.04 	&	0.11 	&	0.80 	\\\hline
-41	&	0.09 	&	0.14 	&	0.23 	&	0.54 	\\\hline
-42	&	0.03 	&	0.03 	&	0.11 	&	0.83 	\\\hline
-43	&	0.07 	&	0.11 	&	0.23 	&	0.58 	\\\hline
-44	&	0.02 	&	0.06 	&	0.22 	&	0.70 	\\\hline
-45	&	0.06 	&	0.09 	&	0.22 	&	0.63 	\\\hline
-46	&	0.02 	&	0.06 	&	0.18 	&	0.74 	\\\hline
-47	&	0.06 	&	0.10 	&	0.21 	&	0.64 	\\\hline
-48	&	0.03 	&	0.06 	&	0.17 	&	0.74 	\\\hline
-49	&	0.03 	&	0.10 	&	0.23 	&	0.65 	\\\hline
-50	&	0.02 	&	0.06 	&	0.23 	&	0.68 	\\\hline
-51	&	0.03 	&	0.09 	&	0.24 	&	0.64 	\\\hline
-52	&	0.03 	&	0.08 	&	0.24 	&	0.66 	\\\hline
-53	&	0.03 	&	0.07 	&	0.21 	&	0.69 	\\\hline
-54	&	0.04 	&	0.09 	&	0.24 	&	0.63 	\\\hline
-55	&	0.02 	&	0.07 	&	0.23 	&	0.68 	\\\hline
-56	&	0.03 	&	0.07 	&	0.14 	&	0.75 	\\\hline
-57	&	0.12 	&	0.15 	&	0.20 	&	0.53 	\\\hline
-58	&	0.07 	&	0.08 	&	0.18 	&	0.67 	\\\hline
-59	&	0.08 	&	0.10 	&	0.18 	&	0.63 	\\\hline
-60	&	0.07 	&	0.15 	&	0.34 	&	0.44 	\\\hline
-61	&	0.07 	&	0.13 	&	0.24 	&	0.56 	\\\hline
-62	&	0.06 	&	0.11 	&	0.25 	&	0.57 	\\\hline
+1	&	0.00 	&	0.00 	&	0.01 	&	0.99 	\\\hline
+2	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
+3	&	0.00 	&	0.00 	&	0.01 	&	0.99 	\\\hline
+4	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
+5	&	0.00 	&	0.00 	&	0.03 	&	0.97 	\\\hline
+6	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
+7	&	0.00 	&	0.00 	&	0.01 	&	0.99 	\\\hline
+8	&	0.00 	&	0.00 	&	0.02 	&	0.98 	\\\hline
+9	&	0.00 	&	0.00 	&	0.16 	&	0.84 	\\\hline
+10	&	0.00 	&	0.00 	&	0.02 	&	0.98 	\\\hline
+11	&	0.00 	&	0.00 	&	0.01 	&	0.99 	\\\hline
+12	&	0.00 	&	0.00 	&	0.02 	&	0.98 	\\\hline
+13	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
+14	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
+15	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
+16	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
+17	&	0.00 	&	0.00 	&	0.06 	&	0.94 	\\\hline
+18	&	0.00 	&	0.00 	&	0.12 	&	0.88 	\\\hline
+19	&	0.00 	&	0.00 	&	0.05 	&	0.95 	\\\hline
+20	&	0.00 	&	0.00 	&	0.01 	&	0.99 	\\\hline
+21	&	0.00 	&	0.00 	&	0.19 	&	0.81 	\\\hline
+22	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
+23	&	0.00 	&	0.00 	&	0.02 	&	0.98 	\\\hline
+24	&	0.00 	&	0.00 	&	0.02 	&	0.98 	\\\hline
+25	&	0.00 	&	0.12 	&	0.40 	&	0.48 	\\\hline
+26	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
+27	&	0.00 	&	0.00 	&	0.27 	&	0.73 	\\\hline
+28	&	0.00 	&	0.00 	&	0.21 	&	0.79 	\\\hline
+29	&	0.00 	&	0.07 	&	0.39 	&	0.54 	\\\hline
+30	&	0.00 	&	0.00 	&	0.01 	&	0.99 	\\\hline
+31	&	0.00 	&	0.00 	&	0.19 	&	0.81 	\\\hline
+32	&	0.00 	&	0.05 	&	0.33 	&	0.62 	\\\hline
+33	&	0.00 	&	0.00 	&	0.06 	&	0.94 	\\\hline
+34	&	0.00 	&	0.00 	&	0.04 	&	0.96 	\\\hline
+35	&	0.00 	&	0.07 	&	0.55 	&	0.38 	\\\hline
+36	&	0.00 	&	0.20 	&	0.39 	&	0.42 	\\\hline
+37	&	0.00 	&	0.13 	&	0.42 	&	0.44 	\\\hline
+38	&	0.00 	&	0.00 	&	0.56 	&	0.44 	\\\hline
+39	&	0.00 	&	0.00 	&	0.08 	&	0.92 	\\\hline
+40	&	0.01 	&	0.17 	&	0.35 	&	0.47 	\\\hline
+41	&	0.00 	&	0.24 	&	0.37 	&	0.39 	\\\hline
+42	&	0.00 	&	0.06 	&	0.35 	&	0.59 	\\\hline
+43	&	0.01 	&	0.18 	&	0.42 	&	0.39 	\\\hline
+44	&	0.00 	&	0.00 	&	0.57 	&	0.43 	\\\hline
+45	&	0.01 	&	0.15 	&	0.44 	&	0.40 	\\\hline
+46	&	0.00 	&	0.00 	&	0.57 	&	0.43 	\\\hline
+47	&	0.00 	&	0.12 	&	0.47 	&	0.40 	\\\hline
+48	&	0.00 	&	0.04 	&	0.49 	&	0.47 	\\\hline
+49	&	0.00 	&	0.00 	&	0.62 	&	0.38 	\\\hline
+50	&	0.00 	&	0.00 	&	0.52 	&	0.48 	\\\hline
+51	&	0.00 	&	0.00 	&	0.60 	&	0.40 	\\\hline
+52	&	0.00 	&	0.00 	&	0.58 	&	0.42 	\\\hline
+53	&	0.00 	&	0.00 	&	0.58 	&	0.42 	\\\hline
+54	&	0.00 	&	0.01 	&	0.60 	&	0.39 	\\\hline
+55	&	0.00 	&	0.00 	&	0.41 	&	0.59 	\\\hline
+56	&	0.00 	&	0.04 	&	0.49 	&	0.47 	\\\hline
+57	&	0.14 	&	0.14 	&	0.34 	&	0.38 	\\\hline
+58	&	0.02 	&	0.21 	&	0.34 	&	0.43 	\\\hline
+59	&	0.11 	&	0.16 	&	0.31 	&	0.43 	\\\hline
+60	&	0.00 	&	0.13 	&	0.68 	&	0.18 	\\\hline
+61	&	0.00 	&	0.18 	&	0.44 	&	0.38 	\\\hline
+62	&	0.00 	&	0.13 	&	0.47 	&	0.40 	\\\hline
 \end{tabular}
 
 &
 
-\begin{tabular}[t]{l*{\items}{|E}|}
+\begin{tabular}[t]{c*{\items}{|E}|}
 \multicolumn{5}{c}{HIGH DEVELOPMENT}\\\hline 
-\multicolumn{1}{c}{Count} & 
+\multicolumn{1}{c}{Country} & 
 \multicolumn{1}{c}{$C_1$} & 
 \multicolumn{1}{c}{$C_2$} & 
 \multicolumn{1}{c}{$C_3$} & 
 \multicolumn{1}{c}{$C_4$} 
 \\\hline
-63	&	0.03 	&	0.08 	&	0.22 	&	0.66 	\\\hline
-64	&	0.07 	&	0.16 	&	0.33 	&	0.43 	\\\hline
-65	&	0.05 	&	0.09 	&	0.23 	&	0.62 	\\\hline
-66	&	0.06 	&	0.10 	&	0.24 	&	0.60 	\\\hline
-67	&	0.08 	&	0.13 	&	0.23 	&	0.56 	\\\hline
-68	&	0.06 	&	0.08 	&	0.14 	&	0.72 	\\\hline
-69	&	0.04 	&	0.08 	&	0.18 	&	0.70 	\\\hline
-70	&	0.02 	&	0.07 	&	0.24 	&	0.68 	\\\hline
-71	&	0.05 	&	0.11 	&	0.23 	&	0.62 	\\\hline
-72	&	0.03 	&	0.07 	&	0.17 	&	0.73 	\\\hline
-73	&	0.10 	&	0.14 	&	0.25 	&	0.51 	\\\hline
-74	&	0.09 	&	0.15 	&	0.24 	&	0.52 	\\\hline
-75	&	0.07 	&	0.12 	&	0.22 	&	0.58 	\\\hline
-76	&	0.09 	&	0.12 	&	0.23 	&	0.56 	\\\hline
-77	&	0.09 	&	0.12 	&	0.20 	&	0.59 	\\\hline
-78	&	0.08 	&	0.13 	&	0.24 	&	0.55 	\\\hline
-79	&	0.08 	&	0.12 	&	0.21 	&	0.58 	\\\hline
-80	&	0.08 	&	0.12 	&	0.20 	&	0.60 	\\\hline
-81	&	0.05 	&	0.12 	&	0.30 	&	0.52 	\\\hline
-82	&	0.09 	&	0.12 	&	0.20 	&	0.59 	\\\hline
-83	&	0.07 	&	0.13 	&	0.24 	&	0.55 	\\\hline
-84	&	0.08 	&	0.13 	&	0.22 	&	0.58 	\\\hline
-85	&	0.10 	&	0.14 	&	0.20 	&	0.56 	\\\hline
-86	&	0.06 	&	0.11 	&	0.22 	&	0.61 	\\\hline
-87	&	0.09 	&	0.18 	&	0.32 	&	0.41 	\\\hline
-88	&	0.05 	&	0.12 	&	0.24 	&	0.60 	\\\hline
-89	&	0.10 	&	0.14 	&	0.23 	&	0.53 	\\\hline
-90	&	0.09 	&	0.14 	&	0.21 	&	0.56 	\\\hline
-91	&	0.10 	&	0.12 	&	0.20 	&	0.58 	\\\hline
-92	&	0.10 	&	0.17 	&	0.24 	&	0.49 	\\\hline
-93	&	0.15 	&	0.14 	&	0.22 	&	0.49 	\\\hline
-94	&	0.14 	&	0.19 	&	0.31 	&	0.36 	\\\hline
-95	&	0.11 	&	0.18 	&	0.27 	&	0.45 	\\\hline
-96	&	0.08 	&	0.14 	&	0.30 	&	0.48 	\\\hline
-97	&	0.10 	&	0.18 	&	0.32 	&	0.40 	\\\hline
-98	&	0.12 	&	0.15 	&	0.20 	&	0.53 	\\\hline
-99	&	0.13 	&	0.19 	&	0.25 	&	0.44 	\\\hline
-100	&	0.12 	&	0.15 	&	0.29 	&	0.43 	\\\hline
-101	&	0.12 	&	0.18 	&	0.30 	&	0.39 	\\\hline
-102	&	0.10 	&	0.15 	&	0.30 	&	0.44 	\\\hline
-103	&	0.08 	&	0.14 	&	0.30 	&	0.48 	\\\hline
-104	&	0.20 	&	0.15 	&	0.18 	&	0.47 	\\\hline
-105	&	0.07 	&	0.16 	&	0.24 	&	0.53 	\\\hline
-106	&	0.12 	&	0.18 	&	0.31 	&	0.39 	\\\hline
-107	&	0.12 	&	0.19 	&	0.31 	&	0.38 	\\\hline
-108	&	0.24 	&	0.21 	&	0.32 	&	0.23 	\\\hline
-109	&	0.10 	&	0.20 	&	0.31 	&	0.38 	\\\hline
-110	&	0.15 	&	0.19 	&	0.28 	&	0.39 	\\\hline
-111	&	0.15 	&	0.19 	&	0.28 	&	0.38 	\\\hline
-112	&	0.08 	&	0.17 	&	0.33 	&	0.41 	\\\hline
-113	&	0.19 	&	0.21 	&	0.26 	&	0.35 	\\\hline
-114	&	0.10 	&	0.18 	&	0.23 	&	0.49 	\\\hline
-115	&	0.21 	&	0.21 	&	0.27 	&	0.31 	\\\hline
-116	&	0.16 	&	0.20 	&	0.25 	&	0.39 	\\\hline
+63	&	0.00 	&	0.00 	&	0.58 	&	0.41 	\\\hline
+64	&	0.00 	&	0.22 	&	0.60 	&	0.18 	\\\hline
+65	&	0.00 	&	0.10 	&	0.50 	&	0.40 	\\\hline
+66	&	0.01 	&	0.15 	&	0.44 	&	0.40 	\\\hline
+67	&	0.00 	&	0.21 	&	0.41 	&	0.38 	\\\hline
+68	&	0.02 	&	0.21 	&	0.33 	&	0.44 	\\\hline
+69	&	0.00 	&	0.09 	&	0.49 	&	0.42 	\\\hline
+70	&	0.00 	&	0.00 	&	0.44 	&	0.56 	\\\hline
+71	&	0.00 	&	0.02 	&	0.60 	&	0.38 	\\\hline
+72	&	0.00 	&	0.00 	&	0.52 	&	0.48 	\\\hline
+73	&	0.03 	&	0.23 	&	0.39 	&	0.35 	\\\hline
+74	&	0.01 	&	0.23 	&	0.38 	&	0.38 	\\\hline
+75	&	0.00 	&	0.17 	&	0.45 	&	0.38 	\\\hline
+76	&	0.02 	&	0.21 	&	0.38 	&	0.39 	\\\hline
+77	&	0.10 	&	0.16 	&	0.34 	&	0.39 	\\\hline
+78	&	0.02 	&	0.24 	&	0.37 	&	0.38 	\\\hline
+79	&	0.10 	&	0.16 	&	0.34 	&	0.40 	\\\hline
+80	&	0.04 	&	0.21 	&	0.36 	&	0.39 	\\\hline
+81	&	0.00 	&	0.03 	&	0.67 	&	0.30 	\\\hline
+82	&	0.08 	&	0.18 	&	0.35 	&	0.39 	\\\hline
+83	&	0.00 	&	0.22 	&	0.40 	&	0.38 	\\\hline
+84	&	0.01 	&	0.19 	&	0.42 	&	0.38 	\\\hline
+85	&	0.09 	&	0.17 	&	0.36 	&	0.38 	\\\hline
+86	&	0.01 	&	0.18 	&	0.40 	&	0.40 	\\\hline
+87	&	0.00 	&	0.34 	&	0.53 	&	0.13 	\\\hline
+88	&	0.00 	&	0.08 	&	0.55 	&	0.38 	\\\hline
+89	&	0.09 	&	0.17 	&	0.36 	&	0.38 	\\\hline
+90	&	0.03 	&	0.22 	&	0.37 	&	0.38 	\\\hline
+91	&	0.14 	&	0.14 	&	0.33 	&	0.39 	\\\hline
+92	&	0.00 	&	0.33 	&	0.40 	&	0.27 	\\\hline
+93	&	0.09 	&	0.28 	&	0.45 	&	0.17 	\\\hline
+94	&	0.01 	&	0.53 	&	0.31 	&	0.15 	\\\hline
+95	&	0.02 	&	0.43 	&	0.26 	&	0.28 	\\\hline
+96	&	0.00 	&	0.23 	&	0.55 	&	0.23 	\\\hline
+97	&	0.00 	&	0.48 	&	0.34 	&	0.18 	\\\hline
+98	&	0.10 	&	0.18 	&	0.34 	&	0.38 	\\\hline
+99	&	0.00 	&	0.26 	&	0.74 	&	0.00 	\\\hline
+100	&	0.03 	&	0.27 	&	0.52 	&	0.18 	\\\hline
+101	&	0.01 	&	0.52 	&	0.29 	&	0.18 	\\\hline
+102	&	0.00 	&	0.29 	&	0.57 	&	0.14 	\\\hline
+103	&	0.00 	&	0.23 	&	0.55 	&	0.23 	\\\hline
+104	&	0.17 	&	0.13 	&	0.34 	&	0.36 	\\\hline
+105	&	0.00 	&	0.16 	&	0.46 	&	0.38 	\\\hline
+106	&	0.01 	&	0.53 	&	0.29 	&	0.17 	\\\hline
+107	&	0.00 	&	0.50 	&	0.50 	&	0.00 	\\\hline
+108	&	0.03 	&	0.77 	&	0.20 	&	0.00 	\\\hline
+109	&	0.00 	&	0.45 	&	0.54 	&	0.01 	\\\hline
+110	&	0.12 	&	0.34 	&	0.38 	&	0.17 	\\\hline
+111	&	0.08 	&	0.46 	&	0.28 	&	0.18 	\\\hline
+112	&	0.00 	&	0.30 	&	0.54 	&	0.16 	\\\hline
+113	&	0.01 	&	0.58 	&	0.41 	&	0.00 	\\\hline
+114	&	0.01 	&	0.42 	&	0.20 	&	0.36 	\\\hline
+115	&	0.12 	&	0.48 	&	0.40 	&	0.00 	\\\hline
+116	&	0.14 	&	0.40 	&	0.28 	&	0.18 	\\\hline
 \end{tabular}
 
 &
 
-\begin{tabular}[t]{l*{\items}{|E}|}
+\begin{tabular}[t]{c*{\items}{|E}|}
 \multicolumn{5}{c}{MEDIUM DEVELOPMENT}\\\hline 
-\multicolumn{1}{c}{Count} & 
+\multicolumn{1}{c}{Country} & 
 \multicolumn{1}{c}{$C_1$} & 
 \multicolumn{1}{c}{$C_2$} & 
 \multicolumn{1}{c}{$C_3$} & 
 \multicolumn{1}{c}{$C_4$} 
 \\\hline
-117	&	0.08 	&	0.16 	&	0.33 	&	0.44 	\\\hline
-118	&	0.13 	&	0.15 	&	0.24 	&	0.49 	\\\hline
-119	&	0.10 	&	0.15 	&	0.32 	&	0.43 	\\\hline
-120	&	0.25 	&	0.19 	&	0.26 	&	0.30 	\\\hline
-121	&	0.20 	&	0.15 	&	0.18 	&	0.48 	\\\hline
-122	&	0.08 	&	0.18 	&	0.31 	&	0.43 	\\\hline
-123	&	0.22 	&	0.19 	&	0.28 	&	0.31 	\\\hline
-124	&	0.21 	&	0.18 	&	0.24 	&	0.36 	\\\hline
-125	&	0.15 	&	0.19 	&	0.32 	&	0.34 	\\\hline
-126	&	0.24 	&	0.19 	&	0.22 	&	0.35 	\\\hline
-127	&	0.28 	&	0.18 	&	0.19 	&	0.35 	\\\hline
-128	&	0.20 	&	0.17 	&	0.23 	&	0.40 	\\\hline
-129	&	0.24 	&	0.21 	&	0.23 	&	0.32 	\\\hline
-130	&	0.29 	&	0.21 	&	0.22 	&	0.27 	\\\hline
-131	&	0.30 	&	0.18 	&	0.22 	&	0.30 	\\\hline
-132	&	0.29 	&	0.19 	&	0.18 	&	0.35 	\\\hline
-133	&	0.25 	&	0.20 	&	0.30 	&	0.25 	\\\hline
-134	&	0.35 	&	0.15 	&	0.22 	&	0.28 	\\\hline
-135	&	0.26 	&	0.19 	&	0.22 	&	0.33 	\\\hline
-136	&	0.26 	&	0.20 	&	0.32 	&	0.22 	\\\hline
-137	&	0.22 	&	0.21 	&	0.23 	&	0.34 	\\\hline
-138	&	0.32 	&	0.20 	&	0.31 	&	0.16 	\\\hline
-139	&	0.40 	&	0.19 	&	0.28 	&	0.13 	\\\hline
-140	&	0.35 	&	0.18 	&	0.30 	&	0.18 	\\\hline
-141	&	0.26 	&	0.19 	&	0.26 	&	0.29 	\\\hline
-142	&	0.31 	&	0.21 	&	0.32 	&	0.16 	\\\hline
-143	&	0.30 	&	0.21 	&	0.27 	&	0.22 	\\\hline
-144	&	0.52 	&	0.20 	&	0.21 	&	0.07 	\\\hline
-145	&	0.41 	&	0.19 	&	0.27 	&	0.13 	\\\hline
-146	&	0.32 	&	0.18 	&	0.25 	&	0.25 	\\\hline
-147	&	0.31 	&	0.20 	&	0.32 	&	0.16 	\\\hline
-148	&	0.28 	&	0.19 	&	0.22 	&	0.31 	\\\hline
-149	&	0.41 	&	0.17 	&	0.26 	&	0.16 	\\\hline
-150	&	0.42 	&	0.17 	&	0.22 	&	0.19 	\\\hline
-151	&	0.37 	&	0.23 	&	0.28 	&	0.12 	\\\hline
-152	&	0.45 	&	0.18 	&	0.27 	&	0.10 	\\\hline
-153	&	0.33 	&	0.18 	&	0.19 	&	0.30 	\\\hline
+117	&	0.00 	&	0.26 	&	0.58 	&	0.16 	\\\hline
+118	&	0.05 	&	0.22 	&	0.40 	&	0.33 	\\\hline
+119	&	0.01 	&	0.32 	&	0.49 	&	0.18 	\\\hline
+120	&	0.18 	&	0.44 	&	0.38 	&	0.00 	\\\hline
+121	&	0.26 	&	0.06 	&	0.33 	&	0.35 	\\\hline
+122	&	0.00 	&	0.43 	&	0.34 	&	0.22 	\\\hline
+123	&	0.09 	&	0.51 	&	0.40 	&	0.00 	\\\hline
+124	&	0.17 	&	0.27 	&	0.53 	&	0.03 	\\\hline
+125	&	0.00 	&	0.57 	&	0.42 	&	0.00 	\\\hline
+126	&	0.22 	&	0.30 	&	0.48 	&	0.00 	\\\hline
+127	&	0.24 	&	0.29 	&	0.48 	&	0.00 	\\\hline
+128	&	0.17 	&	0.14 	&	0.52 	&	0.16 	\\\hline
+129	&	0.19 	&	0.39 	&	0.31 	&	0.11 	\\\hline
+130	&	0.21 	&	0.40 	&	0.39 	&	0.00 	\\\hline
+131	&	0.28 	&	0.32 	&	0.40 	&	0.00 	\\\hline
+132	&	0.25 	&	0.30 	&	0.44 	&	0.01 	\\\hline
+133	&	0.12 	&	0.50 	&	0.38 	&	0.00 	\\\hline
+134	&	0.41 	&	0.34 	&	0.24 	&	0.00 	\\\hline
+135	&	0.24 	&	0.36 	&	0.39 	&	0.00 	\\\hline
+136	&	0.16 	&	0.55 	&	0.29 	&	0.00 	\\\hline
+137	&	0.19 	&	0.37 	&	0.27 	&	0.17 	\\\hline
+138	&	0.26 	&	0.50 	&	0.24 	&	0.00 	\\\hline
+139	&	0.36 	&	0.64 	&	0.00 	&	0.00 	\\\hline
+140	&	0.28 	&	0.54 	&	0.18 	&	0.00 	\\\hline
+141	&	0.20 	&	0.41 	&	0.38 	&	0.00 	\\\hline
+142	&	0.24 	&	0.54 	&	0.22 	&	0.00 	\\\hline
+143	&	0.22 	&	0.41 	&	0.38 	&	0.00 	\\\hline
+144	&	0.68 	&	0.32 	&	0.00 	&	0.00 	\\\hline
+145	&	0.30 	&	0.66 	&	0.05 	&	0.00 	\\\hline
+146	&	0.28 	&	0.35 	&	0.37 	&	0.00 	\\\hline
+147	&	0.26 	&	0.55 	&	0.19 	&	0.00 	\\\hline
+148	&	0.28 	&	0.32 	&	0.40 	&	0.00 	\\\hline
+149	&	0.33 	&	0.67 	&	0.00 	&	0.00 	\\\hline
+150	&	0.32 	&	0.68 	&	0.00 	&	0.00 	\\\hline
+151	&	0.37 	&	0.63 	&	0.00 	&	0.00 	\\\hline
+152	&	0.48 	&	0.52 	&	0.00 	&	0.00 	\\\hline
+153	&	0.28 	&	0.34 	&	0.38 	&	0.00 	\\\hline
 \end{tabular}
 
 &
 
-\begin{tabular}[t]{l*{\items}{|E}|}
+\begin{tabular}[t]{c*{\items}{|E}|}
 \multicolumn{5}{c}{LOW DEVELOPMENT}\\\hline 
-\multicolumn{1}{c}{Count} & 
+\multicolumn{1}{c}{Country} & 
 \multicolumn{1}{c}{$C_1$} & 
 \multicolumn{1}{c}{$C_2$} & 
 \multicolumn{1}{c}{$C_3$} & 
 \multicolumn{1}{c}{$C_4$} 
 \\\hline
-154	&	0.40 	&	0.16 	&	0.21 	&	0.23 	\\\hline
-155	&	0.45 	&	0.19 	&	0.26 	&	0.10 	\\\hline
-156	&	0.39 	&	0.18 	&	0.29 	&	0.14 	\\\hline
-157	&	0.35 	&	0.17 	&	0.27 	&	0.21 	\\\hline
-158	&	0.63 	&	0.16 	&	0.16 	&	0.05 	\\\hline
-159	&	0.47 	&	0.20 	&	0.25 	&	0.08 	\\\hline
-160	&	0.35 	&	0.19 	&	0.31 	&	0.15 	\\\hline
-161	&	0.48 	&	0.18 	&	0.26 	&	0.08 	\\\hline
-162	&	0.36 	&	0.21 	&	0.30 	&	0.13 	\\\hline
-163	&	0.47 	&	0.14 	&	0.19 	&	0.19 	\\\hline
-164	&	0.63 	&	0.15 	&	0.17 	&	0.05 	\\\hline
-165	&	0.53 	&	0.20 	&	0.20 	&	0.06 	\\\hline
-166	&	0.51 	&	0.17 	&	0.23 	&	0.09 	\\\hline
-167	&	0.41 	&	0.17 	&	0.20 	&	0.21 	\\\hline
-168	&	0.55 	&	0.17 	&	0.21 	&	0.07 	\\\hline
-169	&	0.44 	&	0.21 	&	0.26 	&	0.09 	\\\hline
-170	&	0.48 	&	0.18 	&	0.24 	&	0.10 	\\\hline
-171	&	0.61 	&	0.16 	&	0.17 	&	0.05 	\\\hline
-172	&	0.41 	&	0.17 	&	0.28 	&	0.14 	\\\hline
-173	&	0.53 	&	0.18 	&	0.22 	&	0.07 	\\\hline
-174	&	0.52 	&	0.19 	&	0.22 	&	0.08 	\\\hline
-175	&	0.55 	&	0.20 	&	0.19 	&	0.06 	\\\hline
-176	&	0.45 	&	0.19 	&	0.26 	&	0.09 	\\\hline
-177	&	0.52 	&	0.18 	&	0.22 	&	0.08 	\\\hline
-178	&	0.58 	&	0.16 	&	0.19 	&	0.07 	\\\hline
-179	&	0.44 	&	0.23 	&	0.25 	&	0.08 	\\\hline
-180	&	0.53 	&	0.20 	&	0.20 	&	0.07 	\\\hline
-181	&	0.68 	&	0.13 	&	0.15 	&	0.04 	\\\hline
-182	&	0.77 	&	0.10 	&	0.10 	&	0.03 	\\\hline
-183	&	0.74 	&	0.09 	&	0.13 	&	0.03 	\\\hline
-184	&	0.74 	&	0.17 	&	0.06 	&	0.03 	\\\hline
-185	&	0.51 	&	0.15 	&	0.23 	&	0.12 	\\\hline
-186	&	0.80 	&	0.14 	&	0.05 	&	0.01 	\\\hline
-187	&	0.80 	&	0.14 	&	0.04 	&	0.01 	\\\hline
-188	&	0.77 	&	0.17 	&	0.05 	&	0.02 	\\\hline
-189	&	0.77 	&	0.14 	&	0.06 	&	0.03 	\\\hline
+154	&	0.36 	&	0.52 	&	0.11 	&	0.00 	\\\hline
+155	&	0.34 	&	0.65 	&	0.01 	&	0.00 	\\\hline
+156	&	0.30 	&	0.53 	&	0.17 	&	0.00 	\\\hline
+157	&	0.29 	&	0.46 	&	0.26 	&	0.00 	\\\hline
+158	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
+159	&	0.64 	&	0.36 	&	0.00 	&	0.00 	\\\hline
+160	&	0.29 	&	0.63 	&	0.08 	&	0.00 	\\\hline
+161	&	0.49 	&	0.51 	&	0.00 	&	0.00 	\\\hline
+162	&	0.28 	&	0.65 	&	0.08 	&	0.00 	\\\hline
+163	&	0.35 	&	0.65 	&	0.00 	&	0.00 	\\\hline
+164	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
+165	&	0.71 	&	0.29 	&	0.00 	&	0.00 	\\\hline
+166	&	0.53 	&	0.47 	&	0.00 	&	0.00 	\\\hline
+167	&	0.31 	&	0.69 	&	0.00 	&	0.00 	\\\hline
+168	&	0.69 	&	0.31 	&	0.00 	&	0.00 	\\\hline
+169	&	0.35 	&	0.65 	&	0.00 	&	0.00 	\\\hline
+170	&	0.36 	&	0.63 	&	0.01 	&	0.00 	\\\hline
+171	&	0.81 	&	0.19 	&	0.00 	&	0.00 	\\\hline
+172	&	0.32 	&	0.55 	&	0.13 	&	0.00 	\\\hline
+173	&	0.59 	&	0.41 	&	0.00 	&	0.00 	\\\hline
+174	&	0.68 	&	0.32 	&	0.00 	&	0.00 	\\\hline
+175	&	0.78 	&	0.22 	&	0.00 	&	0.00 	\\\hline
+176	&	0.35 	&	0.65 	&	0.00 	&	0.00 	\\\hline
+177	&	0.54 	&	0.46 	&	0.00 	&	0.00 	\\\hline
+178	&	0.56 	&	0.44 	&	0.00 	&	0.00 	\\\hline
+179	&	0.65 	&	0.35 	&	0.00 	&	0.00 	\\\hline
+180	&	0.69 	&	0.31 	&	0.00 	&	0.00 	\\\hline
+181	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
+182	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
+183	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
+184	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
+185	&	0.51 	&	0.49 	&	0.00 	&	0.00 	\\\hline
+186	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
+187	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
+188	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
+189	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
 \end{tabular}
 
 \end{tabular}
@@ -788,24 +828,14 @@ The proposed approach was implemented in Python, in Mac OSX. Time to execution w
 \end{table}
 
 
-The group named HIGH DEVELOPMENT has an important number of countries that could be assigned into $C_4$, because of their high frequencies in that category.  In addition, note that frequencies in $C_3$ are less or equal to 33\%, which are weak arguments to state that these alternatives effectively belong to this group. However, it is easy to verify that, for each alternative, the accumulated frequency in $C_3, C_4$ show that arguments to be assigned into one of these two clusters is  high enough. 
+As observed in the VERY HIGH DEVELOPMENT group, the alternatives from 1 up to 34  are assigned into $C_4$ by the stochastic approach, except the country 25 which presents ambiguity to be allocated into $C_4$ or $C_3$.  The alternatives 35 up to 62 have some weak arguments to be allocated in $C_4$ or $C_3$ (except the country 39). Note that there are nine alternatives for which the arguments to be assigned into $C_4$ are strong, equalling 1.0 (i.e., 100\% of times these alternatives are assigned into this category). 
 
-The group named LOW DEVELOPMENT also reveals that most of the alternatives have accumulated frequencies in $C_1, C_2$ greater or equal to 50\%, which counts to assign them into one of these categories.  It is worth to note that the lower part of the tabular structure shows several countries which clearly belong to $C_1$.
+The group named HIGH DEVELOPMENT has an important number of countries that could be ambiguously assigned into $C_4, C_3$ or $C_2$.  However, two groups of alternatives could be observed: the group of alternatives having arguments to be allocated into $C_4$ or $C_3$; the group of alternatives having arguments to be allocated into $C_3$ or $C_2$. 
 
-The group named MEDIUM DEVELOPMENT shows that most alternatives are ambiguous in terms of assignment in $C_3,C_4$ or $C_1,C_2$. Actually, the upper part of this table seems to give more arguments in favor of alternatives to be allocated into $C_3,C_4$ (e.g., 117, 118, 119, 121), while the lower part is favorable to alternatives to be allocated into $C_1,C_2$ (e.g.,144, 149, 150, 152).
+The group named MEDIUM DEVELOPMENT has also two groups of alternatives: those with arguments to be assigned into $C_3$ or $C_2$; the alternatives having arguments to be allocated into $C_2$ or $C_1$.  Thus, this group reveals a shift to the lower cluster, as compared to the upper group.
 
-%Centroids found were as follows
-%
-%\begin{eqnarray}
-%b_1 = [0.3, 0.0, 0.5], \nonumber\\
-%b_2 = [0.5, 0.3, 0.7], \nonumber\\
-%b_3 = [0.6, 0.4, 0.8], \nonumber\\
-%b_4 = [0.8, 0.5,0.9]. \nonumber
-%\end{eqnarray}
-%
-% 
-%\noindent
-%Note that centroids satisfy the weak separability condition, i.e. given $h > t$, then $g_j(b_h) \geq g_j(b_t), \forall j$.  Thus, the final clustering is ordered in the sense 
+The group named LOW DEVELOPMENT shows countries with arguments to be assigned into $C_2$ or $C_1$, revealing a clear shift to the lower part of the ordered clusters. Note that ten alternatives have strong arguments to be assigned into $C_1$, i.e. scoring 1.0 in that category.
+
 
 
 

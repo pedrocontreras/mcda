@@ -130,9 +130,10 @@ def get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir,p_inv,actions):
     for j in range(0,n_lim):
         for h in range(0,n_cri):
             a=get_inner_actions(belonging, limites, j, h, p_dir, p_inv, actions)
-            if not a:
+            if not a or j==0 or j==n_lim-1:
                 limites[j][h]=limites[j][h]
             else:
-                limites[j][h]=np.mean(a)
+                if limites[j-1][h]+p_dir[h]<=np.mean(a)-p_inv[h] and np.mean(a)+p_dir[h]<=limites[j+1][h]-p_inv[h]:
+                    limites[j][h]=np.mean(a)
     return limites
 
