@@ -85,7 +85,7 @@
 \begin{frontmatter}                           % The preamble begins here.
 
 
-\title{Stochastic clustering in the Human Development Index problem based on the outranking preference relation and $K$-means}
+\title{Stochastic clustering in the Human Development Index problem based on a non-compensatory and $K$-means approach}
 
 %\runningtitle{Hesitant Fuzzy Sets and ELECTRE TRI-C}
 %\subtitle{Subtitle}
@@ -116,14 +116,14 @@
 \cortext[cor1]{Corresponding author at: xjavierpereira7@gmail.com (J.Pereira)}
 
 \address[utc]{Universidad Tecnol\'ogica de Chile Inacap, Santiago, Chile (xjavierpereira7@gmail.com); \\}
-\address[ap]{Berlin, Germany (pedro.contreras@gmail.com);}
+\address[ap]{WMG, The University of Warwick, UK (pedro.contreras@gmail.com);}
 \address[ufpe]{Universidade Federal de Pernambuco, CDSID (dcmorais@cdsid.org.br);}
 \address[itesm]{Tecnologico de Monterrey, Campus Toluca, M\'exico (pilar.arroyo@itesm.mx);}
 
 
 
 \begin{abstract}
-The Human Development Index (HDI) has been proposed as a mean to encourage nations to focus on people capabilities to develop a country.  HDI calculation is based on three indices: the life expectancy, the years of education and the Gross National Income. Several studies criticize the highly compensatory nature of the computation method and seeming precision of the information sources. Last decade, non-compensatory clustering approaches that consider imprecise information, integrating the $K$-means algorithm,  have been proposed as an alternative to the ranking process underlying the HDI calculation. However, in these methods two main drawbacks can be highlighted. Firstly, uncertainty regarding parameters used to model imprecision is not considered. Secondly,  the cluster centers do not often satisfy the separability condition, which means that additional procedures must be applied \emph{a posteriori} to produce an ordered clustering. In this paper, a process integrating  the $K$-means algorithm is presented in which uncertain parameters are considered, also finding  ordered cluster centers satisfying the separability condition.  When this approach is applied and results are compared to the 2018 HDI ranking, ambiguities are detected in assignment of countries to development groups. These results are discusses and further research is proposed.
+The Human Development Index (HDI) has been proposed as a mean to encourage nations to focus on people capabilities to develop a country.  HDI calculation is based on three indices: the life expectancy, the years of education and the Gross National Income. However, several studies criticize the highly compensatory nature of the computation method and seeming precision of the information sources. Thus, last decade, non-compensatory multi-criteria clustering approaches, which also consider imprecise information,  have been proposed as an alternative to the ranking process underlying the HDI calculation. In this paper, a clustering approach, integrating  the $K$-means algorithm, is presented in which uncertain parameters are considered.  To the best of our knowledge, this is the first time that a non-compensatory and stochastic multi-criteria clustering approach is applied to group countries included in the HDI Report. Results obtained with this approach are compared to the deterministic 2018 HDI ranking, finding that notable differences are detected. Limitations are discussed and future research is proposed.
 \end{abstract}
 
 \begin{keyword}
@@ -135,7 +135,7 @@ HDI \sep clustering \sep $K$-means \ \sep outranking relation
 
 \section{Introduction}
 
-since 1990, the United Nations Development Programme (UNDP) releases the Human Development Index (HDI) to emphasize that people and their capabilities should be the ultimate criteria for assessing the development of a country, not only economic growth. The HDI ranking process evaluates  179 United Nations countries on the basis of three criteria: the life expectancy, the years of education and the Gross National Income (GNI). In addition, based on the HDI quartiles, four ordered groups of countries can be identified: very high human development, high human development, medium human development, and low human development.  
+Since 1990, the United Nations Development Programme (UNDP) releases the Human Development Index (HDI) to emphasize that people and their capabilities should be the ultimate criteria for assessing the development of a country, not only economic growth. The 2018 HDI ranking process evaluates  189 United Nations countries on the basis of three criteria: the life expectancy, the years of education and the Gross National Income (GNI). In addition, based on the HDI quartiles, four ordered groups of countries can be identified: very high human development, high human development, medium human development, and low human development.  
 
 Despite the broad use of HDI  in business, policy-making, research, development-political debates, allocation of development aid, international climate accord designs, and economics \citep{Wolff2011}, it has been object of three main criticisms \citep{Noorbakhsh1998, Berenger2007, Klugman2011, Martinez2013}: (1) the compensatory effect; (2) the underlying concepts to define the dimensions; (3) the categorization process that uses the COP quartiles.  Regarding the compensatory effect, it is easy to see that a country exhibiting a bad performance in one index, can compensate it with a good performance in another. However, this is not desirable since, for instance, bad health indices can be hidden by good GNI, which can exacerbes inequality in access to health systems.   
 
@@ -481,14 +481,16 @@ The approach proposed here assumes that $K\geq 2$ ordered clusters must be found
 \end{center}
 \end{figure}
 
-Initially, the set of alternatives, the family of criteria, the criteria weights, and the number of clusters are identified.  Next, the imprecision parameters are set. Stochastic preference and indifference thresholds are considered in this approach. Thus, each time that the Step 2 is performed, a new set of values for $p_j,q_j,p'_j,q'_j \,(j=1,\ldots,m)$ are generated and used as input to the Step 3, where the new initial centroids are defined. Centroids  must satisfy the strict separability condition \citep{roy2012}:  for any pair $b_h^{(0)}, b_k^{(0)}$ such that $h>k$, it follows 
+Initially, the set of alternatives, the family of criteria, the criteria weights, and the number of clusters are identified.  Next, the imprecision parameters are set. Stochastic preference and indifference thresholds are considered in this approach. Thus, each time that the Step 2 is performed, a new set of values for $p_j,q_j,p'_j,q'_j \,(j=1,\ldots,m)$ are generated and used as input to the Step 3, where the new initial centroids are defined. 
 
-\begin{equation}
-b_h^{(0)} \,P\, b_k^{(0)} \Leftrightarrow g_j(b_h^{(0)})-p'_j \geq g_j(b_k^{(0)})+p_j, \forall j.
-\end{equation}
-
-\noindent
-where $P$ is a binary relation representing a strong preference.  This condition makes that fuzzy sets representing the membership functions of every category do not overlap. 
+%Centroids  must satisfy the strict separability condition \citep{roy2012}:  for any pair $b_h^{(0)}, b_k^{(0)}$ such that $h>k$, it follows 
+%
+%\begin{equation}
+%b_h^{(0)} \,P\, b_k^{(0)} \Leftrightarrow g_j(b_h^{(0)})-p'_j \geq g_j(b_k^{(0)})+p_j, \forall j.
+%\end{equation}
+%
+%\noindent
+%where $P$ is a binary relation representing a strong preference.  This condition makes that fuzzy sets representing the membership functions of every category do not overlap. 
 
 
 Step 4 consists of computing the credibility indices, using the expressions \eqref{generalsigmaDG} and  \eqref{generalsigmaIG}. In Step 5, the alternatives are assigned into the classes, using the descending (or the ascending) rule proposed in Section \ref{outrankingclass}.
@@ -503,7 +505,7 @@ g_j(b_h^{(t)}) = \frac{1}{\mid C_h^{t,j} \mid} \sum_{a_i \in C_h^{t,j}} g_j(a_i)
 where $C_h^{t,j}=\{a_i \in C_h \mid g_j(b_h^{(t)})-p'_j\leq g_j(a_i) \leq g_j(b_h^{(t)})+p_j\}$.  Whenever $C_h^{t,j}=\emptyset$, then $g_j(b_h^{(t)})=g_j(b_h^{(t-1)})$.   
 
 
-{\color{blue}\cite{roy2012} propose that in classification problems, using a set of central reference alternatives, a \emph{separability condition} must be satisfied: any two central reference alternatives must be separated enough such that the preference property holds, at the level of each criterion. We extend this property to the cases in which the direct and the inverse preference thresholds are used:
+\cite{roy2012} propose that a \emph{separability condition} must be satisfied in classification problems in which a set of central reference alternatives is used: any two central reference alternatives must be separated enough such that the strong preference property holds, at the level of each criterion. We extend this property to the cases in which the direct and the inverse preference thresholds are used:
 
 \begin{cond}
 \emph{The set of reference alternatives $B$ fulfills the strict separability condition if and only if}
@@ -515,13 +517,12 @@ g_j(b_{h-1})+p_j \leq g_j(b_h)-p'_j \,,(h=2,\ldots,H; j=1,\ldots,n). \label{sepa
 \end{cond}
 
 \noindent
-If this condition is hold along the iterative process, the resulting cluster centers are ordered.  Therefore, the  process will induce an ordered clustering.
-}
-
-Given a set of parameter values, the inner loop in Figure \ref{clustering} iterates up to one out of two stop conditions applies: 1) the change of evaluation profiles is  lower than a pre-defined $\epsilon$ value, or 2) the maximum number of iterations, $Maxit$,  is reached.  The whole process is repeated $Maxst$ times, once for each set of stochastic parameter values. In Step 7, the final frequency indices are computed, proposing the $K$ ordered clusters.
+If this condition is hold along the iterative process, the resulting cluster centers are ordered. The approach proposed satisfies this property.
 
 
-  
+In this approach, thresholds are stochastic variables where values are generated by a Monte Carlo Simulation process. Thus, the whole process is repeated $Maxst$ times, once for each set of stochastic parameter values.  Given a set of parameter values, the inner loop in Figure \ref{clustering} iterates up to one out of two stop conditions applies: 1) the change of evaluation profiles is  lower than a pre-defined $\epsilon$ value, or 2) the maximum number of iterations, $Maxit$,  is reached.   
+
+In Step 7, the number of times that every alternative is assigned into each category is computed. Thus, a frequency profile is obtained for each alternative.   
 
 In the following section, this approach is applied to the HDI problem.
 
@@ -531,21 +532,21 @@ In the following section, this approach is applied to the HDI problem.
 
 \section{Clustering HDI countries}\label{application}
 
-There are 189 countries to be clustered in the clustering process. The family of criteria to be considered consists of the three indices: life expectancy ($g_1$), years of schooling ($g_2$) and GNI  ($g_3$).  Data from the 2018's HDI Report is used to compute these indices, using the formulae defined in the HDI Technical Notes \citep{UNDP2019}. Four clusters, i.e. $K=4$, are defined, which parallels the number of groups defined in the Human Development Report.  As proposed by UNDP, weights are considered to be equal to $1/3$ for each criterion.
+Data published in the 2018 HDI Report is retrieved to perform the analysis. There are 189 countries to be clustered. The family of criteria to be considered consists of the three indices: life expectancy ($g_1$), years of schooling ($g_2$) and GNI  ($g_3$).  These indices are computed using the formulae defined in the HDI Technical Notes \citep{UNDP2019}.   As proposed by UNDP, weights are considered to be equal to $1/3$ for each criterion. 
 
 \subsection{Initial settings}
 
-In order to have the first set of cluster centers, the classical $K$-means process is run. This gives the following centroids, which are used as input to our approach:
+In order to have an idea about the number of clusters, the $K$-means Elbow Method was run on indices computed from HDI data. The Elbow Method is used to determine the optimal number of clusters in $K$-means clustering \citep{Ketchen1996}. This gives four clusters,    i.e. $K=4$, which parallels the number of groups defined in the Human Development Report. In order to define an initial set of centroids, the $K$-means algorithm is run.   The following initial centroids are found, which are used as input to our approach:
 
 \begin{eqnarray}
-b_1=(0.27, 0.25, 0.43), \nonumber\\
-b_2=(0.51, 0.39, 0.64), \nonumber\\
-b_3=(0.70, 0.53, 0.83), \nonumber\\
-b_4=(0.90, 0.71, 0.93). \nonumber
+b_1&=&(0.27, 0.25, 0.43), \nonumber\\
+b_2&=&(0.51, 0.39, 0.64), \nonumber\\
+b_3&=&(0.70, 0.53, 0.83), \nonumber\\
+b_4&=&(0.90, 0.71, 0.93). \nonumber
 \end{eqnarray}
 
 \noindent
-For each criterion $j$, if the minimum distance between consecutive centroids is $m_j=\min_{h} g_j(b_h)-g_j(b_{h-1})$, then $m_1=0.19, m_2=0.14, m_3=0.10$. Note that holding the separability condition means  $g_j(b_{h-1})+p_j \leq g_j(b_h)-p'_j$, or equivalently $g_j(b_{h-1})+p_j+p'_j \leq g_j(b_h)$. Thus, to satisfy the strict separability condition, the following restriction must be defined
+For each criterion $j$, the minimum distance between consecutive centroids $m_j=\min_{h} \{g_j(b_h)-g_j(b_{h-1})\}$ is calculated, then $m_1=0.19, m_2=0.14, m_3=0.10$. Note that holding the separability condition means  $g_j(b_{h-1})+p_j \leq g_j(b_h)-p'_j$, or equivalently $g_j(b_{h-1})+p_j+p'_j \leq g_j(b_h)$. Thus, to satisfy the strict separability condition, the following restriction must be defined
 
 \begin{equation}
 p'_j+p_j \leq m_j \, (j=1,2,3). \label{thresholds}
@@ -555,7 +556,7 @@ p'_j+p_j \leq m_j \, (j=1,2,3). \label{thresholds}
 %We suppose that $p_j,q_j,p'_j,q'_j$ do not depend on the position where an alternative is evaluated on the criterion $j$. There are situations in which that assumption may not be valid and more complete constraints should be considered. However, in this article we assume that the restriction \eqref{thresholds} is adequate.
 
 
-Let us assume that  $p_j,q_j,p'_j,q'_j$ are uncertain.  We may assume that stochastic variables $\xi_{p_j},\xi_{q_j},\xi_{p'_j},\xi_{q'_j}$ correctly model each parameter. In addition, it can be assumed that each stochastic variable is uniformly distributed in an interval  $[\xi_m, \xi_M]$. Thus, if each stochastic interval is defined as $[m_j-0.1, m_j+0.1] \,(j=1,2,3)$, then the following linear equations system may be defined as follows:
+Let us assume that  $p_j,q_j,p'_j,q'_j$ are uncertain.  We may assume that stochastic variables $\xi_{p_j},\xi_{q_j},\xi_{p'_j},\xi_{q'_j}$ correctly model each parameter. We assume that each stochastic variable is uniformly distributed in an interval  $[\xi_m, \xi_M]$. If a stochastic interval is defined for each variable, as $[m_j-0.1, m_j+0.1] \,(j=1,2,3)$, then the following linear equations system may be defined:
 
 \begin{eqnarray}
 p_1,p'_1 &\in& [0.090, 0.290], \nonumber\\
@@ -571,18 +572,18 @@ p_3+p'_3 &\leq& 0.10. \nonumber
 
 
 \noindent
-In order to generate a set of 1000 parameter values, the \texttt{limsolve  R} package can be used to solve the linear system above. Consequently, $Maxst=1000$.  In order to fix the number of iterations, we define $Maxit=30$.
+A set of 3000 random values is generated for each parameter. Consequently, $Maxst=3000$.  The number of iterations is defined as $Maxit=30$ because preliminary simulations showed that this is enough to reach stable centroids. The proposed approach is implemented in Python.  
 
 \subsection{Results}
 
-The proposed approach is implemented in Python.  In Table \ref{results}, four groups of alternatives  are presented, the same defined in the HDI ranking.  Thus, for instance,  countries ranging from  1 (Norway) up to 62 (Seychelles) belong to the group of very high developed countries. Clusters built by the proposed approach are coded as $C_1, C_2, C_3, C_4$ and satisfy $C_1 \prec  C_2 \prec C_3 \prec C_4$.  
-
+In Table \ref{results}, four groups of alternatives  are presented, the same defined in the HDI ranking.  Thus, for instance,  countries ranging from  1 (Norway) up to 62 (Seychelles) belong to the group of very high developed countries. Clusters built by the proposed approach are coded as $C_1, C_2, C_3, C_4$ and satisfy $b_1 \prec  b_2 \prec b_3 \prec b_4$.  
 
 
 
 
 \newcommand\items{4}   %Number of classes
 \arrayrulecolor{white} %Table line colors
+
 \begin{table}[hbtp]
 \caption{Ordered clustering  vs HDI development groups}
 \label{results}
@@ -597,68 +598,68 @@ The proposed approach is implemented in Python.  In Table \ref{results}, four gr
 \multicolumn{1}{c}{$C_3$} & 
 \multicolumn{1}{c}{$C_4$} 
 \\\hline
-1	&	0.00 	&	0.00 	&	0.01 	&	0.99 	\\\hline
-2	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
-3	&	0.00 	&	0.00 	&	0.01 	&	0.99 	\\\hline
-4	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
-5	&	0.00 	&	0.00 	&	0.03 	&	0.97 	\\\hline
-6	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
-7	&	0.00 	&	0.00 	&	0.01 	&	0.99 	\\\hline
-8	&	0.00 	&	0.00 	&	0.02 	&	0.98 	\\\hline
-9	&	0.00 	&	0.00 	&	0.16 	&	0.84 	\\\hline
-10	&	0.00 	&	0.00 	&	0.02 	&	0.98 	\\\hline
-11	&	0.00 	&	0.00 	&	0.01 	&	0.99 	\\\hline
-12	&	0.00 	&	0.00 	&	0.02 	&	0.98 	\\\hline
-13	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
-14	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
-15	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
-16	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
-17	&	0.00 	&	0.00 	&	0.06 	&	0.94 	\\\hline
-18	&	0.00 	&	0.00 	&	0.12 	&	0.88 	\\\hline
-19	&	0.00 	&	0.00 	&	0.05 	&	0.95 	\\\hline
-20	&	0.00 	&	0.00 	&	0.01 	&	0.99 	\\\hline
-21	&	0.00 	&	0.00 	&	0.19 	&	0.81 	\\\hline
-22	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
-23	&	0.00 	&	0.00 	&	0.02 	&	0.98 	\\\hline
-24	&	0.00 	&	0.00 	&	0.02 	&	0.98 	\\\hline
-25	&	0.00 	&	0.12 	&	0.40 	&	0.48 	\\\hline
-26	&	0.00 	&	0.00 	&	0.00 	&	1.00 	\\\hline
-27	&	0.00 	&	0.00 	&	0.27 	&	0.73 	\\\hline
-28	&	0.00 	&	0.00 	&	0.21 	&	0.79 	\\\hline
-29	&	0.00 	&	0.07 	&	0.39 	&	0.54 	\\\hline
-30	&	0.00 	&	0.00 	&	0.01 	&	0.99 	\\\hline
-31	&	0.00 	&	0.00 	&	0.19 	&	0.81 	\\\hline
-32	&	0.00 	&	0.05 	&	0.33 	&	0.62 	\\\hline
-33	&	0.00 	&	0.00 	&	0.06 	&	0.94 	\\\hline
-34	&	0.00 	&	0.00 	&	0.04 	&	0.96 	\\\hline
-35	&	0.00 	&	0.07 	&	0.55 	&	0.38 	\\\hline
-36	&	0.00 	&	0.20 	&	0.39 	&	0.42 	\\\hline
-37	&	0.00 	&	0.13 	&	0.42 	&	0.44 	\\\hline
-38	&	0.00 	&	0.00 	&	0.56 	&	0.44 	\\\hline
-39	&	0.00 	&	0.00 	&	0.08 	&	0.92 	\\\hline
-40	&	0.01 	&	0.17 	&	0.35 	&	0.47 	\\\hline
-41	&	0.00 	&	0.24 	&	0.37 	&	0.39 	\\\hline
-42	&	0.00 	&	0.06 	&	0.35 	&	0.59 	\\\hline
-43	&	0.01 	&	0.18 	&	0.42 	&	0.39 	\\\hline
-44	&	0.00 	&	0.00 	&	0.57 	&	0.43 	\\\hline
-45	&	0.01 	&	0.15 	&	0.44 	&	0.40 	\\\hline
-46	&	0.00 	&	0.00 	&	0.57 	&	0.43 	\\\hline
-47	&	0.00 	&	0.12 	&	0.47 	&	0.40 	\\\hline
-48	&	0.00 	&	0.04 	&	0.49 	&	0.47 	\\\hline
-49	&	0.00 	&	0.00 	&	0.62 	&	0.38 	\\\hline
-50	&	0.00 	&	0.00 	&	0.52 	&	0.48 	\\\hline
-51	&	0.00 	&	0.00 	&	0.60 	&	0.40 	\\\hline
-52	&	0.00 	&	0.00 	&	0.58 	&	0.42 	\\\hline
-53	&	0.00 	&	0.00 	&	0.58 	&	0.42 	\\\hline
-54	&	0.00 	&	0.01 	&	0.60 	&	0.39 	\\\hline
-55	&	0.00 	&	0.00 	&	0.41 	&	0.59 	\\\hline
-56	&	0.00 	&	0.04 	&	0.49 	&	0.47 	\\\hline
-57	&	0.14 	&	0.14 	&	0.34 	&	0.38 	\\\hline
-58	&	0.02 	&	0.21 	&	0.34 	&	0.43 	\\\hline
-59	&	0.11 	&	0.16 	&	0.31 	&	0.43 	\\\hline
-60	&	0.00 	&	0.13 	&	0.68 	&	0.18 	\\\hline
-61	&	0.00 	&	0.18 	&	0.44 	&	0.38 	\\\hline
-62	&	0.00 	&	0.13 	&	0.47 	&	0.40 	\\\hline
+1	&	0.00 	&	0.00 	&	0.01 	&	0.99 	 \\\hline
+2	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+3	&	0.00 	&	0.00 	&	0.02 	&	0.98 	 \\\hline
+4	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+5	&	0.00 	&	0.00 	&	0.06 	&	0.94 	 \\\hline
+6	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+7	&	0.00 	&	0.00 	&	0.01 	&	0.99 	 \\\hline
+8	&	0.00 	&	0.00 	&	0.02 	&	0.98 	 \\\hline
+9	&	0.00 	&	0.02 	&	0.13 	&	0.86 	 \\\hline
+10	&	0.00 	&	0.00 	&	0.04 	&	0.96 	 \\\hline
+11	&	0.00 	&	0.00 	&	0.01 	&	0.99 	 \\\hline
+12	&	0.00 	&	0.00 	&	0.02 	&	0.98 	 \\\hline
+13	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+14	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+15	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+16	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+17	&	0.00 	&	0.01 	&	0.09 	&	0.90 	 \\\hline
+18	&	0.00 	&	0.00 	&	0.16 	&	0.84 	 \\\hline
+19	&	0.00 	&	0.00 	&	0.09 	&	0.91 	 \\\hline
+20	&	0.00 	&	0.00 	&	0.01 	&	0.99 	 \\\hline
+21	&	0.00 	&	0.00 	&	0.37 	&	0.63 	 \\\hline
+22	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+23	&	0.00 	&	0.00 	&	0.04 	&	0.96 	 \\\hline
+24	&	0.00 	&	0.00 	&	0.03 	&	0.97 	 \\\hline
+25	&	0.01 	&	0.13 	&	0.25 	&	0.61 	 \\\hline
+26	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+27	&	0.00 	&	0.02 	&	0.26 	&	0.72 	 \\\hline
+28	&	0.00 	&	0.03 	&	0.15 	&	0.82 	 \\\hline
+29	&	0.00 	&	0.09 	&	0.26 	&	0.65 	 \\\hline
+30	&	0.00 	&	0.00 	&	0.01 	&	0.99 	 \\\hline
+31	&	0.00 	&	0.00 	&	0.27 	&	0.73 	 \\\hline
+32	&	0.00 	&	0.07 	&	0.23 	&	0.70 	 \\\hline
+33	&	0.00 	&	0.00 	&	0.09 	&	0.91 	 \\\hline
+34	&	0.00 	&	0.00 	&	0.07 	&	0.93 	 \\\hline
+35	&	0.00 	&	0.11 	&	0.85 	&	0.05 	 \\\hline
+36	&	0.00 	&	0.19 	&	0.73 	&	0.08 	 \\\hline
+37	&	0.01 	&	0.14 	&	0.36 	&	0.49 	 \\\hline
+38	&	0.00 	&	0.00 	&	0.89 	&	0.11 	 \\\hline
+39	&	0.00 	&	0.00 	&	0.14 	&	0.86 	 \\\hline
+40	&	0.02 	&	0.18 	&	0.26 	&	0.55 	 \\\hline
+41	&	0.03 	&	0.27 	&	0.67 	&	0.04 	 \\\hline
+42	&	0.00 	&	0.07 	&	0.24 	&	0.69 	 \\\hline
+43	&	0.02 	&	0.18 	&	0.74 	&	0.05 	 \\\hline
+44	&	0.00 	&	0.00 	&	0.90 	&	0.09 	 \\\hline
+45	&	0.02 	&	0.16 	&	0.72 	&	0.10 	 \\\hline
+46	&	0.00 	&	0.02 	&	0.66 	&	0.32 	 \\\hline
+47	&	0.01 	&	0.13 	&	0.79 	&	0.07 	 \\\hline
+48	&	0.00 	&	0.07 	&	0.38 	&	0.55 	 \\\hline
+49	&	0.00 	&	0.01 	&	0.93 	&	0.06 	 \\\hline
+50	&	0.00 	&	0.00 	&	0.84 	&	0.16 	 \\\hline
+51	&	0.00 	&	0.01 	&	0.89 	&	0.10 	 \\\hline
+52	&	0.00 	&	0.01 	&	0.90 	&	0.09 	 \\\hline
+53	&	0.00 	&	0.02 	&	0.89 	&	0.09 	 \\\hline
+54	&	0.00 	&	0.05 	&	0.89 	&	0.06 	 \\\hline
+55	&	0.00 	&	0.00 	&	0.62 	&	0.38 	 \\\hline
+56	&	0.00 	&	0.07 	&	0.50 	&	0.43 	 \\\hline
+57	&	0.12 	&	0.24 	&	0.60 	&	0.03 	 \\\hline
+58	&	0.03 	&	0.21 	&	0.28 	&	0.47 	 \\\hline
+59	&	0.09 	&	0.23 	&	0.25 	&	0.43 	 \\\hline
+60	&	0.00 	&	0.11 	&	0.87 	&	0.02 	 \\\hline
+61	&	0.00 	&	0.18 	&	0.78 	&	0.04 	 \\\hline
+62	&	0.01 	&	0.14 	&	0.71 	&	0.14 	 \\\hline
 \end{tabular}
 
 &
@@ -671,60 +672,60 @@ The proposed approach is implemented in Python.  In Table \ref{results}, four gr
 \multicolumn{1}{c}{$C_3$} & 
 \multicolumn{1}{c}{$C_4$} 
 \\\hline
-63	&	0.00 	&	0.00 	&	0.58 	&	0.41 	\\\hline
-64	&	0.00 	&	0.22 	&	0.60 	&	0.18 	\\\hline
-65	&	0.00 	&	0.10 	&	0.50 	&	0.40 	\\\hline
-66	&	0.01 	&	0.15 	&	0.44 	&	0.40 	\\\hline
-67	&	0.00 	&	0.21 	&	0.41 	&	0.38 	\\\hline
-68	&	0.02 	&	0.21 	&	0.33 	&	0.44 	\\\hline
-69	&	0.00 	&	0.09 	&	0.49 	&	0.42 	\\\hline
-70	&	0.00 	&	0.00 	&	0.44 	&	0.56 	\\\hline
-71	&	0.00 	&	0.02 	&	0.60 	&	0.38 	\\\hline
-72	&	0.00 	&	0.00 	&	0.52 	&	0.48 	\\\hline
-73	&	0.03 	&	0.23 	&	0.39 	&	0.35 	\\\hline
-74	&	0.01 	&	0.23 	&	0.38 	&	0.38 	\\\hline
-75	&	0.00 	&	0.17 	&	0.45 	&	0.38 	\\\hline
-76	&	0.02 	&	0.21 	&	0.38 	&	0.39 	\\\hline
-77	&	0.10 	&	0.16 	&	0.34 	&	0.39 	\\\hline
-78	&	0.02 	&	0.24 	&	0.37 	&	0.38 	\\\hline
-79	&	0.10 	&	0.16 	&	0.34 	&	0.40 	\\\hline
-80	&	0.04 	&	0.21 	&	0.36 	&	0.39 	\\\hline
-81	&	0.00 	&	0.03 	&	0.67 	&	0.30 	\\\hline
-82	&	0.08 	&	0.18 	&	0.35 	&	0.39 	\\\hline
-83	&	0.00 	&	0.22 	&	0.40 	&	0.38 	\\\hline
-84	&	0.01 	&	0.19 	&	0.42 	&	0.38 	\\\hline
-85	&	0.09 	&	0.17 	&	0.36 	&	0.38 	\\\hline
-86	&	0.01 	&	0.18 	&	0.40 	&	0.40 	\\\hline
-87	&	0.00 	&	0.34 	&	0.53 	&	0.13 	\\\hline
-88	&	0.00 	&	0.08 	&	0.55 	&	0.38 	\\\hline
-89	&	0.09 	&	0.17 	&	0.36 	&	0.38 	\\\hline
-90	&	0.03 	&	0.22 	&	0.37 	&	0.38 	\\\hline
-91	&	0.14 	&	0.14 	&	0.33 	&	0.39 	\\\hline
-92	&	0.00 	&	0.33 	&	0.40 	&	0.27 	\\\hline
-93	&	0.09 	&	0.28 	&	0.45 	&	0.17 	\\\hline
-94	&	0.01 	&	0.53 	&	0.31 	&	0.15 	\\\hline
-95	&	0.02 	&	0.43 	&	0.26 	&	0.28 	\\\hline
-96	&	0.00 	&	0.23 	&	0.55 	&	0.23 	\\\hline
-97	&	0.00 	&	0.48 	&	0.34 	&	0.18 	\\\hline
-98	&	0.10 	&	0.18 	&	0.34 	&	0.38 	\\\hline
-99	&	0.00 	&	0.26 	&	0.74 	&	0.00 	\\\hline
-100	&	0.03 	&	0.27 	&	0.52 	&	0.18 	\\\hline
-101	&	0.01 	&	0.52 	&	0.29 	&	0.18 	\\\hline
-102	&	0.00 	&	0.29 	&	0.57 	&	0.14 	\\\hline
-103	&	0.00 	&	0.23 	&	0.55 	&	0.23 	\\\hline
-104	&	0.17 	&	0.13 	&	0.34 	&	0.36 	\\\hline
-105	&	0.00 	&	0.16 	&	0.46 	&	0.38 	\\\hline
-106	&	0.01 	&	0.53 	&	0.29 	&	0.17 	\\\hline
-107	&	0.00 	&	0.50 	&	0.50 	&	0.00 	\\\hline
-108	&	0.03 	&	0.77 	&	0.20 	&	0.00 	\\\hline
-109	&	0.00 	&	0.45 	&	0.54 	&	0.01 	\\\hline
-110	&	0.12 	&	0.34 	&	0.38 	&	0.17 	\\\hline
-111	&	0.08 	&	0.46 	&	0.28 	&	0.18 	\\\hline
-112	&	0.00 	&	0.30 	&	0.54 	&	0.16 	\\\hline
-113	&	0.01 	&	0.58 	&	0.41 	&	0.00 	\\\hline
-114	&	0.01 	&	0.42 	&	0.20 	&	0.36 	\\\hline
-115	&	0.12 	&	0.48 	&	0.40 	&	0.00 	\\\hline
-116	&	0.14 	&	0.40 	&	0.28 	&	0.18 	\\\hline
+63	&	0.00 	&	0.03 	&	0.89 	&	0.08 	 \\\hline
+64	&	0.00 	&	0.17 	&	0.81 	&	0.02 	 \\\hline
+65	&	0.01 	&	0.11 	&	0.82 	&	0.06 	 \\\hline
+66	&	0.01 	&	0.16 	&	0.76 	&	0.06 	 \\\hline
+67	&	0.00 	&	0.20 	&	0.76 	&	0.04 	 \\\hline
+68	&	0.03 	&	0.21 	&	0.27 	&	0.48 	 \\\hline
+69	&	0.01 	&	0.10 	&	0.56 	&	0.33 	 \\\hline
+70	&	0.00 	&	0.00 	&	0.74 	&	0.26 	 \\\hline
+71	&	0.00 	&	0.07 	&	0.88 	&	0.05 	 \\\hline
+72	&	0.00 	&	0.01 	&	0.46 	&	0.53 	 \\\hline
+73	&	0.04 	&	0.27 	&	0.67 	&	0.02 	 \\\hline
+74	&	0.02 	&	0.26 	&	0.68 	&	0.03 	 \\\hline
+75	&	0.01 	&	0.18 	&	0.77 	&	0.04 	 \\\hline
+76	&	0.04 	&	0.22 	&	0.70 	&	0.05 	 \\\hline
+77	&	0.09 	&	0.23 	&	0.62 	&	0.06 	 \\\hline
+78	&	0.03 	&	0.26 	&	0.64 	&	0.08 	 \\\hline
+79	&	0.08 	&	0.23 	&	0.59 	&	0.10 	 \\\hline
+80	&	0.05 	&	0.22 	&	0.67 	&	0.06 	 \\\hline
+81	&	0.00 	&	0.06 	&	0.92 	&	0.02 	 \\\hline
+82	&	0.08 	&	0.22 	&	0.64 	&	0.06 	 \\\hline
+83	&	0.01 	&	0.21 	&	0.75 	&	0.03 	 \\\hline
+84	&	0.02 	&	0.20 	&	0.74 	&	0.04 	 \\\hline
+85	&	0.08 	&	0.25 	&	0.63 	&	0.04 	 \\\hline
+86	&	0.02 	&	0.19 	&	0.72 	&	0.06 	 \\\hline
+87	&	0.00 	&	0.28 	&	0.71 	&	0.01 	 \\\hline
+88	&	0.00 	&	0.08 	&	0.88 	&	0.05 	 \\\hline
+89	&	0.08 	&	0.23 	&	0.65 	&	0.03 	 \\\hline
+90	&	0.04 	&	0.25 	&	0.67 	&	0.04 	 \\\hline
+91	&	0.13 	&	0.22 	&	0.59 	&	0.06 	 \\\hline
+92	&	0.00 	&	0.31 	&	0.67 	&	0.02 	 \\\hline
+93	&	0.10 	&	0.38 	&	0.51 	&	0.01 	 \\\hline
+94	&	0.02 	&	0.53 	&	0.45 	&	0.01 	 \\\hline
+95	&	0.04 	&	0.41 	&	0.54 	&	0.02 	 \\\hline
+96	&	0.01 	&	0.22 	&	0.75 	&	0.02 	 \\\hline
+97	&	0.00 	&	0.41 	&	0.57 	&	0.01 	 \\\hline
+98	&	0.08 	&	0.27 	&	0.60 	&	0.04 	 \\\hline
+99	&	0.00 	&	0.21 	&	0.79 	&	0.00 	 \\\hline
+100	&	0.05 	&	0.31 	&	0.64 	&	0.01 	 \\\hline
+101	&	0.02 	&	0.49 	&	0.47 	&	0.01 	 \\\hline
+102	&	0.02 	&	0.31 	&	0.66 	&	0.00 	 \\\hline
+103	&	0.01 	&	0.22 	&	0.75 	&	0.02 	 \\\hline
+104	&	0.16 	&	0.27 	&	0.56 	&	0.02 	 \\\hline
+105	&	0.00 	&	0.16 	&	0.81 	&	0.04 	 \\\hline
+106	&	0.02 	&	0.51 	&	0.46 	&	0.01 	 \\\hline
+107	&	0.01 	&	0.59 	&	0.41 	&	0.00 	 \\\hline
+108	&	0.06 	&	0.81 	&	0.12 	&	0.00 	 \\\hline
+109	&	0.00 	&	0.54 	&	0.46 	&	0.00 	 \\\hline
+110	&	0.10 	&	0.34 	&	0.54 	&	0.01 	 \\\hline
+111	&	0.08 	&	0.47 	&	0.44 	&	0.02 	 \\\hline
+112	&	0.00 	&	0.24 	&	0.75 	&	0.01 	 \\\hline
+113	&	0.02 	&	0.70 	&	0.29 	&	0.00 	 \\\hline
+114	&	0.02 	&	0.40 	&	0.55 	&	0.02 	 \\\hline
+115	&	0.10 	&	0.64 	&	0.26 	&	0.00 	 \\\hline
+116	&	0.12 	&	0.43 	&	0.44 	&	0.02 	 \\\hline
 \end{tabular}
 
 &
@@ -737,43 +738,43 @@ The proposed approach is implemented in Python.  In Table \ref{results}, four gr
 \multicolumn{1}{c}{$C_3$} & 
 \multicolumn{1}{c}{$C_4$} 
 \\\hline
-117	&	0.00 	&	0.26 	&	0.58 	&	0.16 	\\\hline
-118	&	0.05 	&	0.22 	&	0.40 	&	0.33 	\\\hline
-119	&	0.01 	&	0.32 	&	0.49 	&	0.18 	\\\hline
-120	&	0.18 	&	0.44 	&	0.38 	&	0.00 	\\\hline
-121	&	0.26 	&	0.06 	&	0.33 	&	0.35 	\\\hline
-122	&	0.00 	&	0.43 	&	0.34 	&	0.22 	\\\hline
-123	&	0.09 	&	0.51 	&	0.40 	&	0.00 	\\\hline
-124	&	0.17 	&	0.27 	&	0.53 	&	0.03 	\\\hline
-125	&	0.00 	&	0.57 	&	0.42 	&	0.00 	\\\hline
-126	&	0.22 	&	0.30 	&	0.48 	&	0.00 	\\\hline
-127	&	0.24 	&	0.29 	&	0.48 	&	0.00 	\\\hline
-128	&	0.17 	&	0.14 	&	0.52 	&	0.16 	\\\hline
-129	&	0.19 	&	0.39 	&	0.31 	&	0.11 	\\\hline
-130	&	0.21 	&	0.40 	&	0.39 	&	0.00 	\\\hline
-131	&	0.28 	&	0.32 	&	0.40 	&	0.00 	\\\hline
-132	&	0.25 	&	0.30 	&	0.44 	&	0.01 	\\\hline
-133	&	0.12 	&	0.50 	&	0.38 	&	0.00 	\\\hline
-134	&	0.41 	&	0.34 	&	0.24 	&	0.00 	\\\hline
-135	&	0.24 	&	0.36 	&	0.39 	&	0.00 	\\\hline
-136	&	0.16 	&	0.55 	&	0.29 	&	0.00 	\\\hline
-137	&	0.19 	&	0.37 	&	0.27 	&	0.17 	\\\hline
-138	&	0.26 	&	0.50 	&	0.24 	&	0.00 	\\\hline
-139	&	0.36 	&	0.64 	&	0.00 	&	0.00 	\\\hline
-140	&	0.28 	&	0.54 	&	0.18 	&	0.00 	\\\hline
-141	&	0.20 	&	0.41 	&	0.38 	&	0.00 	\\\hline
-142	&	0.24 	&	0.54 	&	0.22 	&	0.00 	\\\hline
-143	&	0.22 	&	0.41 	&	0.38 	&	0.00 	\\\hline
-144	&	0.68 	&	0.32 	&	0.00 	&	0.00 	\\\hline
-145	&	0.30 	&	0.66 	&	0.05 	&	0.00 	\\\hline
-146	&	0.28 	&	0.35 	&	0.37 	&	0.00 	\\\hline
-147	&	0.26 	&	0.55 	&	0.19 	&	0.00 	\\\hline
-148	&	0.28 	&	0.32 	&	0.40 	&	0.00 	\\\hline
-149	&	0.33 	&	0.67 	&	0.00 	&	0.00 	\\\hline
-150	&	0.32 	&	0.68 	&	0.00 	&	0.00 	\\\hline
-151	&	0.37 	&	0.63 	&	0.00 	&	0.00 	\\\hline
-152	&	0.48 	&	0.52 	&	0.00 	&	0.00 	\\\hline
-153	&	0.28 	&	0.34 	&	0.38 	&	0.00 	\\\hline
+117	&	0.00 	&	0.21 	&	0.78 	&	0.01 	 \\\hline
+118	&	0.07 	&	0.28 	&	0.63 	&	0.03 	 \\\hline
+119	&	0.02 	&	0.31 	&	0.65 	&	0.02 	 \\\hline
+120	&	0.16 	&	0.62 	&	0.22 	&	0.00 	 \\\hline
+121	&	0.29 	&	0.19 	&	0.50 	&	0.02 	 \\\hline
+122	&	0.00 	&	0.38 	&	0.60 	&	0.02 	 \\\hline
+123	&	0.10 	&	0.65 	&	0.25 	&	0.00 	 \\\hline
+124	&	0.15 	&	0.39 	&	0.45 	&	0.00 	 \\\hline
+125	&	0.02 	&	0.67 	&	0.30 	&	0.00 	 \\\hline
+126	&	0.23 	&	0.42 	&	0.35 	&	0.00 	 \\\hline
+127	&	0.26 	&	0.47 	&	0.27 	&	0.00 	 \\\hline
+128	&	0.15 	&	0.26 	&	0.57 	&	0.01 	 \\\hline
+129	&	0.19 	&	0.51 	&	0.30 	&	0.00 	 \\\hline
+130	&	0.18 	&	0.69 	&	0.13 	&	0.00 	 \\\hline
+131	&	0.31 	&	0.49 	&	0.20 	&	0.00 	 \\\hline
+132	&	0.29 	&	0.53 	&	0.18 	&	0.00 	 \\\hline
+133	&	0.12 	&	0.74 	&	0.14 	&	0.00 	 \\\hline
+134	&	0.33 	&	0.54 	&	0.13 	&	0.00 	 \\\hline
+135	&	0.26 	&	0.47 	&	0.27 	&	0.00 	 \\\hline
+136	&	0.15 	&	0.73 	&	0.12 	&	0.00 	 \\\hline
+137	&	0.18 	&	0.47 	&	0.34 	&	0.01 	 \\\hline
+138	&	0.29 	&	0.61 	&	0.11 	&	0.00 	 \\\hline
+139	&	0.44 	&	0.56 	&	0.00 	&	0.00 	 \\\hline
+140	&	0.33 	&	0.59 	&	0.09 	&	0.00 	 \\\hline
+141	&	0.18 	&	0.58 	&	0.23 	&	0.00 	 \\\hline
+142	&	0.23 	&	0.67 	&	0.10 	&	0.00 	 \\\hline
+143	&	0.20 	&	0.69 	&	0.11 	&	0.00 	 \\\hline
+144	&	0.84 	&	0.16 	&	0.00 	&	0.00 	 \\\hline
+145	&	0.39 	&	0.56 	&	0.05 	&	0.00 	 \\\hline
+146	&	0.31 	&	0.52 	&	0.17 	&	0.00 	 \\\hline
+147	&	0.28 	&	0.61 	&	0.11 	&	0.00 	 \\\hline
+148	&	0.31 	&	0.47 	&	0.22 	&	0.00 	 \\\hline
+149	&	0.41 	&	0.59 	&	0.00 	&	0.00 	 \\\hline
+150	&	0.34 	&	0.66 	&	0.00 	&	0.00 	 \\\hline
+151	&	0.56 	&	0.44 	&	0.00 	&	0.00 	 \\\hline
+152	&	0.67 	&	0.33 	&	0.00 	&	0.00 	 \\\hline
+153	&	0.33 	&	0.53 	&	0.14 	&	0.00 	 \\\hline
 \end{tabular}
 
 &
@@ -786,42 +787,42 @@ The proposed approach is implemented in Python.  In Table \ref{results}, four gr
 \multicolumn{1}{c}{$C_3$} & 
 \multicolumn{1}{c}{$C_4$} 
 \\\hline
-154	&	0.36 	&	0.52 	&	0.11 	&	0.00 	\\\hline
-155	&	0.34 	&	0.65 	&	0.01 	&	0.00 	\\\hline
-156	&	0.30 	&	0.53 	&	0.17 	&	0.00 	\\\hline
-157	&	0.29 	&	0.46 	&	0.26 	&	0.00 	\\\hline
-158	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
-159	&	0.64 	&	0.36 	&	0.00 	&	0.00 	\\\hline
-160	&	0.29 	&	0.63 	&	0.08 	&	0.00 	\\\hline
-161	&	0.49 	&	0.51 	&	0.00 	&	0.00 	\\\hline
-162	&	0.28 	&	0.65 	&	0.08 	&	0.00 	\\\hline
-163	&	0.35 	&	0.65 	&	0.00 	&	0.00 	\\\hline
-164	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
-165	&	0.71 	&	0.29 	&	0.00 	&	0.00 	\\\hline
-166	&	0.53 	&	0.47 	&	0.00 	&	0.00 	\\\hline
-167	&	0.31 	&	0.69 	&	0.00 	&	0.00 	\\\hline
-168	&	0.69 	&	0.31 	&	0.00 	&	0.00 	\\\hline
-169	&	0.35 	&	0.65 	&	0.00 	&	0.00 	\\\hline
-170	&	0.36 	&	0.63 	&	0.01 	&	0.00 	\\\hline
-171	&	0.81 	&	0.19 	&	0.00 	&	0.00 	\\\hline
-172	&	0.32 	&	0.55 	&	0.13 	&	0.00 	\\\hline
-173	&	0.59 	&	0.41 	&	0.00 	&	0.00 	\\\hline
-174	&	0.68 	&	0.32 	&	0.00 	&	0.00 	\\\hline
-175	&	0.78 	&	0.22 	&	0.00 	&	0.00 	\\\hline
-176	&	0.35 	&	0.65 	&	0.00 	&	0.00 	\\\hline
-177	&	0.54 	&	0.46 	&	0.00 	&	0.00 	\\\hline
-178	&	0.56 	&	0.44 	&	0.00 	&	0.00 	\\\hline
-179	&	0.65 	&	0.35 	&	0.00 	&	0.00 	\\\hline
-180	&	0.69 	&	0.31 	&	0.00 	&	0.00 	\\\hline
-181	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
-182	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
-183	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
-184	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
-185	&	0.51 	&	0.49 	&	0.00 	&	0.00 	\\\hline
-186	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
-187	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
-188	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
-189	&	1.00 	&	0.00 	&	0.00 	&	0.00 	\\\hline
+154	&	0.53 	&	0.40 	&	0.08 	&	0.00 	 \\\hline
+155	&	0.47 	&	0.52 	&	0.01 	&	0.00 	 \\\hline
+156	&	0.36 	&	0.56 	&	0.08 	&	0.00 	 \\\hline
+157	&	0.32 	&	0.57 	&	0.11 	&	0.00 	 \\\hline
+158	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+159	&	0.80 	&	0.20 	&	0.00 	&	0.00 	 \\\hline
+160	&	0.36 	&	0.64 	&	0.00 	&	0.00 	 \\\hline
+161	&	0.68 	&	0.32 	&	0.00 	&	0.00 	 \\\hline
+162	&	0.34 	&	0.59 	&	0.07 	&	0.00 	 \\\hline
+163	&	0.35 	&	0.65 	&	0.00 	&	0.00 	 \\\hline
+164	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+165	&	0.85 	&	0.15 	&	0.00 	&	0.00 	 \\\hline
+166	&	0.61 	&	0.39 	&	0.00 	&	0.00 	 \\\hline
+167	&	0.33 	&	0.67 	&	0.00 	&	0.00 	 \\\hline
+168	&	0.83 	&	0.17 	&	0.00 	&	0.00 	 \\\hline
+169	&	0.52 	&	0.48 	&	0.00 	&	0.00 	 \\\hline
+170	&	0.47 	&	0.53 	&	0.00 	&	0.00 	 \\\hline
+171	&	0.86 	&	0.14 	&	0.00 	&	0.00 	 \\\hline
+172	&	0.38 	&	0.56 	&	0.06 	&	0.00 	 \\\hline
+173	&	0.71 	&	0.29 	&	0.00 	&	0.00 	 \\\hline
+174	&	0.84 	&	0.16 	&	0.00 	&	0.00 	 \\\hline
+175	&	0.86 	&	0.14 	&	0.00 	&	0.00 	 \\\hline
+176	&	0.52 	&	0.48 	&	0.00 	&	0.00 	 \\\hline
+177	&	0.66 	&	0.34 	&	0.00 	&	0.00 	 \\\hline
+178	&	0.70 	&	0.30 	&	0.00 	&	0.00 	 \\\hline
+179	&	0.82 	&	0.18 	&	0.00 	&	0.00 	 \\\hline
+180	&	0.85 	&	0.15 	&	0.00 	&	0.00 	 \\\hline
+181	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+182	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+183	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+184	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+185	&	0.48 	&	0.52 	&	0.00 	&	0.00 	 \\\hline
+186	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+187	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+188	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+189	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
 \end{tabular}
 
 \end{tabular}
@@ -829,15 +830,15 @@ The proposed approach is implemented in Python.  In Table \ref{results}, four gr
 \end{table}
 
 
-Given a row in a tabular structure, values indicate how frequently an alternative (country) is assigned to a cluster in the set fo 1000 simulations.  For instance, the alternative 1 in the group VERY HIGH DEVELOPMENT, 99\% of times is assigned into $C_4$, whilst 1\%, 0\%, and 0\% of times it is assigned into $C_3, C_2, C_1$, respectively.  Colors help to recognize these frequencies: the more intense a color, the higher the frequency an alternative reaches in a cluster.  
+Given a row in a tabular structure, values indicate how frequently an alternative (country) is assigned into a cluster, regarding the $Maxst$ simulations.  For instance, the alternative 1 in the group VERY HIGH DEVELOPMENT, 99\% of times is assigned into $C_4$, whilst 1\%, 0\%, and 0\% of times it is assigned into $C_3, C_2, C_1$, respectively.  Colors help to recognize these frequencies: the more intense a color, the higher the frequency an alternative reaches in a cluster.  
 
-As observed in the VERY HIGH DEVELOPMENT group, the alternatives from 1 up to 34  are assigned into $C_4$ by the stochastic approach, except the country 25 which presents ambiguity to be allocated into $C_4$ or $C_3$.  The alternatives 35 up to 62 have some weak arguments to be allocated in $C_4$ or $C_3$ (except the country 39). Note that there are nine alternatives for which the arguments to be assigned into $C_4$ are strong, equalling 1.0 (i.e., 100\% of times these alternatives are assigned into this category). 
+As observed in the VERY HIGH DEVELOPMENT group, the alternatives  1 up to 34, 39 and 42   reach high frequencies in $C_4$.  The alternatives 35 up to 62 have some weak arguments to be allocated in $C_4$ or $C_3$ (except 39  and 42, as mentioned). Note that there are nine alternatives for which the arguments to be assigned into $C_4$ are strong, equalling 1.0 (i.e., 100\% of times these alternatives are assigned into this category). 
 
-The group named HIGH DEVELOPMENT has an important number of countries that could be ambiguously assigned into $C_4, C_3$ or $C_2$.  However, two groups of alternatives could be observed: the group of alternatives having arguments to be allocated into $C_4$ or $C_3$; the group of alternatives having arguments to be allocated into $C_3$ or $C_2$. 
+The group named HIGH DEVELOPMENT has an important number of countries that could be ambiguously assigned into $C_4, C_3$ or $C_2$.  However, four groups of alternatives could be observed:  3 countries (68, 69 and 72), having arguments to be allocated into $C_4$ or $C_3$;  about 30\% of countries  having arguments to be allocated into $C_3$ or $C_2$; about 60\% of countries  having arguments to be allocated into $C_3$; 3 countries (108, 113 and 115) allocated into $C_2$. Thus, this group is mostly representative of $C_3$.
 
-The group named MEDIUM DEVELOPMENT has also two groups of alternatives: those with arguments to be assigned into $C_3$ or $C_2$; the alternatives having arguments to be allocated into $C_2$ or $C_1$.  Thus, this group reveals a shift to the lower cluster, as compared to the upper group.
+The group named MEDIUM DEVELOPMENT has three groups of alternatives: those with arguments to be assigned into $C_3$ or $C_2$; the alternatives having arguments to be allocated into $C_2$ or $C_1$; countries allocated into $C_1$.  However, this group is mostly representative of $C_2$.
 
-The group named LOW DEVELOPMENT shows countries with arguments to be assigned into $C_2$ or $C_1$, revealing a clear shift to the lower part of the ordered clusters. Note that ten alternatives have strong arguments to be assigned into $C_1$, i.e. scoring 1.0 in that category.
+The group named LOW DEVELOPMENT shows countries with arguments to be assigned into $C_2$ or $C_1$, revealing a clear shift to the lower part of clusters. Note that ten alternatives have strong arguments to be assigned into $C_1$, i.e. scoring 1.0 in that category. This group is mostly representative of $C_1$.
 
 
 
@@ -845,14 +846,274 @@ The group named LOW DEVELOPMENT shows countries with arguments to be assigned in
 \subsection{Discussion}
 
 
+Other approaches for clustering based on the outranking relation have not relieved in the uncertain nature of parameters, but only in the imprecise information available to evaluate countries, thus using deterministic thresholds \citep{DeSmet2012, DeSmet2014, Fernandez2010, Chen2018}. However, there is evidence showing that imprecision is uncertain, which depends on multiple factors, changing on time. \cite{Wolff2011} found that  the higher the development status of a country, the more precise are the reported data. This seems to encompass our results: countries in the upper part of very developed countries are strongly assigned to $C_4$.  These authors also found that when many countries are close to the group cut-off thresholds (quartiles), up to 45\% of the developing countries are misclassified.  Table \ref{results} shows this phenomenon. For instance, 40\% countries in the lower part of the VERY HIGH DEVELOPMENT group  are classified in $C_3$.  
+
+\cite{Garcia2010} studied different sources of uncertainty both in data sources and methodological choices in the HDI calculation. They found that main sources of uncertainty resulted in non biased HDI rankings. A main finding was that shifts in ranking were minor in the upper part of the VERY HIGH DEVELOPMENT and the lower part of the LOW DEVELOPMENT  groups. However, the absolute shift in ranking seemed to be minor in all levels of development, which did not compromise the robustness of the HDI, regardless of the development level.  As a consequence, the HDI ranking remains robust.  Our results somehow contradicts such a statement. There are several countries in which the frequency of each of two consecutive classes are around 25\% and 55\% (e.g., countries 37, 40, 93, 101, 124, 137, 169).  This means that ranking of those countries will be different from the HDI ranking, because can be assigned into categories different from the HDI development groups.
+
+\cite{Garcia2010} also studied the distribution of the rankings derived from applying different weights, normalizations and an alternative functional form of life expectancy. They found that uncertainty in weights produced shift in rankings, but without significant bias regarding the HDI ranking.  In order to explore the impact of uncertain weights, Monte Carlo simulations are performed by considering $w_j \sim U(0,1) \, (j=1,2,3)$.  In Table \ref{results2} results obtained when uncertain weights and deterministic thresholds are considered:   $p_1,p'_1 =0.20;  p_2,p'_2 =0.14; p_3,p'_3 = 0.10; q_j,q'_j=p_j/2 \,(j=1,2,3)$.  In this case, more alternatives become clearly assigned into one category, instead of being ambiguously assigned into two consecutive classes. Thus, many more frequencies, as compared to Table \ref{results} outcomes,  reach 1.00 (100\% of simulations giving the same category).   This can be interpreted as a partially confirmatory evidence in favor of the \cite{Garcia2010}'s result.
+
+Although we may affirm that four groups of development exist, we did not found that the groups reported in the HDI Report and those built by our approach coincide. It is well known that $K$-means is highly dependent on the initial set of centroids. Therefore, we cannot affirm that our clusters are strictly valid.  However, simulations reveal that uncertainty has an impact on outcomes. 
+
+Therefore, we have found that considering uncertainty in clustering process can impact the classification of countries in the 2018 HDI Report. However, we may conclude that uncertainty in parameters used in outranking-based approaches and uncertainty in weights do not impact in the same way. Uncertainty in parameters induce more uncertainty in outcomes.  To the best of our knowledge, this kind of uncertainty has not been studied enough in the HDI literature.  This could be a future line of research.
+
+
+
+\begin{table}[hbtp]
+\caption{Ordered clustering  vs HDI development groups: uncertain weights}
+\label{results2}
+\tiny
+\hskip-4.0cm
+\begin{tabular}{llll}
+\begin{tabular}[t]{c*{\items}{|E}l}
+\multicolumn{5}{c}{VERY HIGH DEVELOPMENT}\\\hline 
+\multicolumn{1}{c}{Country} & 
+\multicolumn{1}{c}{$C_1$} & 
+\multicolumn{1}{c}{$C_2$} & 
+\multicolumn{1}{c}{$C_3$} & 
+\multicolumn{1}{c}{$C_4$} 
+\\\hline
+1	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+2	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+3	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+4	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+5	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+6	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+7	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+8	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+9	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+10	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+11	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+12	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+13	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+14	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+15	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+16	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+17	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+18	&	0.00 	&	0.00 	&	0.26 	&	0.74 	 \\\hline
+19	&	0.00 	&	0.00 	&	0.12 	&	0.88 	 \\\hline
+20	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+21	&	0.00 	&	0.00 	&	0.23 	&	0.77 	 \\\hline
+22	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+23	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+24	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+25	&	0.00 	&	0.00 	&	0.25 	&	0.75 	 \\\hline
+26	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+27	&	0.00 	&	0.00 	&	0.04 	&	0.96 	 \\\hline
+28	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+29	&	0.00 	&	0.00 	&	0.15 	&	0.85 	 \\\hline
+30	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+31	&	0.00 	&	0.00 	&	0.25 	&	0.75 	 \\\hline
+32	&	0.00 	&	0.00 	&	0.05 	&	0.95 	 \\\hline
+33	&	0.00 	&	0.00 	&	0.00 	&	1.00 	 \\\hline
+34	&	0.00 	&	0.00 	&	0.22 	&	0.78 	 \\\hline
+35	&	0.00 	&	0.00 	&	0.84 	&	0.16 	 \\\hline
+36	&	0.00 	&	0.00 	&	0.72 	&	0.28 	 \\\hline
+37	&	0.00 	&	0.00 	&	0.77 	&	0.23 	 \\\hline
+38	&	0.00 	&	0.00 	&	0.62 	&	0.38 	 \\\hline
+39	&	0.00 	&	0.00 	&	0.30 	&	0.70 	 \\\hline
+40	&	0.00 	&	0.00 	&	0.29 	&	0.71 	 \\\hline
+41	&	0.00 	&	0.11 	&	0.75 	&	0.14 	 \\\hline
+42	&	0.00 	&	0.00 	&	0.10 	&	0.90 	 \\\hline
+43	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+44	&	0.00 	&	0.00 	&	0.66 	&	0.34 	 \\\hline
+45	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+46	&	0.00 	&	0.00 	&	0.59 	&	0.41 	 \\\hline
+47	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+48	&	0.00 	&	0.00 	&	0.52 	&	0.48 	 \\\hline
+49	&	0.00 	&	0.00 	&	0.54 	&	0.46 	 \\\hline
+50	&	0.00 	&	0.00 	&	0.61 	&	0.39 	 \\\hline
+51	&	0.00 	&	0.00 	&	0.74 	&	0.26 	 \\\hline
+52	&	0.00 	&	0.00 	&	0.78 	&	0.22 	 \\\hline
+53	&	0.00 	&	0.00 	&	0.84 	&	0.16 	 \\\hline
+54	&	0.00 	&	0.00 	&	0.95 	&	0.05 	 \\\hline
+55	&	0.00 	&	0.00 	&	0.50 	&	0.50 	 \\\hline
+56	&	0.00 	&	0.00 	&	0.79 	&	0.21 	 \\\hline
+57	&	0.00 	&	0.27 	&	0.73 	&	0.00 	 \\\hline
+58	&	0.00 	&	0.00 	&	0.64 	&	0.36 	 \\\hline
+59	&	0.00 	&	0.08 	&	0.71 	&	0.21 	 \\\hline
+60	&	0.00 	&	0.00 	&	0.87 	&	0.13 	 \\\hline
+61	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+62	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+\end{tabular}
+
+&
+
+\begin{tabular}[t]{c*{\items}{|E}|}
+\multicolumn{5}{c}{HIGH DEVELOPMENT}\\\hline 
+\multicolumn{1}{c}{Country} & 
+\multicolumn{1}{c}{$C_1$} & 
+\multicolumn{1}{c}{$C_2$} & 
+\multicolumn{1}{c}{$C_3$} & 
+\multicolumn{1}{c}{$C_4$} 
+\\\hline
+63	&	0.00 	&	0.00 	&	0.95 	&	0.05 	 \\\hline
+64	&	0.00 	&	0.00 	&	0.96 	&	0.04 	 \\\hline
+65	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+66	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+67	&	0.00 	&	0.00 	&	0.98 	&	0.02 	 \\\hline
+68	&	0.00 	&	0.00 	&	0.75 	&	0.25 	 \\\hline
+69	&	0.00 	&	0.00 	&	0.95 	&	0.05 	 \\\hline
+70	&	0.00 	&	0.00 	&	0.57 	&	0.42 	 \\\hline
+71	&	0.00 	&	0.00 	&	0.93 	&	0.07 	 \\\hline
+72	&	0.00 	&	0.00 	&	0.47 	&	0.53 	 \\\hline
+73	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+74	&	0.00 	&	0.05 	&	0.95 	&	0.00 	 \\\hline
+75	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+76	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+77	&	0.00 	&	0.06 	&	0.94 	&	0.00 	 \\\hline
+78	&	0.00 	&	0.00 	&	0.77 	&	0.23 	 \\\hline
+79	&	0.00 	&	0.02 	&	0.98 	&	0.00 	 \\\hline
+80	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+81	&	0.00 	&	0.00 	&	0.80 	&	0.20 	 \\\hline
+82	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+83	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+84	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+85	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+86	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+87	&	0.00 	&	0.14 	&	0.86 	&	0.00 	 \\\hline
+88	&	0.00 	&	0.00 	&	0.90 	&	0.10 	 \\\hline
+89	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+90	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+91	&	0.00 	&	0.27 	&	0.73 	&	0.00 	 \\\hline
+92	&	0.00 	&	0.20 	&	0.80 	&	0.00 	 \\\hline
+93	&	0.00 	&	0.24 	&	0.73 	&	0.03 	 \\\hline
+94	&	0.00 	&	0.49 	&	0.51 	&	0.00 	 \\\hline
+95	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+96	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+97	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+98	&	0.00 	&	0.16 	&	0.84 	&	0.00 	 \\\hline
+99	&	0.00 	&	0.24 	&	0.72 	&	0.04 	 \\\hline
+100	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+101	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+102	&	0.00 	&	0.22 	&	0.78 	&	0.00 	 \\\hline
+103	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+104	&	0.00 	&	0.70 	&	0.27 	&	0.02 	 \\\hline
+105	&	0.00 	&	0.09 	&	0.86 	&	0.05 	 \\\hline
+106	&	0.00 	&	0.24 	&	0.76 	&	0.00 	 \\\hline
+107	&	0.00 	&	0.53 	&	0.37 	&	0.10 	 \\\hline
+108	&	0.00 	&	0.73 	&	0.27 	&	0.00 	 \\\hline
+109	&	0.00 	&	0.50 	&	0.38 	&	0.12 	 \\\hline
+110	&	0.00 	&	0.66 	&	0.34 	&	0.00 	 \\\hline
+111	&	0.00 	&	0.38 	&	0.62 	&	0.00 	 \\\hline
+112	&	0.00 	&	0.06 	&	0.94 	&	0.00 	 \\\hline
+113	&	0.17 	&	0.36 	&	0.47 	&	0.00 	 \\\hline
+114	&	0.00 	&	0.05 	&	0.95 	&	0.00 	 \\\hline
+115	&	0.00 	&	0.58 	&	0.42 	&	0.00 	 \\\hline
+116	&	0.00 	&	0.76 	&	0.24 	&	0.00 	 \\\hline
+\end{tabular}
+
+&
+
+\begin{tabular}[t]{c*{\items}{|E}|}
+\multicolumn{5}{c}{MEDIUM DEVELOPMENT}\\\hline 
+\multicolumn{1}{c}{Country} & 
+\multicolumn{1}{c}{$C_1$} & 
+\multicolumn{1}{c}{$C_2$} & 
+\multicolumn{1}{c}{$C_3$} & 
+\multicolumn{1}{c}{$C_4$} 
+\\\hline
+117	&	0.00 	&	0.09 	&	0.86 	&	0.04 	 \\\hline
+118	&	0.00 	&	0.01 	&	0.99 	&	0.00 	 \\\hline
+119	&	0.00 	&	0.00 	&	1.00 	&	0.00 	 \\\hline
+120	&	0.00 	&	1.00 	&	0.00 	&	0.00 	 \\\hline
+121	&	0.00 	&	0.46 	&	0.54 	&	0.00 	 \\\hline
+122	&	0.00 	&	0.07 	&	0.89 	&	0.04 	 \\\hline
+123	&	0.00 	&	0.78 	&	0.22 	&	0.00 	 \\\hline
+124	&	0.00 	&	0.92 	&	0.08 	&	0.00 	 \\\hline
+125	&	0.00 	&	0.64 	&	0.36 	&	0.00 	 \\\hline
+126	&	0.00 	&	0.96 	&	0.04 	&	0.00 	 \\\hline
+127	&	0.00 	&	0.85 	&	0.15 	&	0.00 	 \\\hline
+128	&	0.00 	&	0.77 	&	0.23 	&	0.00 	 \\\hline
+129	&	0.00 	&	1.00 	&	0.00 	&	0.00 	 \\\hline
+130	&	0.21 	&	0.79 	&	0.00 	&	0.00 	 \\\hline
+131	&	0.27 	&	0.73 	&	0.00 	&	0.00 	 \\\hline
+132	&	0.01 	&	0.76 	&	0.23 	&	0.00 	 \\\hline
+133	&	0.00 	&	1.00 	&	0.00 	&	0.00 	 \\\hline
+134	&	0.67 	&	0.33 	&	0.00 	&	0.00 	 \\\hline
+135	&	0.00 	&	0.98 	&	0.02 	&	0.00 	 \\\hline
+136	&	0.00 	&	1.00 	&	0.00 	&	0.00 	 \\\hline
+137	&	0.00 	&	1.00 	&	0.00 	&	0.00 	 \\\hline
+138	&	0.13 	&	0.87 	&	0.00 	&	0.00 	 \\\hline
+139	&	0.27 	&	0.73 	&	0.00 	&	0.00 	 \\\hline
+140	&	0.00 	&	1.00 	&	0.00 	&	0.00 	 \\\hline
+141	&	0.00 	&	1.00 	&	0.00 	&	0.00 	 \\\hline
+142	&	0.19 	&	0.81 	&	0.00 	&	0.00 	 \\\hline
+143	&	0.20 	&	0.80 	&	0.00 	&	0.00 	 \\\hline
+144	&	0.82 	&	0.18 	&	0.00 	&	0.00 	 \\\hline
+145	&	0.39 	&	0.61 	&	0.00 	&	0.00 	 \\\hline
+146	&	0.18 	&	0.82 	&	0.00 	&	0.00 	 \\\hline
+147	&	0.00 	&	1.00 	&	0.00 	&	0.00 	 \\\hline
+148	&	0.13 	&	0.87 	&	0.00 	&	0.00 	 \\\hline
+149	&	0.52 	&	0.48 	&	0.00 	&	0.00 	 \\\hline
+150	&	0.24 	&	0.75 	&	0.01 	&	0.00 	 \\\hline
+151	&	0.44 	&	0.45 	&	0.11 	&	0.00 	 \\\hline
+152	&	0.53 	&	0.47 	&	0.00 	&	0.00 	 \\\hline
+153	&	0.03 	&	0.94 	&	0.04 	&	0.00 	 \\\hline
+\end{tabular}
+
+&
+
+\begin{tabular}[t]{c*{\items}{|E}|}
+\multicolumn{5}{c}{LOW DEVELOPMENT}\\\hline 
+\multicolumn{1}{c}{Country} & 
+\multicolumn{1}{c}{$C_1$} & 
+\multicolumn{1}{c}{$C_2$} & 
+\multicolumn{1}{c}{$C_3$} & 
+\multicolumn{1}{c}{$C_4$} 
+\\\hline
+154	&	0.56 	&	0.44 	&	0.00 	&	0.00 	 \\\hline
+155	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+156	&	0.73 	&	0.27 	&	0.00 	&	0.00 	 \\\hline
+157	&	0.34 	&	0.66 	&	0.00 	&	0.00 	 \\\hline
+158	&	0.79 	&	0.21 	&	0.00 	&	0.00 	 \\\hline
+159	&	0.55 	&	0.45 	&	0.00 	&	0.00 	 \\\hline
+160	&	0.29 	&	0.71 	&	0.00 	&	0.00 	 \\\hline
+161	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+162	&	0.00 	&	1.00 	&	0.00 	&	0.00 	 \\\hline
+163	&	0.77 	&	0.23 	&	0.00 	&	0.00 	 \\\hline
+164	&	0.64 	&	0.36 	&	0.00 	&	0.00 	 \\\hline
+165	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+166	&	0.85 	&	0.15 	&	0.00 	&	0.00 	 \\\hline
+167	&	0.64 	&	0.36 	&	0.00 	&	0.00 	 \\\hline
+168	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+169	&	0.85 	&	0.15 	&	0.00 	&	0.00 	 \\\hline
+170	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+171	&	0.89 	&	0.11 	&	0.00 	&	0.00 	 \\\hline
+172	&	0.92 	&	0.08 	&	0.00 	&	0.00 	 \\\hline
+173	&	0.90 	&	0.10 	&	0.00 	&	0.00 	 \\\hline
+174	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+175	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+176	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+177	&	0.91 	&	0.09 	&	0.00 	&	0.00 	 \\\hline
+178	&	0.97 	&	0.03 	&	0.00 	&	0.00 	 \\\hline
+179	&	0.67 	&	0.33 	&	0.00 	&	0.00 	 \\\hline
+180	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+181	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+182	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+183	&	0.93 	&	0.07 	&	0.00 	&	0.00 	 \\\hline
+184	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+185	&	0.89 	&	0.11 	&	0.00 	&	0.00 	 \\\hline
+186	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+187	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+188	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+189	&	1.00 	&	0.00 	&	0.00 	&	0.00 	 \\\hline
+\end{tabular}
+
+\end{tabular}
+
+\end{table}
+
+
+
 
 
 \section{Conclusions}\label{conclusions}
   
+In this paper, a non-compensatory and stochastic multi-criteria clustering approach is applied to group countries included in the Human Development Index Report. Results obtained with this approach are compared to the deterministic 2018 HDI ranking. Findings show that uncertainty shapes results, but it depends on the variable in which randomness is considered. Our approach is based on the outranking relation, which uses two preferential parameters: the indifference and the preference thresholds, and the weights of criteria.  We have found that uncertainty in thresholds leads to more ambiguity in outcomes than uncertainty in weights.
 
-
+A limitation of our approach is the usage of $K$-means like algorithm because results are dependent on the initial set of cluster centers.  To mitigate this drawback, we have used some heuristics to find the number  and initial centroids. Anyway, future research is needed to  consider this feature in contexts of stochastic variables.
      
-\section*{Acknowledgement}
+%\section*{Acknowledgement}
 
           
 \section*{References}
@@ -863,8 +1124,8 @@ The group named LOW DEVELOPMENT shows countries with arguments to be assigned in
 
 
 
-\appendix
-\section{Separability condition}\label{sepcondition}
+%\appendix
+%\section{Separability condition}\label{sepcondition}
 
 
 \end{document}
