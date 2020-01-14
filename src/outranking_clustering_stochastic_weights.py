@@ -50,6 +50,23 @@ def random_thresholds(excel_file):
     return pdir,qdir,pinv,qinv
 
 
+
+
+def random_weights(excel_file):
+    """
+     read random weights (externally generated)
+     :param excel_file:
+     :return: w
+     """
+    work_book = px.load_workbook(excel_file)
+    work_sheet_w = work_book['weights']
+    df_data_w = pd.DataFrame(work_sheet_w.values)
+
+    # slice data to get data frames for thresholds
+    w = df.to_numpy(df_data_w.iloc[0:1000])
+
+    return w
+
 def get_weights():
     """
     get criteria weights
@@ -58,7 +75,6 @@ def get_weights():
     w = [0.333, 0.333, 0.334]  # pesos de los criterios
     return w
 
-
 def get_umbrales():
     """
     umbrales de preferencia directos e inversos de cada criterio
@@ -66,10 +82,10 @@ def get_umbrales():
     """
 
 
-    p_dir = [3.4,0.6,0.75]
-    q_dir = [1.7,0.3,0.375]
-    p_inv = [3.4,0.6,0.75]
-    q_inv = [1.7,0.3,0.375]
+    p_dir = [0.19,0.14,0.10]
+    q_dir = [0.09,0.07,0.05]
+    p_inv = [0.19,0.14,0.10]
+    q_inv = [0.09,0.07,0.05]
 
     return p_dir, q_dir, p_inv, q_inv
 
@@ -335,8 +351,8 @@ def check_separability(limites,n_lim,n_cri):
 
 
 
-def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_inv,iter_stochastic):
-    w = get_weights()
+def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_inv,w,iter_stochastic):
+    #w = get_weights()
     freq_no_check=0.0
     #p_dir, q_dir, p_inv, q_inv = get_umbrales()
     n_acc = np.size(actions, 0)  # number of acciones
@@ -354,12 +370,12 @@ def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_
         print (l)
         for k in range(0, iter):
             # calcula concordancia parcial directa e inversa (formulas (1) y (2)
-            cpd = conc_p_directa(actions, limites, p_dir[l], q_dir[l])
-            cpi = conc_p_inversa(actions, limites, p_inv[l], q_inv[l])
+            cpd = conc_p_directa(actions, limites, p_dir, q_dir)
+            cpi = conc_p_inversa(actions, limites, p_inv, q_inv)
 
             # calcula concordancia global directa e inversa (formulas (3) y (4)
-            sigma_D = concordancia_D(cpd, n_acc, n_lim, n_cri, w)
-            sigma_I = concordancia_I(cpi, n_acc, n_lim, n_cri, w)
+            sigma_D = concordancia_D(cpd, n_acc, n_lim, n_cri, w[l])
+            sigma_I = concordancia_I(cpi, n_acc, n_lim, n_cri, w[l])
 
 
             # determina categoria de cada accion, usando regla descendente
@@ -380,7 +396,7 @@ def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_
             #determina los nuevos centroides de categoria, usando técnica cuchufletina
 
             #limitesold=limites
-            limites=get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir[l],p_inv[l],actions)
+            limites=get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir,p_inv,actions)
 
 
         freq_acceptability=sumAscendente(freq_acceptability, categoria, n_lim, n_acc)
@@ -420,14 +436,16 @@ def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_
 
 #########  MAIN ###############
 def main():
-    actions, centroids, limites = init_data('HDI_2.xlsx')
-    p_dir, q_dir, p_inv, q_inv=random_thresholds('random_umbrales_2.xlsx')
+    actions, centroids, limites = init_data('HDI.xlsx')
+    #p_dir, q_dir, p_inv, q_inv=random_thresholds('random_umbrales_2.xlsx')
+    w=random_weights('Weights.xlsx')
     lam  = 0.8
     beta=0.4
-    iter_stochastic=3000
+    iter_stochastic=1000
     iter = 30
 
-    perform_outranking(actions, limites,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic)
+    p_dir, q_dir, p_inv, q_inv=get_umbrales()
+    perform_outranking(actions, limites,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,w,iter_stochastic)
 
     print (centroids)
 if __name__ == '__main__':
