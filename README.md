@@ -5,9 +5,11 @@
 
  ## File structure
 
-|-- code                  <br>
-|     |-- data            <br>
-|                         <br>
-|-- paper                 <br>
-|     |-- biblio          <br>
-|     |-- cited papers    <br>
+```
++-- code                  
+|     +-- data            
+|                         
++-- paper                 
+|     +-- biblio          
+|     +-- cited papers    
+```
