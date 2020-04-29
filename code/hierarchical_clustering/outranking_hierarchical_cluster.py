@@ -5,8 +5,8 @@ from scipy.spatial.distance import squareform
 from matplotlib import pyplot as plt
 import openpyxl as px
 import numpy as np
-from src.outranking_clustering import get_weights, get_umbrales, conc_p_directa_actions, conc_p_inversa_actions, \
-    concordancia_D_actions, concordancia_I_actions
+from code.clustering_base.outranking_clustering import get_weights, get_umbrales, conc_p_directa_actions, conc_p_inversa_actions, \
+     concordancia_D_actions, concordancia_I_actions
 
 
 def init_data(excel_file):
@@ -94,7 +94,7 @@ def perform_clustering(actions, lam):
 
 #########  MAIN ###############
 def main():
-    actions, centroids, limites = init_data('SSI.xlsx')
+    actions, centroids, limites = init_data('code.data.SSI.xlsx')
     lam  = 0.6
     perform_clustering(actions,lam)
 

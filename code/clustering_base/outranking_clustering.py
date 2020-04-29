@@ -1,11 +1,13 @@
-import pandas as pd
-from pandas import DataFrame as df
-import openpyxl as px
 import numpy as np
-#from plot_clusters import *
-from cluster import *
+import openpyxl as px
+import pandas as pd
+from pandas import DataFrame as zdf
 
-from src.cluster import get_ordered_centroids_4
+
+# from plot_clusters import *
+from pandas.tests.groupby.test_value_counts import df
+
+from code.clustering_base.cluster import get_ordered_centroids_4
 
 
 def init_data(excel_file):
@@ -363,7 +365,7 @@ def perform_outranking(actions, limites, lam, beta, iter):
 
 #########  MAIN ###############
 def main():
-    actions, centroids, limites = init_data('SSI.xlsx')
+    actions, centroids, limites = init_data('code.data.SSI.xlsx')
     lam  = 0.5
     beta=0.1
     iter_stochastic=1

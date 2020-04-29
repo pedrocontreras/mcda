@@ -5,7 +5,7 @@ import numpy as np
 #from plot_clusters import *
 from cluster import *
 
-from src.cluster import get_ordered_centroids_4
+from code.clustering_base.cluster import get_ordered_centroids_4
 
 
 def init_data(excel_file):
@@ -436,9 +436,9 @@ def perform_outranking(actions, limites, lam, beta, iter,p_dir, q_dir, p_inv, q_
 
 #########  MAIN ###############
 def main():
-    actions, centroids, limites = init_data('HDI.xlsx')
+    actions, centroids, limites = init_data('code.data.HDI.xlsx')
     #p_dir, q_dir, p_inv, q_inv=random_thresholds('random_umbrales_2.xlsx')
-    w=random_weights('Weights.xlsx')
+    w=random_weights('code.data.Weights.xlsx')
     lam  = 0.8
     beta=0.4
     iter_stochastic=1000
