@@ -1,13 +1,17 @@
-import numpy as np
-import openpyxl as px
 import pandas as pd
-from pandas import DataFrame as zdf
+from pandas import DataFrame as df
+from scipy.cluster import hierarchy
+from scipy.spatial.distance import squareform
+from matplotlib import pyplot as plt
+import openpyxl as px
+import numpy as np
+import code.clustering_base.outranking_clustering
 
 
 # from plot_clusters import *
 from pandas.tests.groupby.test_value_counts import df
 
-from code.clustering_base.cluster import get_ordered_centroids_4
+import code.clustering_base.cluster
 
 
 def init_data(excel_file):
@@ -21,15 +25,9 @@ def init_data(excel_file):
     df_data    = pd.DataFrame(work_sheet.values)
 
     # slice data to get data frames for actions, centroids, min and max
-    # Acciones de HDI
-    # actions    = df.to_numpy(df_data.iloc[0:189])
-    # centroids  = df.to_numpy(df_data.iloc[190:194])
-    # limites    = df.to_numpy(df_data.iloc[189:195])
-
-    #Acciones de SSI
-    actions    = df.to_numpy(df_data.iloc[0:154])
-    centroids  = df.to_numpy(df_data.iloc[155:158])
-    limites    = df.to_numpy(df_data.iloc[154:159])
+    actions    = df.to_numpy(df_data.iloc[0:189])
+    centroids  = df.to_numpy(df_data.iloc[190:194])
+    limites    = df.to_numpy(df_data.iloc[189:195])
 
     return actions, centroids, limites
 
@@ -311,11 +309,15 @@ def perform_outranking(actions, limites, lam, beta, iter):
     # -------------------------------------------------------
     for k in range(0, iter):
         # calcula concordancia parcial directa e inversa (formulas (1) y (2)
+        from code.clustering_base.concordancia import conc_p_directa
         cpd = conc_p_directa(actions, limites, p_dir, q_dir)
+        from code.clustering_base.concordancia import conc_p_inversa
         cpi = conc_p_inversa(actions, limites, p_inv, q_inv)
 
         # calcula concordancia global directa e inversa (formulas (3) y (4)
+        from code.clustering_base.concordancia import concordancia_D
         sigma_D = concordancia_D(cpd, n_acc, n_lim, n_cri, w)
+        from code.clustering_base.concordancia import concordancia_I
         sigma_I = concordancia_I(cpi, n_acc, n_lim, n_cri, w)
 
 
@@ -337,7 +339,7 @@ def perform_outranking(actions, limites, lam, beta, iter):
         #determina los nuevos centroides de categoria, usando técnica cuchufletina
 
         #limitesold=limites
-        limites=get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir,p_inv,actions)
+        limites=code.clustering_base.cluster.get_ordered_centroids_4(belonging, limites, n_lim, n_cri, p_dir, p_inv, actions)
 
 
         print('--------------- ITERACION: {} -------------'.format(k+1))
@@ -365,7 +367,7 @@ def perform_outranking(actions, limites, lam, beta, iter):
 
 #########  MAIN ###############
 def main():
-    actions, centroids, limites = init_data('code.data.SSI.xlsx')
+    actions, centroids, limites = init_data('SSI.xlsx')
     lam  = 0.5
     beta=0.1
     iter_stochastic=1
