@@ -6,6 +6,8 @@ from matplotlib import pyplot as plt
 import openpyxl as px
 import numpy as np
 import code.clustering_base.outranking_clustering
+from pathlib import Path
+data_folder = Path("/Users/jpereirar/Documents/GitHub/mcda/data")
 
 
 # from plot_clusters import *
@@ -367,7 +369,7 @@ def perform_outranking(actions, limites, lam, beta, iter):
 
 #########  MAIN ###############
 def main():
-    actions, centroids, limites = init_data('SSI.xlsx')
+    actions, centroids, limites = init_data(str(data_folder)+'/'+'SSI.xlsx')
     lam  = 0.5
     beta=0.1
     iter_stochastic=1
