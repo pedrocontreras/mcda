@@ -5,15 +5,14 @@ from scipy.spatial.distance import squareform
 from matplotlib import pyplot as plt
 import openpyxl as px
 import numpy as np
-import code.clustering_base.outranking_clustering
+import clustering_base.outranking_clustering
 from pathlib import Path
+
+from clustering_base.cluster import get_ordered_centroids_4
+
 data_folder = Path("/Users/jpereirar/Documents/GitHub/mcda/data")
 
-
 # from plot_clusters import *
-from pandas.tests.groupby.test_value_counts import df
-
-import code.clustering_base.cluster
 
 
 def init_data(excel_file):
@@ -27,9 +26,9 @@ def init_data(excel_file):
     df_data    = pd.DataFrame(work_sheet.values)
 
     # slice data to get data frames for actions, centroids, min and max
-    actions    = df.to_numpy(df_data.iloc[0:189])
-    centroids  = df.to_numpy(df_data.iloc[190:194])
-    limites    = df.to_numpy(df_data.iloc[189:195])
+    actions    = df.to_numpy(df_data.iloc[0:154])
+    centroids  = df.to_numpy(df_data.iloc[155:158])
+    limites    = df.to_numpy(df_data.iloc[154:159])
 
     return actions, centroids, limites
 
@@ -301,25 +300,60 @@ def regla_desc(categoria, belonging, n_acc, n_lim, sigma_I, sigma_D, lam):
 
     return categoria
 
+# def regla_desc(categoria, belonging, n_acc, n_lim, sigma_I, sigma_D, lam):
+#     """
+#     implemena la regla descendente
+#     :param n_acc:  number of acciones
+#     :param n_lim: number of limits
+#     :param sigma_I:
+#     :param sigma_D:
+#     :param lam:
+#     :return: categoria
+#     """
+#     for i in range(0, n_acc):
+#         j = n_lim - 1
+#         while True:
+#             if j == 0 :
+#                 categoria[i][1] = 1
+#                 belonging[i]=1
+#                 break
+#             else:
+#                 if sigma_I[i][j] >= lam:
+#                     if j == n_lim-1 :
+#                         categoria[i][n_lim - 2]=1
+#                         belonging[i]=n_lim - 2
+#                     else:
+#                         if min(sigma_I[i][j], sigma_D[j][i]) > min(sigma_I[i][j + 1], sigma_D[j + 1][i]):
+#                             categoria[i][j] = 1
+#                             belonging[i]=j
+#                         else:
+#                             if j == (n_lim - 2):
+#                                 categoria[i][n_lim - 2] = 1
+#                                 belonging[i]=n_lim - 2
+#                             else:
+#                                 categoria[i][j + 1] = 1
+#                                 belonging[i]=j+1
+#                     break
+#             j = j-1
+#
+#     return categoria
+
 
 def perform_outranking(actions, limites, lam, beta, iter):
     w = get_weights()
     p_dir, q_dir, p_inv, q_inv = get_umbrales()
     n_acc = np.size(actions, 0)  # number of acciones
-    n_cri = np.size(actions, 1)  # number if criteria
+    n_cri = np.size(actions, 1)  # number of criteria
     n_lim = np.size(limites, 0)  # number of limits
+    print (n_lim)
     # -------------------------------------------------------
     for k in range(0, iter):
         # calcula concordancia parcial directa e inversa (formulas (1) y (2)
-        from code.clustering_base.concordancia import conc_p_directa
         cpd = conc_p_directa(actions, limites, p_dir, q_dir)
-        from code.clustering_base.concordancia import conc_p_inversa
         cpi = conc_p_inversa(actions, limites, p_inv, q_inv)
 
         # calcula concordancia global directa e inversa (formulas (3) y (4)
-        from code.clustering_base.concordancia import concordancia_D
         sigma_D = concordancia_D(cpd, n_acc, n_lim, n_cri, w)
-        from code.clustering_base.concordancia import concordancia_I
         sigma_I = concordancia_I(cpi, n_acc, n_lim, n_cri, w)
 
 
@@ -327,7 +361,7 @@ def perform_outranking(actions, limites, lam, beta, iter):
         categoria = np.zeros((n_acc, n_lim), dtype=int)
         belonging = np.zeros((n_acc), dtype=int)
 
-        categoria = regla_desc(categoria,belonging, n_acc, n_lim, sigma_I, sigma_D, lam)
+        categoria = regla_desc(categoria, belonging, n_acc, n_lim, sigma_I, sigma_D, lam)
 
         # actualiza centroides por el metodo de los promedios
         #limites = get_ordered_centroids(categoria, actions, limites, p_dir,p_inv,n_acc, n_lim, n_cri)
@@ -341,7 +375,7 @@ def perform_outranking(actions, limites, lam, beta, iter):
         #determina los nuevos centroides de categoria, usando técnica cuchufletina
 
         #limitesold=limites
-        limites=code.clustering_base.cluster.get_ordered_centroids_4(belonging, limites, n_lim, n_cri, p_dir, p_inv, actions)
+        limites= get_ordered_centroids_4(belonging, limites, n_lim, n_cri, p_dir, p_inv, actions)
 
 
         print('--------------- ITERACION: {} -------------'.format(k+1))
