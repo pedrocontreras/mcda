@@ -1,8 +1,7 @@
 import numpy as np
-from initialization.init_parameter import parameter_running, parameter_outranking, get_weights
-from outranking_base.concordance import conc_p_directa_actions, conc_p_inversa_actions, concordancia_D_actions, \
-    concordancia_I_actions
-from initialization.init_data_file import folder, init_data, random_thresholds, get_metrics
+from init.param import *
+from outranking.concordance import *
+from init.data_file import *
 
 
 def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w):

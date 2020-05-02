@@ -1,12 +1,9 @@
 import numpy as np
-from clustering_base.cluster import get_ordered_centroids_4
-from initialization.init_parameter import parameter_running, parameter_outranking, get_umbrales, get_weights
-from outranking_base.concordance import conc_p_directa
-from outranking_base.concordance import conc_p_inversa
-from outranking_base.concordance import concordancia_D
-from outranking_base.concordance import concordancia_I
-from clustering_base.assignment_process import regla_desc
-from initialization.init_data_file import folder, init_data, get_metrics
+from clustering.base.cluster import get_ordered_centroids_4
+from clustering.base.assignment import regla_desc
+from outranking.concordance import *
+from init.data_file import folder, init_data, get_metrics
+from init.param import *
 
 
 def perform_outranking(actions, limites, n_acc, n_cri, n_lim, lam, beta, iter,p_dir, q_dir, p_inv, q_inv,iter_stochastic,w):
