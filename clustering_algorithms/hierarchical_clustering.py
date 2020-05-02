@@ -2,13 +2,12 @@ from scipy.cluster import hierarchy
 from scipy.spatial.distance import squareform
 from matplotlib import pyplot as plt
 import numpy as np
-from clustering_base.init_data_file import folder, init_data, get_metrics
+from initialization.init_data_file import folder, init_data, get_metrics
+from initialization.init_parameter import parameter_running, parameter_outranking, get_umbrales, get_weights
 from outranking_base.outranking_among_actions import conc_p_directa_actions
 from outranking_base.outranking_among_actions import conc_p_inversa_actions
 from outranking_base.outranking_among_actions import concordancia_D_actions
 from outranking_base.outranking_among_actions import concordancia_I_actions
-from parameters.init_parameter import lambda_parameter, get_umbrales, get_weights, beta_parameter, stochastic_iter, \
-    km_iter, parameter_running, parameter_outranking
 
 
 def sigma_global(sigma_D_a,sigma_I_a,n_acc,lam):

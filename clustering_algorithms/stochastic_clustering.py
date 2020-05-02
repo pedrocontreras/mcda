@@ -1,10 +1,12 @@
 import numpy as np
-from clustering_base.assignment_process import regla_desc
+from initialization.init_data_file import folder, init_data, random_thresholds, get_metrics
 from clustering_base.cluster import get_ordered_centroids_4
-from clustering_base.concordancia import conc_p_directa, conc_p_inversa, concordancia_D, concordancia_I
-from clustering_base.init_data_file import folder, init_data, random_thresholds, random_weights, get_metrics
-from parameters.init_parameter import lambda_parameter, beta_parameter, stochastic_iter, km_iter, p_dir_param, \
-    q_dir_param, p_inv_param, q_inv_param, get_umbrales, parameter_running, parameter_outranking
+from initialization.init_parameter import parameter_running, parameter_outranking, get_weights
+from outranking_base.concordance import conc_p_directa
+from outranking_base.concordance import conc_p_inversa
+from outranking_base.concordance import concordancia_D
+from outranking_base.concordance import concordancia_I
+from clustering_base.assignment_process import regla_desc
 
 
 def sumAscendente(freq_acceptability,categoria,n_lim,n_acc):
@@ -30,6 +32,7 @@ def check_separability(limites,n_lim,n_cri):
     return no_check
 
 
+
 def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w):
     freq_no_check=0.0
     freq_acceptability = np.zeros((n_acc, n_lim))
@@ -39,13 +42,12 @@ def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_di
         print (l)
         for k in range(0, iter):
             # calcula concordancia parcial directa e inversa (formulas (1) y (2)
-            cpd = conc_p_directa(actions, limites, p_dir, q_dir)
-            cpi = conc_p_inversa(actions, limites, p_inv, q_inv)
+            cpd = conc_p_directa(actions, limites, p_dir[l], q_dir[l])
+            cpi = conc_p_inversa(actions, limites, p_inv[l], q_inv[l])
 
             # calcula concordancia global directa e inversa (formulas (3) y (4)
-            sigma_D = concordancia_D(cpd, n_acc, n_lim, n_cri, w[l])
-            sigma_I = concordancia_I(cpi, n_acc, n_lim, n_cri, w[l])
-
+            sigma_D = concordancia_D(cpd, n_acc, n_lim, n_cri, w)
+            sigma_I = concordancia_I(cpi, n_acc, n_lim, n_cri, w)
 
             # determina categoria de cada accion, usando regla descendente
             categoria = np.zeros((n_acc, n_lim), dtype=int)
@@ -53,7 +55,7 @@ def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_di
 
             categoria = regla_desc(categoria,belonging, n_acc, n_lim, sigma_I, sigma_D, lam)
 
-            limites=get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir,p_inv,actions)
+            limites=get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir[l],p_inv[l],actions)
 
 
         freq_acceptability=sumAscendente(freq_acceptability, categoria, n_lim, n_acc)
@@ -62,6 +64,7 @@ def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_di
         #print(limites)
         if check_separability(limites, n_lim, n_cri) == 'True':
             freq_no_check = freq_no_check + 1
+
 
     aceptabilidadDescendente(iter_stochastic,freq_acceptability,n_lim,n_acc)
     print (freq_no_check/iter_stochastic)
@@ -72,12 +75,11 @@ def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_di
 def main():
     iter, iter_stochastic = parameter_running(50,1)
     lam,beta = parameter_outranking(0.5,0.1)
-    actions, centroids, limites = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'HDI.xlsx',0,189,190,194,189,195)
+    actions, centroids, limites = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'SSI.xlsx',0,159,155,158,154,159)
     n_acc, n_cri, n_lim=get_metrics(actions, limites)
-    w=random_weights(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'Weights.xlsx',0,1000)
-    p_dir, q_dir, p_inv, q_inv=get_umbrales([0.19,0.14,0.10],[0.09,0.07,0.05],[0.19,0.14,0.10],[0.09,0.07,0.05])
+    p_dir, q_dir, p_inv, q_inv=random_thresholds(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'random_umbrales_SSI.xlsx',0,3000)
+    w = get_weights([0.333, 0.333, 0.334])
     perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
-
     print (centroids)
 if __name__ == '__main__':
     main()
