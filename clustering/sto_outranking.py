@@ -1,4 +1,3 @@
-import numpy as np
 from clustering.base.cluster import get_ordered_centroids_4
 from clustering.base.assignment import regla_desc
 from init.param import parameter_running, parameter_outranking, get_weights

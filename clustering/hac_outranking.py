@@ -1,9 +1,6 @@
 from scipy.cluster import hierarchy
 from scipy.spatial.distance import squareform
 from matplotlib import pyplot as plt
-import numpy as np
-from init.data_file import *
-from init.param import *
 from outranking.actions import *
 
 

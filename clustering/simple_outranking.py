@@ -10,6 +10,7 @@ def perform_outranking(actions, limites, n_acc, n_cri, n_lim, lam, beta, iter,p_
     # -------------------------------------------------------
     for k in range(0, iter):
         # calcula concordancia parcial directa e inversa (formulas (1) y (2)
+        from outranking.concordance import conc_p_directa
         cpd = conc_p_directa(actions, limites, p_dir, q_dir)
         cpi = conc_p_inversa(actions, limites, p_inv, q_inv)
 

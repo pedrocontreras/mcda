@@ -1,5 +1,3 @@
-import numpy as np
-from clustering.base import *
 from clustering.base.assignment import regla_desc
 from clustering.base.cluster import get_ordered_centroids_4
 from outranking.concordance import *

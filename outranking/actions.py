@@ -1,7 +1,6 @@
-import numpy as np
+from init.data_file import *
 from init.param import *
 from outranking.concordance import *
-from init.data_file import *
 
 
 def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w):
