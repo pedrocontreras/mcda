@@ -3,6 +3,27 @@ from scipy.spatial.distance import squareform
 from matplotlib import pyplot as plt
 from outranking.actions import *
 
+def boundaries(n_lim,n_acc,sigma_min):
+    b=np.zeros(n_lim)
+    L = np.zeros(n_lim)
+    L[1]=0
+    for i in range (2,n_acc+1):
+        L[i]=L[i-1]+sigma_min[i][i-1]
+    lsegment=1.0*L[n_acc]/n_lim
+    i=1
+    for j in range(1,n_lim+1):
+        i=i+1
+        b[j]=i
+    return b
+
+def wkm_algorithm(actions,n_lim):
+    b=np.zeros(n_lim)
+    c=np.zeros(n_lim)
+
+    for j in range (1,n_lim+1):
+        # Computar c_j,n_j,J
+        c=0
+    return b,c
 
 def perform_clustering(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w):
     #computes direct concordance, on each criterion
@@ -19,18 +40,12 @@ def perform_clustering(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_di
     #computes the indifferences and inverse-difference matrices
     sigma_min,sigma_min_inverse=sigma_global(sigma_D_a,sigma_I_a,n_acc,lam)
 
-    for i in range(0, n_acc):
-        for j in range(i, n_acc):
-            print (sigma_min_inverse[i][j])
-    #builds the hierarchy clustering
-    Z=squareform(sigma_min_inverse)
-    Z = hierarchy.linkage(Z, 'average')
-    labels = hierarchy.fcluster(Z, t=5, criterion='maxclust')
-    for i in range(0, n_acc):
-        print (labels[i])
-    fig = plt.figure(figsize=(10, 5))
-    dn = hierarchy.dendrogram(Z)
-    plt.show()
+    #Performing ELECTRE III to obtain a complete pre-order of actions
+
+    #Defining initial clusters' bounds
+    b=boundaries(n_lim,n_acc,sigma_min)
+
+    #Iterating process to compute clusters (WKM algorithm)
 
     return 0
 

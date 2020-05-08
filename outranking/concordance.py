@@ -186,3 +186,30 @@ def concordancia_D(cpd, n_acc, n_lim, n_cri, w):
                 x = x + w[h] * cpd[i][j][h]
             sigma_D[i][j] = x
     return sigma_D
+
+
+def sigma_global(sigma_D_a,sigma_I_a,n_acc,lam):
+    """
+    computes the indifference indices between each pair of actions, it does not consider any central action
+    :param sigma_D:
+    :param sigma_I:
+    :param n_acc:
+    :return: sigma_min,sigma_min_inverse
+    """
+
+    sigma_min = np.zeros((n_acc, n_acc))  # matrix of indifference,
+    sigma_min_inverse = np.zeros((n_acc, n_acc)) #inverse matrix of indifference
+    for i in range(0,n_acc):
+        for j in range(0,n_acc):
+            if i==j:
+                sigma_min[i][j]=0
+                sigma_min_inverse[i][j]=0
+            else:
+                if min(sigma_I_a[i][j],sigma_D_a[j][i])>=lam:
+                    sigma_min[i][j]=min(sigma_I_a[i][j],sigma_D_a[j][i])
+                else:
+                    sigma_min[i][j]=0
+                sigma_min_inverse[i][j]=1-sigma_min[i][j]
+
+
+    return sigma_min,sigma_min_inverse
