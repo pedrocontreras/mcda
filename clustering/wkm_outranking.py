@@ -1,17 +1,16 @@
-from scipy.cluster import hierarchy
-from scipy.spatial.distance import squareform
-from matplotlib import pyplot as plt
+import math
+from math import floor
 from outranking.actions import *
 
 def boundaries(n_lim,n_acc,sigma_min):
     b=np.zeros(n_lim)
-    L = np.zeros(n_lim)
-    L[1]=0
-    for i in range (2,n_acc+1):
+    L = np.zeros(n_acc)
+    L[0]=0
+    for i in range (1,n_acc):
         L[i]=L[i-1]+sigma_min[i][i-1]
-    lsegment=1.0*L[n_acc]/n_lim
-    i=1
-    for j in range(1,n_lim+1):
+    lsegment=1.0*L[n_acc-1]/n_lim
+    i=0
+    for j in range(0,n_lim):
         i=i+1
         b[j]=i
     return b
@@ -23,13 +22,13 @@ def difJ(actions,i,j):
 def Update(mu,j,i,J):
     return 0
 
-def wkm_algorithm(actions,k):
-    b=np.zeros(k)
+def wkm_algorithm(actions,n_acc,k):
+    b=np.zeros(k, dtype=int)
     mu=np.zeros(k)
     n=np.zeros(k)
 
     delta=0.0
-    for j in range (1,k+1):
+    for j in range (0,k):
         # Computar c_j,n_j,J
         mu[j]=0
         n[j]=0
@@ -37,10 +36,13 @@ def wkm_algorithm(actions,k):
     transfers=1
     while transfers==1:
         transfers=0
-        for j in range(1,k+1):
-            if j>1:
+        for j in range(0,k):
+            if j>0:
                 first=b[j]
-                last=first+1.0*(1-delta)*n[j]/2
+                last=first+floor(1.0*(1-delta)*(n[j]/2))
+            else:
+                first=0
+                last=floor(1.0*(1-delta)*(n[0]/2))
             for i in range(first,last+1):
                 if n[j]>1 and difJ(actions,i,j)<0:
                     transfers=1
@@ -50,9 +52,12 @@ def wkm_algorithm(actions,k):
                     Update(mu,j,j-1,J)
                 else:
                     break
-            if j < k:
+            if j < k-1:
                 last = b[j+1]-1
-                first = last - 1.0 * (1 - delta) * n[j] / 2
+                first = last - floor(1.0 * (1 - delta) * n[j] / 2)
+            else:
+                last=n_acc-1
+                first=last-floor(1.0 * (1 - delta) * n[k-1] / 2)
             for i in range(last, first -1, -1):
                 if n[j] > 1 and difJ(actions, i, j)<0:
                     transfers = 1
@@ -85,6 +90,7 @@ def perform_clustering(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_di
     #Defining initial clusters' bounds
     b=boundaries(n_lim,n_acc,sigma_min)
 
+    b,mu=wkm_algorithm(actions,n_acc,n_lim)
     #Iterating process to compute clusters (WKM algorithm)
 
     return 0
