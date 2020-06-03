@@ -130,7 +130,10 @@ def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, lam, beta, i
 
     #Defining initial centroids and number of actions inside each cluster
     mu=centroids(actions,n_lim, n_cri,b)
+
+    #verificando los centroides iniciales
     print (mu)
+
     #computing indifference among actions and centroids
     #---------------------------------------------------------------------
     # calcula concordancia parcial directa e inversa (formulas (1) y (2))
@@ -147,10 +150,13 @@ def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, lam, beta, i
     #computes the global similarity function, as defined in K-means, but adapted to outranking models
     J=globalJ(sigma_min,sigma_min_inverse,n_acc, n_lim)
 
+    #verificando que la similitud global es reducida
     print (J)
 
     #Iterating process to compute clusters (Warped-KM algorithm)
     b,mu=wkm_algorithm(actions,sigma_min,n_acc,n_cri,n_lim,J,mu,n,b)
+
+    #verificando los centroides finales
     print (mu)
 
     return 0
