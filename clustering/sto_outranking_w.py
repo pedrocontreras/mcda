@@ -19,16 +19,16 @@ def aceptabilidadDescendente(iter_stochastic,freq_acceptability,n_lim,n_acc):
         print (" ")
     print ("")
 
-def check_separability(limites,n_lim,n_cri):
+def check_separability(ext_centroids, n_lim, n_cri):
     no_check='False'
     for i in range(2,n_lim):
         for j in range(0,n_cri):
-            if limites[i][j]<limites[i-1][j]:
+            if ext_centroids[i][j]<ext_centroids[i - 1][j]:
                 no_check='True'
     return no_check
 
 
-def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w):
+def perform_outranking(actions, ext_centroids, n_acc, n_cri, n_lim, lam, beta, iter, p_dir, q_dir, p_inv, q_inv, iter_stochastic, w):
     freq_no_check=0.0
     freq_acceptability = np.zeros((n_acc, n_lim))
     # -------------------------------------------------------
@@ -37,8 +37,8 @@ def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_di
         print (l)
         for k in range(0, iter):
             # calcula concordancia parcial directa e inversa (formulas (1) y (2)
-            cpd = conc_p_directa(actions, limites, p_dir, q_dir)
-            cpi = conc_p_inversa(actions, limites, p_inv, q_inv)
+            cpd = conc_p_directa(actions, ext_centroids, p_dir, q_dir)
+            cpi = conc_p_inversa(actions, ext_centroids, p_inv, q_inv)
 
             # calcula concordancia global directa e inversa (formulas (3) y (4)
             sigma_D = concordancia_D(cpd, n_acc, n_lim, n_cri, w[l])
@@ -51,14 +51,14 @@ def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_di
 
             categoria = regla_desc(categoria,belonging, n_acc, n_lim, sigma_I, sigma_D, lam)
 
-            limites=get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir,p_inv,actions)
+            ext_centroids=get_ordered_centroids_4(belonging,ext_centroids,n_lim,n_cri,p_dir,p_inv,actions)
 
 
         freq_acceptability=sumAscendente(freq_acceptability, categoria, n_lim, n_acc)
 
         #counts how many times the weak separability condition is not satisfied
         #print(limites)
-        if check_separability(limites, n_lim, n_cri) == 'True':
+        if check_separability(ext_centroids, n_lim, n_cri) == 'True':
             freq_no_check = freq_no_check + 1
 
     aceptabilidadDescendente(iter_stochastic,freq_acceptability,n_lim,n_acc)
@@ -70,11 +70,11 @@ def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_di
 def main():
     iter, iter_stochastic = parameter_running(50,1)
     lam,beta = parameter_outranking(0.5,0.1)
-    actions, centroids, limites = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'HDI.xlsx',0,189,190,194,189,195)
-    n_acc, n_cri, n_lim=get_metrics(actions, limites)
+    actions, centroids, ext_centroids = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'HDI.xlsx',0,189,190,194,189,195)
+    n_acc, n_cri, n_lim=get_metrics(actions, ext_centroids)
     w=random_weights(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'Weights.xlsx',0,1000)
     p_dir, q_dir, p_inv, q_inv=get_umbrales([0.19,0.14,0.10],[0.09,0.07,0.05],[0.19,0.14,0.10],[0.09,0.07,0.05])
-    perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
+    perform_outranking(actions, ext_centroids,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
 
     print (centroids)
 if __name__ == '__main__':

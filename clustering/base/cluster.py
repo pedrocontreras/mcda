@@ -137,3 +137,4 @@ def get_ordered_centroids_4(belonging,limites,n_lim,n_cri,p_dir,p_inv,actions):
                     limites[j][h]=np.mean(a)
     return limites
 
+

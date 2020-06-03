@@ -17,7 +17,7 @@ def init_data(excel_file,i_actions,f_actions,i_centroids,f_centroids,i_limites,f
     """
     initialises data
     :param excel_file:
-    :return: actions, centroids, limites
+    :return: actions, centroids, ext_centroids
     """
     work_book  = px.load_workbook(excel_file)
     work_sheet = work_book['data']
@@ -27,25 +27,25 @@ def init_data(excel_file,i_actions,f_actions,i_centroids,f_centroids,i_limites,f
     # Acciones de HDI
     # actions    = df.to_numpy(df_data.iloc[0:189])
     # centroids  = df.to_numpy(df_data.iloc[190:194])
-    # limites    = df.to_numpy(df_data.iloc[189:195])
+    # ext_centroids    = df.to_numpy(df_data.iloc[189:195])
 
     #Acciones de SSI
     actions    = df.to_numpy(df_data.iloc[i_actions:f_actions])
     centroids  = df.to_numpy(df_data.iloc[i_centroids:f_centroids])
-    limites    = df.to_numpy(df_data.iloc[i_limites:f_limites])
+    ext_centroids    = df.to_numpy(df_data.iloc[i_limites:f_limites])
 
-    return actions, centroids, limites
+    return actions, centroids, ext_centroids
 
-def get_metrics(actions, limites):
+def get_metrics(actions, ext_centroids):
     """
     Get lengths of input data
     :param actions:
-    :param limites:
+    :param ext_centroids:
     :return: n_acc, n_cri, n_limites
     """
     n_acc = np.size(actions, 0)  # number of acciones
     n_cri = np.size(actions, 1)  # number if criteria
-    n_lim = np.size(limites, 0)  # number of limits
+    n_lim = np.size(ext_centroids, 0)  # number of limits
     return n_acc, n_cri, n_lim
 
 

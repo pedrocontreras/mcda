@@ -2,15 +2,13 @@ import numpy as np
 
 
 def conc_p_directa_actions(actions, p_dir, q_dir):
+    # calcula indice de concordancia parcial directo entre todas las acciones
     n_acc = np.size(actions, 0)  # number of acciones
     n_cri = np.size(actions, 1)  # number if criteria
     cpda  = np.zeros((n_acc, n_acc, n_cri))
 
-    # calcula indice de concordancia parcial directo
     for h in range(0, n_cri):
-        # mueve j en las filas del arreglo de perfiles de categorias
         for j in range(0, n_acc):
-            # mueve i en las filas del arreglo de acciones
             for i in range(0, n_acc):
                 if actions[i][h] - actions[j][h] > p_dir[h]:
                     cpda[j][i][h] = 0
@@ -24,7 +22,7 @@ def conc_p_directa_actions(actions, p_dir, q_dir):
 
 def conc_p_inversa_actions(actions, p_inv, q_inv):
     """
-    calcula la concordancia parcial inversa
+    calcula la concordancia parcial inversa entre todas las acciones
     :param actions:
     :param p_inv:
     :param q_inv:
@@ -36,10 +34,7 @@ def conc_p_inversa_actions(actions, p_inv, q_inv):
     cpia  = np.zeros((n_acc, n_acc, n_cri))  # cpi array to store values
 
     for h in range(0, n_cri):
-        # calcula indice de concordancia parcial inverso
-        #mueve i en las filas del arreglo de acciones
         for i in range(0, n_acc):
-            #mueve j en las filas del arreglo de perfiles de categorias
             for j in range(0, n_acc):
                 if actions[j][h] - actions[i][h] > p_inv[h]:
                     cpia[i][j][h] = 0
@@ -51,68 +46,66 @@ def conc_p_inversa_actions(actions, p_inv, q_inv):
     return cpia
 
 
-def conc_p_directa(actions, limites, p_dir, q_dir):
+def conc_p_directa(actions, ext_centroids, p_dir, q_dir):
     """
     calcula la concordancia parcial directa
     :param actions:
-    :param limites:
+    :param ext_centroids:
     :param p_dir:
     :param q_dir:
     :return: cod
     """
     n_acc = np.size(actions, 0)  # number of acciones
     n_cri = np.size(actions, 1)  # number if criteria
-    n_lim = np.size(limites, 0)  # number of limits
+    n_lim = np.size(ext_centroids, 0)  # number of limits
     cpd = np.zeros((n_lim, n_acc, n_cri))
 
-    # calcula indice de concordancia parcial directo
     for h in range(0, n_cri):
         # mueve j en las filas del arreglo de perfiles de categorias
         for j in range(0, n_lim):
             # mueve i en las filas del arreglo de acciones
             for i in range(0, n_acc):
-                if actions[i][h] - limites[j][h] > p_dir[h]:
+                if actions[i][h] - ext_centroids[j][h] > p_dir[h]:
                     cpd[j][i][h] = 0
                 else:
-                    if actions[i][h] - limites[j][h] <= q_dir[h]:
+                    if actions[i][h] - ext_centroids[j][h] <= q_dir[h]:
                         cpd[j][i][h] = 1
                     else:
-                        cpd[j][i][h] = 1.0 * (limites[j][h] - actions[i][h] + p_dir[h]) / (p_dir[h] - q_dir[h])
+                        cpd[j][i][h] = 1.0 * (ext_centroids[j][h] - actions[i][h] + p_dir[h]) / (p_dir[h] - q_dir[h])
     return cpd
 
-def conc_p_inversa(actions, limites, p_inv, q_inv):
+def conc_p_inversa(actions, ext_centroids, p_inv, q_inv):
     """
     calcula la concordancia parcial inversa
     :param actions:
-    :param limites:
+    :param ext_centroids:
     :param p_inv:
     :param q_inv:
     :return:
     """
     n_acc = np.size(actions, 0)  # number of acciones
     n_cri = np.size(actions, 1)  # number if criteria
-    n_lim = np.size(limites, 0)  # number of limits
+    n_lim = np.size(ext_centroids, 0)  # number of limits
 
     cpi   = np.zeros((n_acc, n_lim, n_cri))  # cpi array to store values
 
     for h in range(0, n_cri):
-        # calcula indice de concordancia parcial inverso
         #mueve i en las filas del arreglo de acciones
         for i in range(0, n_acc):
             #mueve j en las filas del arreglo de perfiles de categorias
             for j in range(0, n_lim):
-                if limites[j][h] - actions[i][h] > p_inv[h]:
+                if ext_centroids[j][h] - actions[i][h] > p_inv[h]:
                     cpi[i][j][h] = 0
                 else:
-                    if limites[j][h] - actions[i][h] <= q_inv[h]:
+                    if ext_centroids[j][h] - actions[i][h] <= q_inv[h]:
                         cpi[i][j][h] = 1
                     else:
-                        cpi[i][j][h] = 1.0 * (actions[i][h] - limites[j][h] + p_inv[h]) / (p_inv[h] - q_inv[h])
+                        cpi[i][j][h] = 1.0 * (actions[i][h] - ext_centroids[j][h] + p_inv[h]) / (p_inv[h] - q_inv[h])
     return cpi
 
 def concordancia_I_actions(cpia, n_acc, n_cri, w):
     """
-    calcula la concordancia inversa
+    calcula la concordancia global inversa, cuando se compara entre acciones
     :param cpi:
     :param n_acc:
     :param n_cri:
@@ -131,7 +124,7 @@ def concordancia_I_actions(cpia, n_acc, n_cri, w):
 
 def concordancia_D_actions(cpda, n_acc,  n_cri, w):
     """
-    calcula la concordancia directa
+    calcula la concordancia global directa, cuando se compara las acciones
     :param cpd:
     :param n_acc:
     :param n_cri:
@@ -150,7 +143,7 @@ def concordancia_D_actions(cpda, n_acc,  n_cri, w):
 
 def concordancia_I(cpi, n_acc, n_lim, n_cri, w):
     """
-    calcula la concordancia inversa
+    calcula la concordancia global inversa, al comparar una acción con los centroides
     :param cpi:
     :param n_acc:
     :param n_lim:
@@ -170,7 +163,7 @@ def concordancia_I(cpi, n_acc, n_lim, n_cri, w):
 
 def concordancia_D(cpd, n_acc, n_lim, n_cri, w):
     """
-    calcula la concordancia directa
+    calcula la concordancia global directa, al comparar una acción con los centroides
     :param cpd:
     :param n_acc:
     :param n_lim:
@@ -190,7 +183,7 @@ def concordancia_D(cpd, n_acc, n_lim, n_cri, w):
 
 def sigma_global(sigma_D_a,sigma_I_a,n_acc,lam):
     """
-    computes the indifference indices between each pair of actions, it does not consider any central action
+    computes the indifference indices between each pair of actions
     :param sigma_D:
     :param sigma_I:
     :param n_acc:

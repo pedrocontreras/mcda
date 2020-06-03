@@ -3,7 +3,7 @@ from init.param import *
 from outranking.concordance import *
 
 
-def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w):
+def perform_outranking(actions, ext_centroids, n_acc, n_cri, n_lim, lam, beta, iter, p_dir, q_dir, p_inv, q_inv, iter_stochastic, w):
 
     freq_sigma_D_a = np.zeros((n_acc, n_acc))
     freq_sigma_I_a = np.zeros((n_acc, n_acc))
@@ -38,11 +38,11 @@ def perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_di
 def main():
     iter, iter_stochastic = parameter_running(50,1)
     lam,beta = parameter_outranking(0.5,0.1)
-    actions, centroids, limites = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'SSI.xlsx',0,159,155,158,154,159)
-    n_acc, n_cri, n_lim=get_metrics(actions, limites)
+    actions, centroids, ext_centroids = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'SSI.xlsx',0,159,155,158,154,159)
+    n_acc, n_cri, n_lim=get_metrics(actions, ext_centroids)
     p_dir, q_dir, p_inv, q_inv=random_thresholds(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'random_umbrales_SSI.xlsx',0,3000)
     w = get_weights([0.333, 0.333, 0.334])
-    perform_outranking(actions, limites,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
+    perform_outranking(actions, ext_centroids,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
 if __name__ == '__main__':
     main()
 
