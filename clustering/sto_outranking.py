@@ -30,7 +30,7 @@ def check_separability(limites,n_lim,n_cri):
 
 
 
-def perform_outranking(actions, ext_centroids, n_acc, n_cri, n_lim, lam, beta, iter, p_dir, q_dir, p_inv, q_inv, iter_stochastic, w):
+def perform_outranking(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam, beta, iter, p_dir, q_dir, p_inv, q_inv, iter_stochastic, w):
     freq_no_check=0.0
     freq_acceptability = np.zeros((n_acc, n_lim))
     # -------------------------------------------------------
@@ -65,19 +65,19 @@ def perform_outranking(actions, ext_centroids, n_acc, n_cri, n_lim, lam, beta, i
 
     aceptabilidadDescendente(iter_stochastic,freq_acceptability,n_lim,n_acc)
     print (freq_no_check/iter_stochastic)
-    return 0
+    return ext_centroids
 
 
 #########  MAIN ###############
 def main():
     iter, iter_stochastic = parameter_running(50,1)
     lam,beta = parameter_outranking(0.5,0.1)
-    actions, centroids, ext_centroids= init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'SSI.xlsx',0,159,155,158,154,159)
-    n_acc, n_cri, n_lim=get_metrics(actions, ext_centroids)
+    actions, centroids, ext_centroids= init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'SSI.xlsx',154,3)
+    n_acc, n_cri, n_lim, n_cent=get_metrics(actions, ext_centroids)
     p_dir, q_dir, p_inv, q_inv=random_thresholds(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'random_umbrales_SSI.xlsx',0,3000)
     w = get_weights([0.333, 0.333, 0.334])
-    perform_outranking(actions, ext_centroids,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
-    print (centroids)
+    ext_centroids=perform_outranking(actions, ext_centroids,n_acc, n_cri, n_lim,n_cent,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
+    print (ext_centroids)
 if __name__ == '__main__':
     main()
 

@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 from outranking.actions import *
 
 
-def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, lam, beta, iter, p_dir, q_dir, p_inv, q_inv, iter_stochastic, w):
+def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam, beta, iter, p_dir, q_dir, p_inv, q_inv, iter_stochastic, w):
     #computes direct concordance, on each criterion
     cpda = conc_p_directa_actions(actions, p_dir, q_dir)
 
@@ -32,18 +32,21 @@ def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, lam, beta, i
     dn = hierarchy.dendrogram(Z)
     plt.show()
 
-    return 0
+    return ext_centroids
 
 
 #########  MAIN ###############
 def main():
     iter, iter_stochastic = parameter_running(50,1)
     lam,beta = parameter_outranking(0.5,0.1)
-    actions, centroids, ext_centroids = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'SSI.xlsx',0,159,155,158,154,159)
-    n_acc, n_cri, n_lim=get_metrics(actions, ext_centroids)
+    actions, centroids, ext_centroids = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'SSI.xlsx',154,3)
+    n_acc, n_cri, n_lim, n_cent=get_metrics(actions, ext_centroids)
     p_dir, q_dir, p_inv, q_inv = get_umbrales([0.51,0.58,0.43],[0.25,0.29,0.22],[0.51,0.58,0.43],[0.25,0.29,0.22])
     w = get_weights([0.333, 0.333, 0.334])
-    perform_clustering(actions, ext_centroids,n_acc, n_cri, n_lim,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
+    print (ext_centroids)
+    ext_centroids=perform_clustering(actions, ext_centroids,n_acc, n_cri, n_lim,n_cent,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
+    print (ext_centroids)
+
 if __name__ == '__main__':
     main()
 

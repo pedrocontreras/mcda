@@ -204,5 +204,4 @@ def sigma_global(sigma_D_a,sigma_I_a,n_acc,lam):
                     sigma_min[i][j]=0
                 sigma_min_inverse[i][j]=1-sigma_min[i][j]
 
-
     return sigma_min,sigma_min_inverse
