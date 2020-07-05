@@ -36,9 +36,7 @@ def init_data(excel_file,f_actions,f_centroids):
     #Acciones de SSI
     actions    = df.to_numpy(df_data.iloc[0:f_actions])
     centroids  = df.to_numpy(df_cent.iloc[1:f_centroids])
-    print(centroids)
     ext_centroids    = df.to_numpy(df_cent.iloc[0:f_centroids+2])
-    print(ext_centroids)
 
     return actions, centroids, ext_centroids
 

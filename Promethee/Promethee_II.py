@@ -33,39 +33,52 @@ def neg_flow(sigma_D_a,n_acc):
         ngflow[i]=incoming_flow(sigma_D_a,i,n_acc)
     return ngflow
 
-def netflow(pos,neg,n_acc):
+def netflow(sigma_D_a,n_acc):
+    #return net flow of actions and  their array indices ordered in ascending order by netflow
     nflow  = np.zeros(n_acc)
+    pos = pos_flow(sigma_D_a, n_acc)
+    neg = neg_flow(sigma_D_a, n_acc)
     for i in range(0,n_acc):
         nflow[i]=pos[i]-neg[i]
-    return nflow
+    indices_sort=np.argsort(nflow)
+    return nflow, indices_sort
 
-def perform_outranking(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam, beta, iter, p_dir, q_dir, p_inv, q_inv, iter_stochastic, w):
+def order_actions(n_acc,n_cri,actions,indices_sort):
+    #return actions ordered in the order established by indices_sort
+    bactions=np.zeros((n_acc,n_cri))
+    for i in range(0,n_acc):
+        bactions[i]=actions[indices_sort[i]]
+
+    return bactions
+
+def promethee_method(actions, n_acc, n_cri, p_dir, q_dir, w):
     # computes direct concordance, on each criterion
     cpda = conc_p_directa_actions(actions, p_dir, q_dir)
 
     # computes global direct concordance
     sigma_D_a = concordancia_D_actions(cpda, n_acc, n_cri, w)
 
-    #computes the positive outranking flow
-    pflow=pos_flow(sigma_D_a,n_acc)
-    #computes the negative outranking flow
-    nflow=neg_flow(sigma_D_a,n_acc)
-
     #computes the net outranking flow defined in PROMETHEE II
-    Phi=netflow(pflow,nflow,n_acc)
-    return Phi
+    Phi,indices_sort=netflow(sigma_D_a,n_acc)
+
+    #ordering of actions as established in the indices_sort array
+    actions=order_actions(n_acc,n_cri,actions,indices_sort)
+
+    return Phi,sigma_D_a,actions
 
 
 
 #########  MAIN ###############
 def main():
-    iter, iter_stochastic = parameter_running(50,1)
-    lam,beta = parameter_outranking(0.0,0.1)
-    actions, centroids, ext_centroids= init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'SSI.xlsx',154,3)
+    # iter, iter_stochastic = parameter_running(50,1)
+    # lam,beta = parameter_outranking(0.0,0.1)
+    actions, centroids, ext_centroids= init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'testMS.xlsx',14,3)
     n_acc, n_cri, n_lim, n_cent=get_metrics(actions, ext_centroids)
-    p_dir, q_dir, p_inv, q_inv = get_umbrales([0.51,0.58,0.43],[0.25,0.29,0.22],[0.51,0.58,0.43],[0.25,0.29,0.22])
+    p_dir, q_dir, p_inv, q_inv = get_umbrales([1.0,1.0,1.0],[0.0,0.0,0.0],[1.0,1.0,1.0],[0.0,0.0,0.0])
     w = get_weights([0.333, 0.333, 0.334])
-    Phi=perform_outranking(actions, ext_centroids,n_acc, n_cri, n_lim,n_cent,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
-    print (Phi)
+
+    Phi,sigma_D_a,actions=promethee_method(actions, n_acc, n_cri, p_dir, q_dir, w)
+
 if __name__ == '__main__':
+
     main()
