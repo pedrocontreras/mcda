@@ -22,6 +22,15 @@ def boundaries(k,n_acc,sigma_min):
     return b
 
 def globalJ(sigma_min,n_acc, n_lim):
+    """
+    calcula la similaridad global J
+    :param sigma_min: similaridad entre accion y cluster
+    :param n: arreglo de número de elementos por cluster
+    :param i: número de cluster
+    :param j: número de acción en el array de acciones
+    :return dJ: diferencia de similaridad global J
+    """
+
     J=0.0
     for i in range(0, n_lim):
         for j in range(0, n_acc):
@@ -37,7 +46,6 @@ def difJminus(sigma_min,n,i,j):
     :param j: número de acción en el array de acciones
     :return dJ: diferencia de similaridad global J
     """
-    #print ("j", j, n[j],n[j-1])
     dJ= (n[j]/(n[j]+1))*sigma_min[j][i]-(n[j-1]/(n[j-1]-1))*sigma_min[j-1][i]
     return dJ
 
@@ -50,7 +58,6 @@ def difJplus(sigma_min,n,i,j):
     :param j: número de acción en el array de acciones
     :return dJ: diferencia de similaridad global J
     """
-    #print ("j,i",j,i,sigma_min[j][i],sigma_min[j+1][i])
     dJ= (n[j]/(n[j]+1))*sigma_min[j][i]-(n[j+1]/(n[j+1]-1))*sigma_min[j+1][i]
     return dJ
 
@@ -84,38 +91,41 @@ def centroids(actions,k,n_cri,b,last_action):
     return mu
 
 def wkm_algorithm(actions,sigma_min,n_acc,n_cri,k,J,mu,n,b):
+    """
+    computa los clusters usando el algoritmo Warped K-means
+    :param actions: acciones ordenadas según outranking global
+    :param sigma_min: similaridad entre accion y cluster
+    :param n_acc: número de acciones
+    :param n_cri: número de criterios
+    :param k: número de clusters
+    :param J: similaridad global J
+    :param mu: centroides
+    :param n: número de acciones en cada cluster
+    :param b: fronteras de clusters
+    :return b,mu
+    """
+
     delta=0.0
+
+    #aplica proceso  según número de iteraciones transfers
     transfers=1
     while transfers<=1:
-        #transfers=0
         for j in range(0,k):
-            #print("aqui")
             if j>0:
-                #print("aqui 1")
-                first=b[j]
-                last=first+floor(1.0*(1-delta)*(n[j]/2))
-            # else:
-            #     #print("aqui 2")
-            #     first=0
-            #     last=floor(1.0*(1-delta)*(n[0]/2))
-                for i in range(first,last+1):
+                 first=b[j]
+                 last=first+floor(1.0*(1-delta)*(n[j]/2))
+                 for i in range(first,last+1):
                     dJ=difJminus(sigma_min,n,i,j)
                     if n[j]>1 and dJ>0:
-                        #transfers=1
                         b[j]=b[j]+1
                         n[j]=n[j]-1
                         n[j-1]=n[j-1]+1
                         mu=centroids(actions,k,n_cri,b,n_acc)
                         J=Update(dJ,J)
-                    #else:
-                    #    break
             if j < k-1:
-                last = b[j+1]-1
-                first = last - floor(1.0 * (1 - delta) * n[j] / 2)
-            # else:
-            #     last=n_acc-1
-            #     first=last-floor(1.0 * (1 - delta) * n[k-1] / 2)
-                for i in range(last, first -1, -1):
+                 last = b[j+1]-1
+                 first = last - floor(1.0 * (1 - delta) * n[j] / 2)
+                 for i in range(last, first -1, -1):
                     dJ = difJplus(sigma_min, n, i, j)
                     #print (j)
                     if n[j] > 1 and dJ>0:
@@ -125,13 +135,7 @@ def wkm_algorithm(actions,sigma_min,n_acc,n_cri,k,J,mu,n,b):
                         n[j + 1] = n[j + 1] + 1
                         mu=centroids(actions,k,n_cri,b,n_acc)
                         J=Update(dJ,J)
-                    #else:
-                    #    break
         transfers=transfers+1
-        #print (j)
-        #verificando si la similitud global se reduce
-        # print (J)
-        # print ("")
 
     return b,mu
 
