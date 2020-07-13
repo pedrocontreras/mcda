@@ -60,8 +60,9 @@ def conc_p_directa(actions, ext_centroids, p_dir, q_dir):
     n_lim = np.size(ext_centroids, 0)  # number of limits
     cpd = np.zeros((n_lim, n_acc, n_cri))
 
+    #mueve h en el arreglo de criterios
     for h in range(0, n_cri):
-        # mueve j en las filas del arreglo de perfiles de categorias
+        # mueve j en las filas del arreglo de perfiles de categorias (centroides)
         for j in range(0, n_lim):
             # mueve i en las filas del arreglo de acciones
             for i in range(0, n_acc):

@@ -52,10 +52,10 @@ def order_actions(n_acc,n_cri,actions,indices_sort):
     return bactions
 
 def promethee_method(actions, n_acc, n_cri, p_dir, q_dir, w):
-    # computes direct concordance, on each criterion
+    # computes direct concordance among actions, on each criterion
     cpda = conc_p_directa_actions(actions, p_dir, q_dir)
 
-    # computes global direct concordance
+    # computes global direct concordance among actions
     sigma_D_a = concordancia_D_actions(cpda, n_acc, n_cri, w)
 
     #computes the net outranking flow defined in PROMETHEE II

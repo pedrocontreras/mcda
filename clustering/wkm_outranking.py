@@ -3,6 +3,8 @@ from math import floor
 from outranking.actions import *
 from Promethee.Promethee_II import *
 
+np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
+
 
 def order_actions(actions):
     return actions
@@ -90,9 +92,9 @@ def centroids(actions,k,n_cri,b,last_action):
         mu[k-1][h]=centered_column(actions,h,b[k-1],last_action)
     return mu
 
-def wkm_algorithm(actions,sigma_min,n_acc,n_cri,k,J,mu,n,b):
+def wkm_algorithm(actions,sigma_D,sigma_I,n_acc,n_cri,k,J,mu,n,b):
     """
-    computa los clusters usando el algoritmo Warped K-means
+    computa los clusters usando la estrategia del algoritmo Warped K-means y la regla ascendente de ELECTRE TRI-C
     :param actions: acciones ordenadas según outranking global
     :param sigma_min: similaridad entre accion y cluster
     :param n_acc: número de acciones
@@ -109,42 +111,41 @@ def wkm_algorithm(actions,sigma_min,n_acc,n_cri,k,J,mu,n,b):
 
     #aplica proceso  según número de iteraciones transfers
     transfers=1
-    while transfers<=1:
+    while transfers<=1000:
         for j in range(0,k):
             if j>0:
                  first=b[j]
                  last=first+floor(1.0*(1-delta)*(n[j]/2))
                  for i in range(first,last+1):
-                    dJ=difJminus(sigma_min,n,i,j)
-                    if n[j]>1 and dJ>0:
+                    if n[j]>1 and min(sigma_I[i][j+1-1],sigma_D[j+1-1][i])>min(sigma_I[i][j+1],sigma_D[j+1][i]):
                         b[j]=b[j]+1
                         n[j]=n[j]-1
                         n[j-1]=n[j-1]+1
                         mu=centroids(actions,k,n_cri,b,n_acc)
-                        J=Update(dJ,J)
-            if j < k-1:
+                        J=Update(min(sigma_I[i][j+1-1],sigma_D[j+1-1][i])-min(sigma_I[i][j+1],sigma_D[j+1][i]),J)
+            if j == 0:
                  last = b[j+1]-1
                  first = last - floor(1.0 * (1 - delta) * n[j] / 2)
-                 for i in range(last, first -1, -1):
-                    dJ = difJplus(sigma_min, n, i, j)
-                    #print (j)
-                    if n[j] > 1 and dJ>0:
-                        #transfers = 1
+                 last=first+floor(1.0*(1-delta)*(n[j]/2))
+                 for i in range(first, last+1):
+                    if n[j] > 1 and min(sigma_I[i][j+1],sigma_D[j+1][i])<min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]):#dJ>0:
                         b[j+1] = b[j+1] - 1
                         n[j] = n[j] - 1
                         n[j + 1] = n[j + 1] + 1
                         mu=centroids(actions,k,n_cri,b,n_acc)
-                        J=Update(dJ,J)
+                        J=Update(min(sigma_I[i][j+1],sigma_D[j+1][i])-min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]),J)
         transfers=transfers+1
 
-    return b,mu
+    return b,mu,n
+
 
 def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam, beta, iter, p_dir, q_dir, p_inv, q_inv, iter_stochastic, w):
+
 
     #computes the Phi netflow values among actions, using the Promethee II method
     Phi,sigma_D_a,actions=promethee_method(actions, n_acc, n_cri, p_dir, q_dir, w)
 
-    print(actions)
+    #print(actions)
     #Defining initial clusters' boundaries, following the WKM algorithm
     b=boundaries(n_cent,n_acc,sigma_D_a)
     print("b", b)
@@ -157,29 +158,41 @@ def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam,
     mu=centroids(actions,n_cent, n_cri,b,n_acc)
     print ("mu", mu)
 
+
+    for i in range(0,n_cent):
+        ext_centroids[i+1]=mu[i]
+
+    #computa la concordancia entre acciones y centroides
+    cpd=conc_p_directa(actions, ext_centroids, p_dir, q_dir)
+    cpi=conc_p_inversa(actions, ext_centroids, p_dir, q_dir)
+
+    sigma_D=concordancia_D(cpd, n_acc, n_lim, n_cri, w)
+    sigma_I=concordancia_I(cpi, n_acc, n_lim, n_cri, w)
+
     #computes the initial global similarity function, as defined in K-means, but adapted to outranking models
-    J=globalJ(sigma_D_a,n_acc, n_cent)
+    J=globalJ(sigma_D,n_acc, n_cent)
 
     #Iterating process to compute clusters (Warped-KM algorithm)
-    b,mu=wkm_algorithm(actions,sigma_D_a,n_acc,n_cri,n_cent,J,mu,n,b)
+    b,mu,n=wkm_algorithm(actions,sigma_D,sigma_I,n_acc,n_cri,n_cent,J,mu,n,b)
 
-    #verificando los centroides finales
-    print (b)
 
-    return mu
+    return b,mu,n
 
 
 #########  MAIN ###############
 def main():
     iter, iter_stochastic = parameter_running(50,1)
     lam,beta = parameter_outranking(0.5,0.1)
-    actions, centroids, ext_centroids = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'SSI.xlsx',154,3)
+    actions, centroids, ext_centroids = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'HDI.xlsx',189,4)
     n_acc, n_cri, n_lim,n_cent=get_metrics(actions, ext_centroids)
-    p_dir, q_dir, p_inv, q_inv = get_umbrales([0.51,0.58,0.43],[0.25,0.29,0.22],[0.51,0.58,0.43],[0.25,0.29,0.22])
+    p_dir, q_dir, p_inv, q_inv = get_umbrales([0.19,0.14,0.10],[0.1,0.07,0.05],[0.19,0.14,0.10],[0.1,0.07,0.05])
     w = get_weights([0.333, 0.333, 0.334])
-    mu=perform_clustering(actions, ext_centroids,n_acc, n_cri, n_lim,n_cent,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
+    b,mu,n=perform_clustering(actions, ext_centroids,n_acc, n_cri, n_lim,n_cent,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
+    #verificando los centroides finales
     print ("")
-    print (mu)
+    print ("b",b)
+    print ("n",n)
+    print ("mu",mu)
 
 if __name__ == '__main__':
     main()
