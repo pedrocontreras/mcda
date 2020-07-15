@@ -1,5 +1,5 @@
 def parameter_running(iter,iter_stochastic):
-    iter_stochastic = stochastic_iter(1)
+    iter_stochastic = iter_stochastic
     iter = km_iter(50)
     return iter,iter_stochastic
 

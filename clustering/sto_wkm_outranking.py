@@ -108,6 +108,7 @@ def wkm_algorithm(actions,sigma_D,sigma_I,n_acc,n_cri,k,J,mu,n,b):
     """
 
     delta=0.0
+    categoria=np.zeros((n_acc,k))
 
     #aplica proceso  según número de iteraciones transfers
     transfers=1
@@ -136,57 +137,102 @@ def wkm_algorithm(actions,sigma_D,sigma_I,n_acc,n_cri,k,J,mu,n,b):
                         J=Update(min(sigma_I[i][j+1],sigma_D[j+1][i])-min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]),J)
         transfers=transfers+1
 
-    return b,mu,n
+    for j in range(0,k):
+        if j<k-1:
+            for i in range(b[j],b[j+1]):
+                categoria[i][j]=1
+        else:
+            for i in range(b[j], n_acc):
+                categoria[i][j] = 1
+    # for i in range(0,n_acc):
+    #     print(i,categoria[i])
 
+    return b,mu,n,categoria
+
+def sumAscendente(freq_acceptability,categoria,k,n_acc):
+    for i in range(0,n_acc):
+        for j in range(0,k):
+            freq_acceptability[i][j]=freq_acceptability[i][j]+categoria[i][j]
+    return freq_acceptability
+
+def aceptabilidad(iter_stochastic,freq_acceptability,k,n_acc):
+    acceptability=np.zeros((n_acc, k))
+    for i in range(0,n_acc):
+        for j in range(0,k):
+            acceptability[i][j]=freq_acceptability[i][j]/float(iter_stochastic)
+
+    return acceptability
 
 def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam, beta, iter, p_dir, q_dir, p_inv, q_inv, iter_stochastic, w):
 
+    freq_no_check=0.0
+    freq_acceptability = np.zeros((n_acc, n_cent))
+    # -------------------------------------------------------
 
-    #computes the Phi netflow values among actions, using the Promethee II method
-    Phi,sigma_D_a,actions=promethee_method(actions, n_acc, n_cri, p_dir, q_dir, w)
+    for l in range (0,iter_stochastic):
+        print (l)
 
-    #print(actions)
-    #Defining initial clusters' boundaries, following the WKM algorithm
-    b=boundaries(n_cent,n_acc,sigma_D_a)
-    print("b", b)
+        #computes the Phi netflow values among actions, using the Promethee II method
+        Phi,sigma_D_a,actions=promethee_method(actions, n_acc, n_cri, p_dir, q_dir, w[l])
 
-    #Defining the initial number of actions inside each cluster
-    n=n_clusters(n_cent,b,n_acc)
-    print("n", n)
+        #print(actions)
+        #Defining initial clusters' boundaries, following the WKM algorithm
+        b=boundaries(n_cent,n_acc,sigma_D_a)
+        #print("b", b)
 
-    #Defining initial centroids and number of actions inside each cluster
-    mu=centroids(actions,n_cent, n_cri,b,n_acc)
-    print ("mu", mu)
+        #Defining the initial number of actions inside each cluster
+        n=n_clusters(n_cent,b,n_acc)
+        #print("n", n)
+
+        #Defining initial centroids and number of actions inside each cluster
+        mu=centroids(actions,n_cent, n_cri,b,n_acc)
+        #print ("mu", mu)
 
 
-    for i in range(0,n_cent):
-        ext_centroids[i+1]=mu[i]
+        for i in range(0,n_cent):
+            ext_centroids[i+1]=mu[i]
 
-    #computa la concordancia entre acciones y centroides
-    cpd=conc_p_directa(actions, ext_centroids, p_dir, q_dir)
-    cpi=conc_p_inversa(actions, ext_centroids, p_inv, q_inv)
+            #computa la concordancia entre acciones y centroides
+        cpd=conc_p_directa(actions, ext_centroids, p_dir, q_dir)
+        cpi=conc_p_inversa(actions, ext_centroids, p_inv, q_inv)
 
-    sigma_D=concordancia_D(cpd, n_acc, n_lim, n_cri, w)
-    sigma_I=concordancia_I(cpi, n_acc, n_lim, n_cri, w)
+        sigma_D=concordancia_D(cpd, n_acc, n_lim, n_cri, w[l])
+        sigma_I=concordancia_I(cpi, n_acc, n_lim, n_cri, w[l])
 
-    #computes the initial global similarity function, as defined in K-means, but adapted to outranking models
-    J=globalJ(sigma_D,n_acc, n_cent)
+        #computes the initial global similarity function, as defined in K-means, but adapted to outranking models
+        J=globalJ(sigma_D,n_acc, n_cent)
 
-    #Iterating process to compute clusters (Warped-KM algorithm)
-    b,mu,n=wkm_algorithm(actions,sigma_D,sigma_I,n_acc,n_cri,n_cent,J,mu,n,b)
+        #Iterating process to compute clusters (Warped-KM algorithm)
+        b,mu,n,categoria=wkm_algorithm(actions,sigma_D,sigma_I,n_acc,n_cri,n_cent,J,mu,n,b)
 
+        freq_acceptability = sumAscendente(freq_acceptability, categoria, n_cent, n_acc)
+
+        # for i in range(0,n_acc):
+        #     print(i,freq_acceptability[i])
+    # counts how many times the weak separability condition is not satisfied
+    # print(ext_centroids)
+
+    acceptability=aceptabilidad(iter_stochastic, freq_acceptability, n_cent, n_acc)
+
+    for i in range(0,n_acc):
+        for j in range(0,n_cent):
+            print(i,str("%.2f" %  round(acceptability[i][j],2)),"\t", end="")
+        print (" ")
+    print ("")
 
     return b,mu,n
 
 
 #########  MAIN ###############
 def main():
-    iter, iter_stochastic = parameter_running(50,1)
+    iter, iter_stochastic = parameter_running(50,1000)
     lam,beta = parameter_outranking(0.5,0.1)
     actions, centroids, ext_centroids = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'HDI.xlsx',189,4)
     n_acc, n_cri, n_lim,n_cent=get_metrics(actions, ext_centroids)
     p_dir, q_dir, p_inv, q_inv = get_umbrales([0.19,0.14,0.10],[0.1,0.07,0.05],[0.19,0.14,0.10],[0.1,0.07,0.05])
-    w = get_weights([0.333, 0.333, 0.334])
+    #p_dir, q_dir, p_inv, q_inv=random_thresholds(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'random_umbrales_SSI.xlsx',0,3000)
+    #w = get_weights([0.333, 0.333, 0.334])
+    w=random_weights(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'Weights.xlsx',0,1000)
     b,mu,n=perform_clustering(actions, ext_centroids,n_acc, n_cri, n_lim,n_cent,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
     #verificando los centroides finales
     print ("")
