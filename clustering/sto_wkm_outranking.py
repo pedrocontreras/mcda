@@ -92,7 +92,7 @@ def centroids(actions,k,n_cri,b,last_action):
         mu[k-1][h]=centered_column(actions,h,b[k-1],last_action)
     return mu
 
-def wkm_algorithm(actions,sigma_D,sigma_I,n_acc,n_cri,k,J,mu,n,b):
+def wkm_algorithm_old(actions,indices_sort,sigma_D,sigma_I,n_acc,n_cri,k,J,mu,n,b):
     """
     computa los clusters usando la estrategia del algoritmo Warped K-means y la regla ascendente de ELECTRE TRI-C
     :param actions: acciones ordenadas según outranking global
@@ -112,7 +112,70 @@ def wkm_algorithm(actions,sigma_D,sigma_I,n_acc,n_cri,k,J,mu,n,b):
 
     #aplica proceso  según número de iteraciones transfers
     transfers=1
-    while transfers<=1000:
+    while transfers<=40:
+        for j in range(0,k):
+            if j>0:
+                 first=b[j]
+                 last=first+floor(1.0*(1-delta)*(n[j]/2))
+                 print("fl",first,last)
+                 for i in range(first,last+1):
+                    if n[j]>1 and min(sigma_I[i][j+1-1],sigma_D[j+1-1][i])>min(sigma_I[i][j+1],sigma_D[j+1][i]):
+                        print("j>0")
+                        b[j]=b[j]+1
+                        n[j]=n[j]-1
+                        n[j-1]=n[j-1]+1
+                        mu=centroids(actions,k,n_cri,b,n_acc)
+                        J=Update(min(sigma_I[i][j+1-1],sigma_D[j+1-1][i])-min(sigma_I[i][j+1],sigma_D[j+1][i]),J)
+
+            # if j == 0:
+            #      last = b[j+1]-1
+            #      first = last - floor(1.0 * (1 - delta) * n[j] / 2)
+            #      #print("fl",first,last)
+            #      #last=first+floor(1.0*(1-delta)*(n[j]/2))
+            #      for i in range(last, first-1,-1):
+            #         if n[j] > 1 and min(sigma_I[i][j+1],sigma_D[j+1][i])<min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]):#dJ>0:
+            #             print("j=0")
+            #             b[j+1] = b[j+1] - 1
+            #             n[j] = n[j] - 1
+            #             n[j + 1] = n[j + 1] + 1
+            #             mu=centroids(actions,k,n_cri,b,n_acc)
+            #             J=Update(min(sigma_I[i][j+1],sigma_D[j+1][i])-min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]),J)
+        transfers=transfers+1
+        print (n)
+    for j in range(0,k):
+        if j<k-1:
+            for i in range(b[j],b[j+1]):
+                categoria[indices_sort[i]][j]=1
+        else:
+            for i in range(b[j], n_acc):
+                categoria[indices_sort[i]][j] = 1
+    # for i in range(0,n_acc):
+    #     print(i,categoria[i])
+
+    return b,mu,n,categoria
+
+
+def wkm_algorithm(actions,indices_sort,sigma_D,sigma_I,n_acc,n_cri,k,J,mu,n,b):
+    """
+    computa los clusters usando la estrategia del algoritmo Warped K-means y la regla ascendente de ELECTRE TRI-C
+    :param actions: acciones ordenadas según outranking global
+    :param sigma_min: similaridad entre accion y cluster
+    :param n_acc: número de acciones
+    :param n_cri: número de criterios
+    :param k: número de clusters
+    :param J: similaridad global J
+    :param mu: centroides
+    :param n: número de acciones en cada cluster
+    :param b: fronteras de clusters
+    :return b,mu
+    """
+
+    delta=0.0
+    categoria=np.zeros((n_acc,k))
+
+    #aplica proceso  según número de iteraciones transfers
+    transfers=1
+    while transfers<=100:
         for j in range(0,k):
             if j>0:
                  first=b[j]
@@ -124,35 +187,51 @@ def wkm_algorithm(actions,sigma_D,sigma_I,n_acc,n_cri,k,J,mu,n,b):
                         n[j-1]=n[j-1]+1
                         mu=centroids(actions,k,n_cri,b,n_acc)
                         J=Update(min(sigma_I[i][j+1-1],sigma_D[j+1-1][i])-min(sigma_I[i][j+1],sigma_D[j+1][i]),J)
-            if j == 0:
-                 last = b[j+1]-1
-                 first = last - floor(1.0 * (1 - delta) * n[j] / 2)
-                 last=first+floor(1.0*(1-delta)*(n[j]/2))
-                 for i in range(first, last+1):
-                    if n[j] > 1 and min(sigma_I[i][j+1],sigma_D[j+1][i])<min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]):#dJ>0:
-                        b[j+1] = b[j+1] - 1
-                        n[j] = n[j] - 1
-                        n[j + 1] = n[j + 1] + 1
-                        mu=centroids(actions,k,n_cri,b,n_acc)
-                        J=Update(min(sigma_I[i][j+1],sigma_D[j+1][i])-min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]),J)
-        transfers=transfers+1
 
+            for j in range(k-1, 0,-1):
+                if j < k-1:
+                    last = b[j+1]-1
+                    first = last - floor(1.0 * (1 - delta) * (n[j] / 2))
+                    print("fl", first, last)
+                    for i in range(last, first - 1, -1):
+                        if n[j] > 1 and min(sigma_I[i][j+1],sigma_D[j+1][i])<min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]):#dJ>0:
+                            b[j+1] = b[j+1] - 1
+                            n[j] = n[j] - 1
+                            n[j + 1] = n[j + 1] + 1
+                            mu=centroids(actions,k,n_cri,b,n_acc)
+                            J=Update(min(sigma_I[i][j+1],sigma_D[j+1][i])-min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]),J)
+
+            # if j == 0:
+            #      last = b[j+1]-1
+            #      first = last - floor(1.0 * (1 - delta) * n[j] / 2)
+            #      #print("fl",first,last)
+            #      #last=first+floor(1.0*(1-delta)*(n[j]/2))
+            #      for i in range(last, first-1,-1):
+            #         if n[j] > 1 and min(sigma_I[i][j+1],sigma_D[j+1][i])<min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]):#dJ>0:
+            #             print("j=0")
+            #             b[j+1] = b[j+1] - 1
+            #             n[j] = n[j] - 1
+            #             n[j + 1] = n[j + 1] + 1
+            #             mu=centroids(actions,k,n_cri,b,n_acc)
+            #             J=Update(min(sigma_I[i][j+1],sigma_D[j+1][i])-min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]),J)
+        transfers=transfers+1
+        print (n)
     for j in range(0,k):
         if j<k-1:
             for i in range(b[j],b[j+1]):
-                categoria[i][j]=1
+                categoria[indices_sort[i]][j]=1
         else:
             for i in range(b[j], n_acc):
-                categoria[i][j] = 1
+                categoria[indices_sort[i]][j] = 1
     # for i in range(0,n_acc):
     #     print(i,categoria[i])
 
     return b,mu,n,categoria
 
-def sumAscendente(freq_acceptability,categoria,k,n_acc):
+def sumAscendente(freq_acceptability,categoria,indices_sort,k,n_acc):
     for i in range(0,n_acc):
         for j in range(0,k):
-            freq_acceptability[i][j]=freq_acceptability[i][j]+categoria[i][j]
+            freq_acceptability[indices_sort[i]][j]=freq_acceptability[indices_sort[i]][j]+categoria[indices_sort[i]][j]
     return freq_acceptability
 
 def aceptabilidad(iter_stochastic,freq_acceptability,k,n_acc):
@@ -173,7 +252,7 @@ def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam,
         print (l)
 
         #computes the Phi netflow values among actions, using the Promethee II method
-        Phi,sigma_D_a,actions=promethee_method(actions, n_acc, n_cri, p_dir, q_dir, w[l])
+        Phi,sigma_D_a,actions,indices_sort=promethee_method(actions, n_acc, n_cri, p_dir, q_dir, w[l])
 
         #print(actions)
         #Defining initial clusters' boundaries, following the WKM algorithm
@@ -203,9 +282,9 @@ def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam,
         J=globalJ(sigma_D,n_acc, n_cent)
 
         #Iterating process to compute clusters (Warped-KM algorithm)
-        b,mu,n,categoria=wkm_algorithm(actions,sigma_D,sigma_I,n_acc,n_cri,n_cent,J,mu,n,b)
+        b,mu,n,categoria=wkm_algorithm(actions,indices_sort,sigma_D,sigma_I,n_acc,n_cri,n_cent,J,mu,n,b)
 
-        freq_acceptability = sumAscendente(freq_acceptability, categoria, n_cent, n_acc)
+        freq_acceptability = sumAscendente(freq_acceptability, categoria, indices_sort, n_cent, n_acc)
 
         # for i in range(0,n_acc):
         #     print(i,freq_acceptability[i])
@@ -225,7 +304,7 @@ def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam,
 
 #########  MAIN ###############
 def main():
-    iter, iter_stochastic = parameter_running(50,1000)
+    iter, iter_stochastic = parameter_running(50,2)
     lam,beta = parameter_outranking(0.5,0.1)
     actions, centroids, ext_centroids = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'HDI.xlsx',189,4)
     n_acc, n_cri, n_lim,n_cent=get_metrics(actions, ext_centroids)

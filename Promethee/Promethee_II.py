@@ -64,7 +64,7 @@ def promethee_method(actions, n_acc, n_cri, p_dir, q_dir, w):
     #ordering of actions as established in the indices_sort array
     actions=order_actions(n_acc,n_cri,actions,indices_sort)
 
-    return Phi,sigma_D_a,actions
+    return Phi,sigma_D_a,actions,indices_sort
 
 
 
@@ -77,7 +77,7 @@ def main():
     p_dir, q_dir, p_inv, q_inv = get_umbrales([1.0,1.0,1.0],[0.0,0.0,0.0],[1.0,1.0,1.0],[0.0,0.0,0.0])
     w = get_weights([0.333, 0.333, 0.334])
 
-    Phi,sigma_D_a,actions=promethee_method(actions, n_acc, n_cri, p_dir, q_dir, w)
+    Phi,sigma_D_a,actions,indices_sort=promethee_method(actions, n_acc, n_cri, p_dir, q_dir, w)
 
 if __name__ == '__main__':
 
