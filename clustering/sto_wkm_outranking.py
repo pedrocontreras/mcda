@@ -112,7 +112,7 @@ def wkm_algorithm_old(actions,indices_sort,sigma_D,sigma_I,n_acc,n_cri,k,J,mu,n,
 
     #aplica proceso  según número de iteraciones transfers
     transfers=1
-    while transfers<=40:
+    while transfers<=30:
         for j in range(0,k):
             if j>0:
                  first=b[j]
@@ -175,7 +175,7 @@ def wkm_algorithm(actions,indices_sort,sigma_D,sigma_I,n_acc,n_cri,k,J,mu,n,b):
 
     #aplica proceso  según número de iteraciones transfers
     transfers=1
-    while transfers<=100:
+    while transfers<=30:
         for j in range(0,k):
             if j>0:
                  first=b[j]
@@ -192,7 +192,7 @@ def wkm_algorithm(actions,indices_sort,sigma_D,sigma_I,n_acc,n_cri,k,J,mu,n,b):
                 if j < k-1:
                     last = b[j+1]-1
                     first = last - floor(1.0 * (1 - delta) * (n[j] / 2))
-                    print("fl", first, last)
+                    #print("fl", first, last)
                     for i in range(last, first - 1, -1):
                         if n[j] > 1 and min(sigma_I[i][j+1],sigma_D[j+1][i])<min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]):#dJ>0:
                             b[j+1] = b[j+1] - 1
@@ -215,7 +215,7 @@ def wkm_algorithm(actions,indices_sort,sigma_D,sigma_I,n_acc,n_cri,k,J,mu,n,b):
             #             mu=centroids(actions,k,n_cri,b,n_acc)
             #             J=Update(min(sigma_I[i][j+1],sigma_D[j+1][i])-min(sigma_I[i][j+1+1],sigma_D[j+1+1][i]),J)
         transfers=transfers+1
-        print (n)
+        #print (n)
     for j in range(0,k):
         if j<k-1:
             for i in range(b[j],b[j+1]):
@@ -252,7 +252,7 @@ def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam,
         print (l)
 
         #computes the Phi netflow values among actions, using the Promethee II method
-        Phi,sigma_D_a,actions,indices_sort=promethee_method(actions, n_acc, n_cri, p_dir, q_dir, w[l])
+        Phi,sigma_D_a,actions,indices_sort=promethee_method(actions, n_acc, n_cri, p_dir[l], q_dir[l],w)
 
         #print(actions)
         #Defining initial clusters' boundaries, following the WKM algorithm
@@ -272,11 +272,11 @@ def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam,
             ext_centroids[i+1]=mu[i]
 
             #computa la concordancia entre acciones y centroides
-        cpd=conc_p_directa(actions, ext_centroids, p_dir, q_dir)
-        cpi=conc_p_inversa(actions, ext_centroids, p_inv, q_inv)
+        cpd=conc_p_directa(actions, ext_centroids, p_dir[l], q_dir[l])
+        cpi=conc_p_inversa(actions, ext_centroids, p_inv[l], q_inv[l])
 
-        sigma_D=concordancia_D(cpd, n_acc, n_lim, n_cri, w[l])
-        sigma_I=concordancia_I(cpi, n_acc, n_lim, n_cri, w[l])
+        sigma_D=concordancia_D(cpd, n_acc, n_lim, n_cri, w)
+        sigma_I=concordancia_I(cpi, n_acc, n_lim, n_cri, w)
 
         #computes the initial global similarity function, as defined in K-means, but adapted to outranking models
         J=globalJ(sigma_D,n_acc, n_cent)
@@ -295,7 +295,7 @@ def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam,
 
     for i in range(0,n_acc):
         for j in range(0,n_cent):
-            print(i,str("%.2f" %  round(acceptability[i][j],2)),"\t", end="")
+            print(str("%.2f" %  round(acceptability[i][j],2)),"\t", end="")
         print (" ")
     print ("")
 
@@ -304,14 +304,14 @@ def perform_clustering(actions, ext_centroids, n_acc, n_cri, n_lim, n_cent, lam,
 
 #########  MAIN ###############
 def main():
-    iter, iter_stochastic = parameter_running(50,2)
+    iter, iter_stochastic = parameter_running(50,1000)
     lam,beta = parameter_outranking(0.5,0.1)
     actions, centroids, ext_centroids = init_data(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'HDI.xlsx',189,4)
     n_acc, n_cri, n_lim,n_cent=get_metrics(actions, ext_centroids)
-    p_dir, q_dir, p_inv, q_inv = get_umbrales([0.19,0.14,0.10],[0.1,0.07,0.05],[0.19,0.14,0.10],[0.1,0.07,0.05])
-    #p_dir, q_dir, p_inv, q_inv=random_thresholds(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'random_umbrales_SSI.xlsx',0,3000)
-    #w = get_weights([0.333, 0.333, 0.334])
-    w=random_weights(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'Weights.xlsx',0,1000)
+    #p_dir, q_dir, p_inv, q_inv = get_umbrales([0.19,0.14,0.10],[0.1,0.07,0.05],[0.19,0.14,0.10],[0.1,0.07,0.05])
+    p_dir, q_dir, p_inv, q_inv=random_thresholds(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'random_umbrales.xlsx',0,3000)
+    w = get_weights([0.333, 0.333, 0.334])
+    #w=random_weights(str(folder("/Users/jpereirar/Documents/GitHub/mcda/data"))+'/'+'Weights.xlsx',0,1000)
     b,mu,n=perform_clustering(actions, ext_centroids,n_acc, n_cri, n_lim,n_cent,lam,beta, iter, p_dir, q_dir, p_inv, q_inv,iter_stochastic,w)
     #verificando los centroides finales
     print ("")
