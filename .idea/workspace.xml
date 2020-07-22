@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="72f9c9a8-0d68-4cd5-88a5-a60d1c0bf9fd" name="Default Changelist" comment="Latex MCDA Clustering" />
+    <list default="true" id="72f9c9a8-0d68-4cd5-88a5-a60d1c0bf9fd" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,13 +207,7 @@
       <option name="presentableId" value="Default" />
       <updated>1573483145996</updated>
     </task>
-    <task id="LOCAL-00020" summary="fixup! mira el comentario">
-      <created>1576176155955</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
       <option name="project" value="LOCAL" />
-      <updated>1576176155955</updated>
-    </task>
     <task id="LOCAL-00021" summary="fixup! mira el comentario">
       <created>1576243232270</created>
       <option name="number" value="00021" />
@@ -550,7 +544,14 @@
       <option name="project" value="LOCAL" />
       <updated>1595134907216</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="Latex MCDA Clustering">
+      <created>1595424547085</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1595424547085</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
