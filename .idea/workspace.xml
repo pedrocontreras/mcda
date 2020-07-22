@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="72f9c9a8-0d68-4cd5-88a5-a60d1c0bf9fd" name="Default Changelist" comment="Latex MCDA Clustering" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="$PROJECT_DIR$/.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1TTTa5HybOJS8Rrxzvx80c7K7vR" />
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/stochastic_clustering" />
+    <property name="run.code.analysis.last.selected.profile" value="aDefault" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/clustering_algorithms" />
+      <recent name="$PROJECT_DIR$/initialization" />
+      <recent name="$PROJECT_DIR$/prev_data_analysis" />
+      <recent name="$PROJECT_DIR$/plotting" />
+      <recent name="$PROJECT_DIR$/outranking_base" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/stochastic_clustering" />
+      <recent name="$PROJECT_DIR$/outranking_base" />
+      <recent name="$PROJECT_DIR$/code/clustering_base" />
+      <recent name="$PROJECT_DIR$/hierarchical_clustering" />
+      <recent name="$PROJECT_DIR$/code" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.sto_wkm_outranking">
+    <configuration name="Promethee II" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="mcda" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Promethee" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Promethee/Promethee_II.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="sto_outranking" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="mcda" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/clustering" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/clustering/sto_outranking.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="sto_outranking_w" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="mcda" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/clustering" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/clustering/sto_outranking_w.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="sto_wkm_outranking" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="mcda" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/clustering" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/clustering/sto_wkm_outranking.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="stochastic_clustering" type="PythonConfigurationType" factoryName="Python">
+      <module name="mcda" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/clustering_algorithms" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/clustering_algorithms/stochastic_outranking_clustering.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="wkm-outranking" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="mcda" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/clustering" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/clustering/wkm_outranking.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.sto_wkm_outranking" />
+        <item itemvalue="Python.wkm-outranking" />
+        <item itemvalue="Python.Promethee II" />
+        <item itemvalue="Python.sto_outranking" />
+        <item itemvalue="Python.sto_outranking_w" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="72f9c9a8-0d68-4cd5-88a5-a60d1c0bf9fd" name="Default Changelist" comment="" />
+      <created>1573483145996</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1573483145996</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fixup! mira el comentario">
+      <created>1576176155955</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1576176155955</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fixup! mira el comentario">
+      <created>1576243232270</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1576243232270</updated>
+    </task>
+    <task id="LOCAL-00022" summary="fixup! mira el comentario">
+      <created>1576254325794</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1576254325794</updated>
+    </task>
+    <task id="LOCAL-00023" summary="fixup! mira el comentario">
+      <created>1577651552139</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1577651552139</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Latex MCDA Clustering">
+      <created>1577651682527</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1577651682527</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Latex MCDA Clustering">
+      <created>1577735379396</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1577735379396</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Latex MCDA Clustering">
+      <created>1577735415668</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1577735415668</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Latex MCDA Clustering">
+      <created>1577996879701</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1577996879701</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Latex MCDA Clustering">
+      <created>1578002732630</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1578002732630</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Latex MCDA Clustering">
+      <created>1578003618054</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1578003618054</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Latex MCDA Clustering">
+      <created>1578003907012</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1578003907012</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Latex MCDA Clustering">
+      <created>1578364760700</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1578364760700</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Latex MCDA Clustering">
+      <created>1578489338073</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1578489338073</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Latex MCDA Clustering">
+      <created>1578490811500</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1578490811500</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Latex MCDA Clustering">
+      <created>1578490943284</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1578490943284</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Latex MCDA Clustering">
+      <created>1578494255717</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1578494255717</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Latex MCDA Clustering">
+      <created>1578509344443</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1578509344443</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Latex MCDA Clustering">
+      <created>1578667649309</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1578667649309</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Latex MCDA Clustering">
+      <created>1578671554291</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1578671554291</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Latex MCDA Clustering">
+      <created>1578671641084</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1578671641084</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Latex MCDA Clustering">
+      <created>1579041621453</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1579041621453</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Latex MCDA Clustering">
+      <created>1579046275662</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1579046275663</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Latex MCDA Clustering">
+      <created>1580676399409</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1580676399409</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Latex MCDA Clustering">
+      <created>1583173889002</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1583173889002</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Latex MCDA Clustering">
+      <created>1583173964771</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1583173964771</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Latex MCDA Clustering">
+      <created>1587995724323</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1587995724323</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Latex MCDA Clustering">
+      <created>1587996422756</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1587996422756</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Latex MCDA Clustering">
+      <created>1588189946229</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1588189946229</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Latex MCDA Clustering">
+      <created>1588258042843</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1588258042843</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Latex MCDA Clustering">
+      <created>1588262208922</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1588262208923</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Latex MCDA Clustering">
+      <created>1588262786856</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1588262786857</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Latex MCDA Clustering">
+      <created>1588369125706</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1588369125707</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Latex MCDA Clustering">
+      <created>1588442446467</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1588442446467</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Latex MCDA Clustering">
+      <created>1588442455765</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1588442455765</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Latex MCDA Clustering">
+      <created>1588452254930</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1588452254931</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Latex MCDA Clustering">
+      <created>1588452846769</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1588452846770</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Latex MCDA Clustering">
+      <created>1588461276092</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1588461276093</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Latex MCDA Clustering">
+      <created>1588942990802</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1588942990803</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Latex MCDA Clustering">
+      <created>1588952093291</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1588952093291</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Latex MCDA Clustering">
+      <created>1589916574389</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1589916574389</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Latex MCDA Clustering">
+      <created>1591193433132</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1591193433133</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Latex MCDA Clustering">
+      <created>1591193536223</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1591193536223</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Latex MCDA Clustering">
+      <created>1591907640926</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1591907640927</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Latex MCDA Clustering">
+      <created>1592839472310</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1592839472311</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Latex MCDA Clustering">
+      <created>1593968530624</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1593968530626</updated>
+    </task>
+    <task id="LOCAL-00065" summary="Latex MCDA Clustering">
+      <created>1593968954346</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1593968954347</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Latex MCDA Clustering">
+      <created>1594601320298</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1594601320299</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Latex MCDA Clustering">
+      <created>1594855718493</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1594855718493</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Latex MCDA Clustering">
+      <created>1595134907216</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1595134907216</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="mira el comentario" />
+    <MESSAGE value="fixup! mira el comentario" />
+    <MESSAGE value="Latex MCDA Clustering" />
+    <option name="LAST_COMMIT_MESSAGE" value="Latex MCDA Clustering" />
+  </component>
+</project>
